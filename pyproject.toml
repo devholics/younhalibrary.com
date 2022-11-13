@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "younha"
+version = "0.1.0"
+description = "Younha Library of photos and videos"
+authors = ["Joonhyung Shin <joon46551@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "younha"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+django = "^4.1.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
