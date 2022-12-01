@@ -1,0 +1,66 @@
+{% extends 'base_sidebar.html' %}
+
+{% block sidebar %}
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">{% block sidebar-title %}{% endblock %}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#yhSidebar"></button>
+    </div>
+    <div class="offcanvas-body">
+        {% block sidebar-body %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row gy-4 yh-content">
+        {% for media in page_obj %}
+            <div class="col-xl-3 col-lg-4 col-md-6 align-self-center">
+                <div class="card">
+                    <div class="card-img-top gallery">
+                        <a href="{{ media.url }}" class="glightbox">
+                            {% if media.type == "I" %}
+                                <img class="w-100 media" src="{{ media.url }}" alt="{{ media }}">
+                            {% elif media.type == "V" %}
+                                <video class="w-100 media" src="{{ media.url }}" autoplay muted loop>
+                                    Video not supported
+                                </video>
+                            {% elif media.type == "Y" %}
+                                <img class="w-100 media" src="https://img.youtube.com/vi/{{ media.youtube_id }}/0.jpg" alt="{{ media }}">
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">{{ media }}</h4>
+                        <p class="card-text">
+                            {{ media.creator }} {% if media.verified %}&#9989;{% endif %}<br>
+                            {% if media.created_date %}{{ media.created_date }}{% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
+                        {{ page_obj.paginator.num_pages }}
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

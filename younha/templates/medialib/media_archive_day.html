@@ -1,0 +1,12 @@
+{% extends 'medialib/base_gallery.html' %}
+
+{% block title %}{{ day|date:"F j, Y" }}{% endblock %}
+
+{% block sidebar-title %}Dates{% endblock %}
+{% block sidebar-body %}
+    <ul>
+        {% for date in date_list %}
+            <li>{{ date|date:"F j, Y" }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

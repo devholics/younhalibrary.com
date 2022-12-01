@@ -1,0 +1,16 @@
+{% extends 'medialib/base_gallery.html' %}
+
+{% block title %}{{ month|date:"F Y" }}{% endblock %}
+
+{% block sidebar-title %}Dates{% endblock %}
+{% block sidebar-body %}
+    <ul>
+        {% for date in date_list %}
+            <li>
+                <a href="{% url 'media-day-archive' date|date:"Y" date|date:"b" date|date:"d" %}">
+                    {{ date|date:"F j, Y" }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

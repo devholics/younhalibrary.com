@@ -1,0 +1,33 @@
+:root {
+    --yh-lightblue-rgb: 175,225,255;
+}
+
+@media (min-width: 992px) {
+    .yh-layout {
+        display: grid;
+        grid-template-areas: "sidebar main";
+        grid-template-columns: 1fr 5fr;
+        //gap: 15px;
+    }
+}
+
+.yh-navbar {
+    padding: 0.75rem 0;
+    background-color: transparent;
+    background-image: linear-gradient(to bottom, rgba(var(--yh-lightblue-rgb), 1), rgba(var(--yh-lightblue-rgb), 0.95));
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%), inset 0 -1px 0 rgb(0 0 0 / 15%);
+}
+
+.yh-sidebar {
+    grid-area: sidebar;
+}
+
+.yh-main {
+    grid-area: main;
+    display: grid;
+    grid-template-areas: "no";
+}
+
+.yh-content {
+    grid-area: no
+}

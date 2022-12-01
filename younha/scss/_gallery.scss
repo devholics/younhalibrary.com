@@ -1,0 +1,11 @@
+.gallery {
+    overflow: hidden;
+    .media {
+        transition: 0.3s;
+    }
+}
+
+.gallery:hover .media {
+    transform: scale(1.1);
+    opacity: 1;
+}
