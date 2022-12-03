@@ -8,6 +8,7 @@ class Platform(models.Model):
     name = models.CharField(max_length=20, unique=True)
     description = models.CharField(max_length=200, blank=True)
     url = models.URLField('URL', blank=True)
+    bootstrap_icon = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.name
@@ -74,3 +75,17 @@ class Media(models.Model):
 
     def __str__(self):
         return self.title or self.get_type_display() + f" by {self.creator.name if self.creator else 'Unknown'}"
+
+
+class ExternalLink(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    url = models.URLField('URL', unique=True)
+    description = models.CharField(max_length=200, blank=True)
+    display = models.BooleanField(default=True)
+    priority = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ('priority',)
+
+    def __str__(self):
+        return self.name

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.humanize',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -126,3 +127,9 @@ STATICFILES_DIRS = [str(PROJECT_PACKAGE.joinpath('static'))]
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# MediaLib
+
+MEDIALIB_PAGINATION = 12
+MEDIALIB_TAG_LIMIT = 30
+MEDIALIB_CREATOR_LIMIT = 30

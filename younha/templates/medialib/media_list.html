@@ -1,6 +1,9 @@
-{% extends 'medialib/base_gallery.html' %}
+{% extends 'medialib/base_gallery_list.html' %}
+{% load humanize %}
 
 {% block title %}Gallery{% endblock %}
 
-{% block sidebar-title %}Tags{% endblock %}
-{% block sidebar-body %}<p>#Younha</p>{% endblock %}
+{% block intro %}
+    <h1>Gallery</h1>
+    <p>총 {{ display_count|intcomma }}개의 미디어가 등록되어 있습니다.</p>
+{% endblock %}

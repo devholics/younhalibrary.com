@@ -1,0 +1,15 @@
+{% extends 'medialib/base_gallery_list.html' %}
+{% load humanize %}
+
+{% block title %}{{ creator }}{% endblock %}
+
+{% block intro %}
+    <h1>{{ creator.name }}</h1>
+    {% if creator.description %}
+        <p>{{ creator.description }}</p>
+    {% endif %}
+    <p>총 {{ display_count|intcomma }}개의 미디어가 등록되어 있습니다.</p>
+    {% if creator.url %}
+        <p>페이지: <a href="{{ creator.url }}" target="_blank">{{ creator.url }}</a></p>
+    {% endif %}
+{% endblock %}

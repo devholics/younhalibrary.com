@@ -7,14 +7,19 @@
 {% endblock %}
 
 {% block main %}
-    <div class="container-xxl yh-layout mt-3">
+    <div class="container-xxl yh-layout mt-3 my-md-4">
         <aside class="yh-sidebar">
             <div class="offcanvas-lg offcanvas-start" id="yhSidebar">
                 {% block sidebar %}{% endblock %}
             </div>
         </aside>
         <main class="yh-main">
-            {% block content %}{% endblock %}
+            <div class="yh-intro">
+                {% block intro %}{% endblock %}
+            </div>
+            <div class="yh-content">
+                {% block content %}{% endblock %}
+            </div>
         </main>
     </div>
 {% endblock %}

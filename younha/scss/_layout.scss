@@ -7,8 +7,13 @@
         display: grid;
         grid-template-areas: "sidebar main";
         grid-template-columns: 1fr 5fr;
-        //gap: 15px;
+        gap: 2rem;
     }
+}
+
+// overflow hidden has some problem with sticky navbar
+.glightbox-open {
+    overflow: clip;
 }
 
 .yh-navbar {
@@ -16,18 +21,61 @@
     background-color: transparent;
     background-image: linear-gradient(to bottom, rgba(var(--yh-lightblue-rgb), 1), rgba(var(--yh-lightblue-rgb), 0.95));
     box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%), inset 0 -1px 0 rgb(0 0 0 / 15%);
+
+    .offcanvas-lg {
+        background-color: rgba(var(--yh-lightblue-rgb), 1);
+    }
 }
 
 .yh-sidebar {
+    position: sticky;
     grid-area: sidebar;
+    top: 5rem;
+    height: calc(100vh - 6rem);
+    overflow-y: auto;
+
+    .yh-link, .yh-badge-link {
+        padding: 0.1875rem 0.5rem;
+        margin-top: 0.125rem;
+        margin-left: 1rem;
+        text-decoration: none;
+    }
+
+    .yh-link {
+        color: rgba(0,0,0,0.65);
+    }
+
+    .yh-link:hover {
+        background-color: rgba(var(--yh-lightblue-rgb), 0.2);
+    }
+}
+
+.yh-badge {
+    color: #000;
+    background-color: rgba(248, 249, 250, 1);
+}
+
+.yh-badge-link:hover {
+    .badge {
+        background-color: rgba(var(--yh-lightblue-rgb), 0.2);
+    }
 }
 
 .yh-main {
     grid-area: main;
     display: grid;
-    grid-template-areas: "no";
+    grid-template-areas:
+        "intro"
+        "content";
+    grid-template-rows: auto 1fr;
 }
 
-.yh-content {
-    grid-area: no
+.yh-wallpaper {
+    position: relative;
+    overflow: hidden;
+
+    .yh-welcome {
+        position: absolute;
+        inset: 0;
+    }
 }
