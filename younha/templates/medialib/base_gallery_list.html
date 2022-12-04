@@ -1,10 +1,15 @@
 {% extends 'medialib/base_gallery.html' %}
 
+{% block media %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+{% endblock %}
+
 {% block content %}
     <hr>
     <div class="row gy-4 yh-content mb-4">
         {% for media in page_obj %}
-            <div class="col-xl-3 col-lg-4 col-md-6 align-self-center">
+            <div class="col-xl-3 col-lg-4 col-md-6 align-self-center text-center">
                 <div class="gallery">
                     {% if media.type == "I" %}
                         <img class="w-100 media" src="{{ media.url }}" alt="{{ media }}">
@@ -14,6 +19,7 @@
                         </video>
                     {% elif media.type == "Y" %}
                         <img class="w-100 media" src="https://img.youtube.com/vi/{{ media.youtube_id }}/0.jpg" alt="{{ media }}">
+                        <div class="gallery-youtube d-flex justify-content-center align-items-center"><i class="bi bi-youtube"></i></div>
                     {% endif %}
                     <div class="gallery-links d-flex px-3 py-2 align-items-start">
                         <a href="{{ media.url }}" class="glightbox preview-link">
@@ -31,26 +37,23 @@
     </div>
     <nav class="d-flex justify-content-center" aria-label="Page navigation">
         <ul class="pagination">
-            {% if page_obj.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
-            {% endif %}
-            {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
-                        {{ page_obj.paginator.num_pages }}
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Previous">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            {% endif %}
+            {% for page_num in page_range %}
+                {% if page_num == page_obj.number %}
+                    <li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
+                {% elif page_num == paginator.ELLIPSIS %}
+                    <li class="page-item disbaled"><span class="page-link">{{ page_num }}</span></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?{% if query %}{{ query.urlencode }}&{% endif %}page={{ page_num }}">{{ page_num }}</a></li>
+                {% endif %}
+            {% endfor %}
         </ul>
     </nav>
+{% endblock %}
+
+{% block inline-script %}
+    <script type="text/javascript">
+        const lightbox = GLightbox({
+            descPosition: "right"
+        });
+    </script>
 {% endblock %}

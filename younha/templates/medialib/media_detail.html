@@ -2,43 +2,50 @@
 
 {% block title %}{{ media }}{% endblock %}
 
-{% block intro %}
-    <h1>Introduction</h1>
-{% endblock %}
-
 {% block content %}
-    <div class="mb-3">
-        {% if media.type == "I" %}
-            <img class="mw-100" src="{{ media.url }}" alt="{{ media }}">
-        {% elif media.type == "V" %}
-            <video class="mw-100" src="{{ media.url }}" controls>
-                Video not supported
-            </video>
-        {% elif media.type == "Y" %}
-            <iframe width="560" height="315" class="mw-100" src="https://www.youtube.com/embed/{{ media.youtube_id }}">
+    <div class="d-flex flex-wrap yh-media">
+        <div>
+            {% if media.type == "I" %}
+                <img class="mw-100" src="{{ media.url }}" alt="{{ media }}">
+            {% elif media.type == "V" %}
+                <video class="mw-100" src="{{ media.url }}" controls>
+                    Video not supported
+                </video>
+            {% elif media.type == "Y" %}
+                <iframe width="560" height="315" class="mw-100" src="https://www.youtube.com/embed/{{ media.youtube_id }}">
 
-            </iframe>
-        {% endif %}
+                </iframe>
+            {% endif %}
+        </div>
+        <div>
+            <h3>
+                {% if media.creator.platform and media.creator.platform.bootstrap_icon %}
+                    <a class="yh-link d-inline-block rounded" href="{% url 'media-creator' media.creator.pk %}">{{ media.creator.name }} <i class="bi bi-{{ media.creator.platform.bootstrap_icon }}"></i></a>
+                {% else %}
+                    <a class="yh-link d-inline-block rounded" href="{% url 'media-creator' media.creator.pk %}">{{ media.creator }}</a>
+                {% endif %}
+                {% if media.verified %}
+                    <i class="bi bi-check-circle-fill text-success" title="원본 출처 확인됨"></i>
+                {% endif %}
+            </h3>
+            {% if media.title %}
+                <h2>{{ media.title }}</h2>
+            {% endif %}
+            {% if media.created_date %}
+                <p><i class="bi bi-calendar"></i> {{ media.created_date }}</p>
+            {% endif %}
+            {% if media.description %}
+                <p>{{ media.description }}</p>
+            {% endif %}
+            {% if media.source_url %}
+                <p>출처: <a href="{{ media.source_url }}" target="_blank">{{ media.source_url }}</a></p>
+            {% endif %}
+            <p>
+                태그:
+                {% for tag in media.tags.all %}
+                    <a class="yh-badge-link" href="{% url 'media-tag' tag.pk %}"><span class="badge yh-badge">{{ tag }}</span></a>
+                {% endfor %}
+            </p>
+        </div>
     </div>
-    {% if media.creator.platform and media.creator.platform.bootstrap_icon %}
-        <h3><a class="yh-link d-inline-block rounded" href="{% url 'media-creator' media.creator.pk %}">{{ media.creator.name }} <i class="bi bi-{{ media.creator.platform.bootstrap_icon }}"></i></a></h3>
-    {% else %}
-        <h3><a class="yh-link d-inline-block rounded" href="{% url 'media-creator' media.creator.pk %}">{{ media.creator }}</a></h3>
-    {% endif %}
-    {% if media.title %}
-        <h2>{{ media.title }}</h2>
-    {% endif %}
-    <p>{{ media.created_date }}</p>
-    {% if media.description %}
-        <p>{{ media.description }}</p>
-    {% endif %}
-    {% if media.source_url %}
-        <p>출처: <a href="{{ media.source_url }}">{{ media.source_url }}</a></p>
-    {% endif %}
-    <p>
-        태그:
-        {% for tag in media.tags.all %}
-            <a class="yh-badge-link" href="{% url 'media-tag' tag.pk %}"><span class="badge yh-badge">#{{ tag }}</span></a>
-        {% endfor %}
-    </p>
 {% endblock %}

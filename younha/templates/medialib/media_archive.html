@@ -1,12 +1,11 @@
-{% extends 'medialib/base_gallery_list.html' %}
+{% extends 'medialib/base_archive.html' %}
 
 {% block title %}Media by year{% endblock %}
 
-{% block sidebar-title %}Dates{% endblock %}
-{% block sidebar-body %}
-    <ul>
+{% block date-picker %}
+    <div class="btn-group" role="group">
         {% for date in date_list %}
-            <li><a href="{% url 'media-year-archive' date|date:"Y" %}">{{ date|date:"Y" }}</a></li>
+            <a href="{% url 'media-year-archive' date|date:"Y" %}" class="btn btn-outline-primary">{{ date|date:"Y" }}년</a>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}

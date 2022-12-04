@@ -1,12 +1,12 @@
 {% extends 'medialib/base_gallery_list.html' %}
 {% load humanize %}
 
-{% block title %}#{{ tag }}{% endblock %}
+{% block title %}{{ tag }}{% endblock %}
 
 {% block intro %}
-    <h1>#{{ tag.name }}</h1>
+    <h1>{{ tag }}</h1>
     {% if tag.description %}
         <p>{{ tag.description }}</p>
     {% endif %}
-    <p>총 {{ display_count|intcomma }}개의 미디어가 해당 태그를 가지고 있습니다.</p>
+    <p>총 <span class="fw-semibold">{{ paginator.count|intcomma }}개</span>의 미디어가 해당 태그를 가지고 있습니다.</p>
 {% endblock %}

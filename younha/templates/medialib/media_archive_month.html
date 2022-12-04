@@ -1,16 +1,36 @@
-{% extends 'medialib/base_gallery_list.html' %}
+{% extends 'medialib/base_archive.html' %}
 
 {% block title %}{{ month|date:"F Y" }}{% endblock %}
 
-{% block sidebar-title %}Dates{% endblock %}
-{% block sidebar-body %}
-    <ul>
-        {% for date in date_list %}
-            <li>
-                <a href="{% url 'media-day-archive' date|date:"Y" date|date:"b" date|date:"d" %}">
-                    {{ date|date:"F j, Y" }}
+{% block date-picker %}
+    <div class="d-flex flex-wrap mb-2">
+        <div class="btn-group" role="group">
+            {% if previous_month %}
+                <a class="btn btn-light" href="{% url 'media-month-archive' previous_month|date:"Y" previous_month|date:"b" %}">
+                    <i class="bi bi-chevron-left"></i>
                 </a>
-            </li>
+            {% else %}
+                <a class="btn btn-light disabled">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            {% endif %}
+            {% if next_month %}
+                <a class="btn btn-light" href="{% url 'media-month-archive' next_month|date:"Y" next_month|date:"b" %}">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            {% else %}
+                <a class="btn btn-light disabled">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            {% endif %}
+        </div>
+        <h3 class="ms-3"><a class="yh-date-link" href="{% url 'media-year-archive' month|date:"Y" %}">{{ month|date:"Y" }}년</a> {{ month|date:"n" }}월</h3>
+    </div>
+    <div class="btn-group" role="group">
+        {% for date in date_list %}
+            <a href="{% url 'media-day-archive' date|date:"Y" date|date:"b" date|date:"j" %}" class="btn btn-outline-primary">
+                {{ date|date:"j" }}일
+            </a>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}
