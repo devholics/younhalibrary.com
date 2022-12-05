@@ -88,9 +88,17 @@
     position: relative;
     overflow: hidden;
 
-    .yh-welcome {
+    .yh-welcome, .yh-welcome-src {
         position: absolute;
         inset: 0;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: rgba(211, 211, 211, 0.7) !important;
     }
 }
 

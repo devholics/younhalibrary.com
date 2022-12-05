@@ -133,7 +133,7 @@ class MediaSearchView(MediaViewMixin, GalleryMixin, ListView):
                     | Q(tags__description__icontains=keyword)
                     | Q(creator__name__icontains=keyword),
                     **filters
-                )
+                ).distinct()
             else:
                 queryset = queryset.filter(**filters)
         return queryset
