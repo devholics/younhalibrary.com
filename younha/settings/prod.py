@@ -10,3 +10,5 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 STATIC_ROOT = str(DATA_DIR.joinpath("public", "static"))
+
+MEDIALIB_TAG_SEARCH_LIMIT = 5
