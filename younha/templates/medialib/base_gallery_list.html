@@ -42,7 +42,7 @@
                             <div class="gallery-youtube d-flex justify-content-center align-items-center"><i class="bi bi-youtube"></i></div>
                         {% endif %}
                         <div class="gallery-links d-flex px-3 py-2 align-items-start">
-                            <a href="{{ media.url }}" class="glightbox preview-link">
+                            <a href="{{ media.url }}" class="glightbox preview-link" data-glightbox="type: {% if media.type == "I" %}image{% else %}video{% endif %}">
                                 <i class="bi bi-arrows-angle-expand"></i>
                             </a>
                             <a href="{% url 'media-detail' media.pk %}" class="details-link">
