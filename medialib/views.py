@@ -29,12 +29,23 @@ class MediaViewMixin:
     date_field = 'created_date'
     paginate_by = settings.MEDIALIB_PAGINATION
 
+    def get_ordering(self):
+        ordering = self.request.GET.get('order')
+        if ordering == 'random':
+            return '?'
+        elif ordering == 'asc':
+            return 'created_date'
+        else:
+            # Default: desc
+            return super().get_ordering()
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Query without page
+        # Query without page and order
         query = self.request.GET.copy()
         query.pop('page', None)
+        context['order'] = query.pop('order', ['desc'])[0]
         context['query'] = query
 
         # Pagination
