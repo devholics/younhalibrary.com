@@ -13,8 +13,9 @@ class MediaAdmin(admin.ModelAdmin):
     readonly_fields = ('preview',)
     fields = ('type', 'url', 'preview', 'title', 'description', 'creator',
               'created_date', 'tags', 'source_url', 'verified', 'display')
-    list_display = ('__str__', 'created_date', 'display')
+    list_display = ('__str__', 'created_date', 'upload_time', 'display')
     autocomplete_fields = ['creator', 'tags']
+    ordering = ('-upload_time',)
 
     @admin.display(description='Preview')
     def preview(self, obj):
