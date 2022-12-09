@@ -4,4 +4,8 @@
 
 {% block content %}
     <h1>Tags</h1>
+    <p>윤하도서관에 있는 모든 태그입니다.</p>
+    {% for tag in object_list %}
+        <a class="yh-badge-link" href="{% url 'media-tag' tag.pk %}"><span class="badge yh-badge fs-5">{{ tag }}</span></a>
+    {% endfor %}
 {% endblock %}

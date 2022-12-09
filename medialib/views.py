@@ -26,7 +26,7 @@ class GalleryMixin:
 class MediaViewMixin:
     model = Media
     queryset = Media.objects.filter(display=True)
-    date_field = 'created_date'
+    date_field = 'date'
     paginate_by = settings.MEDIALIB_PAGINATION
 
     def get_ordering(self):
@@ -34,7 +34,7 @@ class MediaViewMixin:
         if ordering == 'random':
             return '?'
         elif ordering == 'asc':
-            return 'created_date'
+            return 'date'
         else:
             # Default: desc
             return super().get_ordering()
@@ -133,9 +133,9 @@ class MediaSearchView(MediaViewMixin, GalleryMixin, ListView):
             if creator:
                 filters['creator'] = creator
             if start_date:
-                filters['created_date__gte'] = start_date
+                filters['date__gte'] = start_date
             if end_date:
-                filters['created_date__lte'] = end_date
+                filters['date__lte'] = end_date
             if keyword:
                 queryset = queryset.filter(
                     Q(title__icontains=keyword)

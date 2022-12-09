@@ -26,15 +26,21 @@
                         <a class="yh-link d-inline-block rounded" href="{% url 'media-creator' media.creator.pk %}">{{ media.creator }}</a>
                     {% endif %}
                     {% if media.verified %}
-                        <i class="bi bi-check-circle-fill text-success" title="원본 출처 확인됨"></i>
+                        <i class="bi bi-check-circle-fill text-success" title="원작자 확인됨"></i>
                     {% endif %}
                 </h3>
+            {% else %}
+                <h3>(크리에이터 확인 불가)</h3>
             {% endif %}
             {% if media.title %}
                 <h2>{{ media.title }}</h2>
             {% endif %}
-            {% if media.created_date %}
-                <p><i class="bi bi-calendar"></i> {{ media.created_date }}</p>
+            {% if media.date_type == 'C' %}
+                <p><i class="bi bi-calendar-check" title="미디어 제작 날짜"></i> {{ media.date }}</p>
+            {% elif media.date_type == 'E' %}
+                <p><i class="bi bi-calendar-minus" title="미디어 제작 날짜 추정"></i> {{ media.date }}</p>
+            {% else %}
+                <p><i class="bi bi-calendar" title="업로드 날짜"></i> {{ media.date }}</p>
             {% endif %}
             {% if media.description %}
                 <p>{{ media.description }}</p>

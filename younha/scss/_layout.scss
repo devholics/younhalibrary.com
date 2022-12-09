@@ -52,7 +52,6 @@
         padding: 0.1875rem 0.5rem;
         margin-top: 0.125rem;
         margin-left: 1rem;
-        text-decoration: none;
     }
 
     .yh-link {
@@ -104,19 +103,19 @@
 
 .yh-media {
     gap: 2rem;
-
-    .yh-link {
-        text-decoration: none;
-    }
 }
 
-.yh-date-link {
+.yh-link, .yh-date-link, .yh-badge-link {
     text-decoration: none;
 }
 
 .yh-list-link {
     color: black;
     text-decoration: none;
+}
+
+.yh-list-link:hover {
+    color: rgba(0, 0, 200, 1);
 }
 
 .select2-selection {

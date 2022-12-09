@@ -12,30 +12,30 @@ class CreatorAdmin(admin.ModelAdmin):
 class MediaAdmin(admin.ModelAdmin):
     readonly_fields = ('preview',)
     fields = ('type', 'url', 'preview', 'title', 'description', 'creator',
-              'created_date', 'tags', 'source_url', 'verified', 'display')
-    list_display = ('__str__', 'created_date', 'upload_time', 'display')
+              'date_type', 'date', 'tags', 'source_url', 'verified', 'display')
+    list_display = ('__str__', 'date', 'upload_time', 'display')
     autocomplete_fields = ['creator', 'tags']
     ordering = ('-upload_time',)
 
     @admin.display(description='Preview')
     def preview(self, obj):
-        if obj.type == Media.IMAGE:
+        if obj.type == Media.TYPE_IMAGE:
             return format_html(
                 '<img src="{}" alt="{}" height="300">',
                 obj.url,
                 str(obj)
             )
-        elif obj.type == Media.VIDEO:
+        elif obj.type == Media.TYPE_VIDEO:
             return format_html(
                 '<video src="{}" height="300" controls>Video not supported</video>',
                 obj.url
             )
-        elif obj.type == Media.AUDIO:
+        elif obj.type == Media.TYPE_AUDIO:
             return format_html(
                 '<audio src="{}" controls>Audio not supported</audio>',
                 obj.url
             )
-        elif obj.type == Media.YOUTUBE:
+        elif obj.type == Media.TYPE_YOUTUBE:
             return format_html(
                 '<iframe width="560" height="315" src="https://www.youtube.com/embed/{}" style="border:0;"></iframe>',
                 obj.youtube_id

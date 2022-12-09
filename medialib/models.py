@@ -34,16 +34,26 @@ class Tag(models.Model):
 
 
 class Media(models.Model):
-    IMAGE = 'I'
-    VIDEO = 'V'
-    AUDIO = 'A'
-    YOUTUBE = 'Y'
+    TYPE_IMAGE = 'I'
+    TYPE_VIDEO = 'V'
+    TYPE_AUDIO = 'A'
+    TYPE_YOUTUBE = 'Y'
 
     TYPE_CHOICES = (
-        (IMAGE, 'Image'),
-        (VIDEO, 'Video'),
-        (AUDIO, 'Audio'),
-        (YOUTUBE, 'Youtube video'),
+        (TYPE_IMAGE, 'Image'),
+        (TYPE_VIDEO, 'Video'),
+        (TYPE_AUDIO, 'Audio'),
+        (TYPE_YOUTUBE, 'Youtube video'),
+    )
+
+    DATE_TYPE_CREATED = 'C'
+    DATE_TYPE_ESTIMATE = 'E'
+    DATE_TYPE_UPLOADED = 'U'
+
+    DATE_TYPE_CHOICES = (
+        (DATE_TYPE_CREATED, 'Created date'),
+        (DATE_TYPE_ESTIMATE, 'Created date estimate'),
+        (DATE_TYPE_UPLOADED, 'Uploaded date')
     )
 
     type = models.CharField(max_length=1, choices=TYPE_CHOICES)
@@ -51,7 +61,8 @@ class Media(models.Model):
     title = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=1000, blank=True)
     creator = models.ForeignKey('Creator', null=True, blank=True, on_delete=models.CASCADE)
-    created_date = models.DateField(null=True, blank=True)
+    date_type = models.CharField(max_length=1, choices=DATE_TYPE_CHOICES)
+    date = models.DateField()
     tags = models.ManyToManyField('Tag', blank=True)
     source_url = models.URLField('Source URL', blank=True)
     verified = models.BooleanField(default=False)   # check if source and creator verified
@@ -60,16 +71,16 @@ class Media(models.Model):
     update_time = models.DateTimeField(verbose_name='updated time', auto_now=True)
 
     class Meta:
-        ordering = ('-created_date',)
-        get_latest_by = 'created_date'
+        ordering = ('-date',)
+        get_latest_by = 'date'
 
     def clean(self):
-        if self.type == self.YOUTUBE and not self.url.startswith('https://youtu.be/'):
+        if self.type == self.TYPE_YOUTUBE and not self.url.startswith('https://youtu.be/'):
             raise ValidationError("Youtube URL should start with 'https://youtu.be/'.")
 
     @property
     def youtube_id(self):
-        if self.type != self.YOUTUBE:
+        if self.type != self.TYPE_YOUTUBE:
             return None
         return self.url[17:]
 
