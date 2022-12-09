@@ -7,7 +7,7 @@ from django.db import models
 class Platform(models.Model):
     name = models.CharField(max_length=20, unique=True)
     description = models.CharField(max_length=200, blank=True)
-    url = models.URLField('URL', blank=True)
+    url = models.URLField('URL', max_length=400, blank=True)
     bootstrap_icon = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
@@ -19,7 +19,7 @@ class Creator(models.Model):
     platform = models.ForeignKey('Platform', null=True, blank=True, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
     description = models.CharField(max_length=200, blank=True)
-    url = models.URLField('URL', blank=True)
+    url = models.URLField('URL', max_length=400, blank=True)
 
     def __str__(self):
         return self.name + (f' @ {self.platform.name}' if self.platform else '')
@@ -57,14 +57,14 @@ class Media(models.Model):
     )
 
     type = models.CharField(max_length=1, choices=TYPE_CHOICES)
-    url = models.URLField('URL', unique=True)
+    url = models.URLField('URL', max_length=400, unique=True)
     title = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=1000, blank=True)
     creator = models.ForeignKey('Creator', null=True, blank=True, on_delete=models.CASCADE)
     date_type = models.CharField(max_length=1, choices=DATE_TYPE_CHOICES)
     date = models.DateField()
     tags = models.ManyToManyField('Tag', blank=True)
-    source_url = models.URLField('Source URL', blank=True)
+    source_url = models.URLField('Source URL', max_length=400, blank=True)
     verified = models.BooleanField(default=False)   # check if source and creator verified
     display = models.BooleanField(default=True)
     upload_time = models.DateTimeField(verbose_name='uploaded time', auto_now_add=True)
@@ -90,7 +90,7 @@ class Media(models.Model):
 
 class ExternalLink(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    url = models.URLField('URL', unique=True)
+    url = models.URLField('URL', max_length=400, unique=True)
     description = models.CharField(max_length=200, blank=True)
     display = models.BooleanField(default=True)
     priority = models.IntegerField(default=0)
