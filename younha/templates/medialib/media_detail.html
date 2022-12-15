@@ -33,10 +33,8 @@
             {% if media.title %}
                 <h2>{{ media.title }}</h2>
             {% endif %}
-            {% if media.date_type == 'C' %}
+            {% if media.date_exact %}
                 <p><i class="bi bi-calendar-check" title="미디어 제작 날짜"></i> {{ media.date }}</p>
-            {% elif media.date_type == 'E' %}
-                <p><i class="bi bi-calendar-minus" title="미디어 제작 날짜 추정"></i> {{ media.date }}</p>
             {% else %}
                 <p><i class="bi bi-calendar" title="업로드 날짜"></i> {{ media.date }}</p>
             {% endif %}
