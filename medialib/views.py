@@ -7,7 +7,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 from .forms import MediaSearchForm
-from .models import Creator, ExternalLink, Media, Tag
+from .models import Creator, ExternalLink, License, Media, Tag
 
 
 class GalleryMixin:
@@ -156,3 +156,7 @@ class TagListView(GalleryMixin, ListView):
 
 class CreatorListView(GalleryMixin, ListView):
     model = Creator
+
+
+class LicenseView(DetailView):
+    model = License
