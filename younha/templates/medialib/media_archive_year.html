@@ -26,9 +26,9 @@
         </div>
         <h3 class="ms-3">{{ year|date:"Y" }}년</h3>
     </div>
-    <div class="btn-group" role="group">
+    <div class="d-flex flex-wrap" role="group">
         {% for date in date_list %}
-            <a href="{% url 'media-month-archive' date|date:"Y" date|date:"b" %}" class="btn btn-outline-primary">
+            <a href="{% url 'media-month-archive' date|date:"Y" date|date:"b" %}" class="btn btn-outline-primary me-1 mb-1">
                 {{ date|date:"n" }}월
             </a>
         {% endfor %}

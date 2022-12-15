@@ -3,9 +3,9 @@
 {% block title %}Media by year{% endblock %}
 
 {% block date-picker %}
-    <div class="btn-group" role="group">
+    <div class="d-flex flex-wrap" role="group">
         {% for date in date_list %}
-            <a href="{% url 'media-year-archive' date|date:"Y" %}" class="btn btn-outline-primary">{{ date|date:"Y" }}년</a>
+            <a href="{% url 'media-year-archive' date|date:"Y" %}" class="btn btn-outline-primary me-1 mb-1">{{ date|date:"Y" }}년</a>
         {% endfor %}
     </div>
 {% endblock %}
