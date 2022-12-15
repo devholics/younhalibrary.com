@@ -14,10 +14,14 @@ class GalleryMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        tag_list = Tag.objects.annotate(num_media=Count('media'))
+        tag_list = Tag.objects.annotate(
+            num_media=Count('media', filter=Q(media__display=True, media__license__isnull=False))
+        )
         context['tag_list'] = tag_list.order_by('-num_media')[:settings.MEDIALIB_TAG_LIMIT]
 
-        creator_list = Creator.objects.annotate(num_media=Count('media'))
+        creator_list = Creator.objects.annotate(
+            num_media=Count('media', filter=Q(media__display=True, media__license__isnull=False))
+        )
         context['creator_list'] = creator_list.order_by('-num_media')[:settings.MEDIALIB_CREATOR_LIMIT]
         context['external_links'] = ExternalLink.objects.all()
         return context
