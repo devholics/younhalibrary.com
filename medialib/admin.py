@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Creator, ExternalLink, Media, Platform, Tag
+from .models import Creator, ExternalLink, License, Media, MediaSource, Platform, Tag
 
 
 class CreatorAdmin(admin.ModelAdmin):
@@ -9,14 +9,12 @@ class CreatorAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
-class MediaAdmin(admin.ModelAdmin):
-    readonly_fields = ('preview',)
-    fields = ('type', 'url', 'preview', 'title', 'description', 'creator',
-              'date_type', 'date', 'tags', 'source_url', 'verified', 'display')
-    list_display = ('__str__', 'date', 'upload_time', 'display')
-    autocomplete_fields = ['creator', 'tags']
-    ordering = ('-upload_time',)
+class LicenseAdmin(admin.ModelAdmin):
+    list_display = ('name', 'type', 'url')
+    fields = ('name', 'type', 'url', 'description')
 
+
+class MediaMixin:
     @admin.display(description='Preview')
     def preview(self, obj):
         if obj.type == Media.TYPE_IMAGE:
@@ -44,6 +42,29 @@ class MediaAdmin(admin.ModelAdmin):
             return 'Save to view'
 
 
+class MediaInline(MediaMixin, admin.StackedInline):
+    model = Media
+    readonly_fields = ('preview',)
+    fields = ('type', 'url', 'preview', 'title', 'description', 'creator',
+              'date', 'date_exact', 'tags', 'verified', 'license', 'display')
+    autocomplete_fields = ['creator', 'tags']
+    extra = 1
+
+
+class MediaSourceAdmin(admin.ModelAdmin):
+    fields = ('url', 'title', 'description')
+    inlines = [MediaInline]
+
+
+class MediaAdmin(MediaMixin, admin.ModelAdmin):
+    readonly_fields = ('preview',)
+    fields = ('type', 'url', 'preview', 'title', 'description', 'creator',
+              'date', 'date_exact', 'tags', 'source', 'verified', 'license', 'display')
+    list_display = ('__str__', 'date', 'upload_time', 'display')
+    autocomplete_fields = ['creator', 'tags']
+    ordering = ('-upload_time',)
+
+
 class TagAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
@@ -54,6 +75,8 @@ class ExternalLinkAdmin(admin.ModelAdmin):
 
 admin.site.register(Platform)
 admin.site.register(Creator, CreatorAdmin)
+admin.site.register(License, LicenseAdmin)
+admin.site.register(MediaSource, MediaSourceAdmin)
 admin.site.register(Media, MediaAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(ExternalLink, ExternalLinkAdmin)

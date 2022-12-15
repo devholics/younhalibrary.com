@@ -25,7 +25,7 @@ class GalleryMixin:
 
 class MediaViewMixin:
     model = Media
-    queryset = Media.objects.filter(display=True)
+    queryset = Media.objects.filter(display=True, license__isnull=False)
     date_field = 'date'
     paginate_by = settings.MEDIALIB_PAGINATION
 

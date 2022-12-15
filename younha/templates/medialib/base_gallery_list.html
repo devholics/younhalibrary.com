@@ -8,6 +8,7 @@
 {% block content %}
     <hr>
     {% if page_obj %}
+        <p class="text-muted small">저작권 보호를 받는 미디어일 수 있습니다.</p>
         <div class="btn-toolbar justify-content-between mb-4" role="toolbar">
             <div class="btn-group" role="group">
                 <a class="btn btn-light{% if order == 'desc' %} active{% endif %}" href="?{% if query %}{{ query.urlencode }}&{% endif %}order=desc">날짜 역순</a>
