@@ -34,7 +34,7 @@ class Tag(models.Model):
 
 
 class MediaSource(models.Model):
-    url = models.URLField(max_length=400, unique=True)
+    url = models.URLField('URL', max_length=400, unique=True)
     title = models.CharField(max_length=100, blank=True)    # must be official
     description = models.CharField(max_length=1000, blank=True)
     upload_time = models.DateTimeField(verbose_name='uploaded time', auto_now_add=True)
