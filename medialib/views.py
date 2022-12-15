@@ -16,12 +16,12 @@ class GalleryMixin:
 
         tag_list = Tag.objects.annotate(
             num_media=Count('media', filter=Q(media__display=True, media__license__isnull=False))
-        )
+        ).filter(num_media__gt=0)
         context['tag_list'] = tag_list.order_by('-num_media')[:settings.MEDIALIB_TAG_LIMIT]
 
         creator_list = Creator.objects.annotate(
             num_media=Count('media', filter=Q(media__display=True, media__license__isnull=False))
-        )
+        ).filter(num_media__gt=0)
         context['creator_list'] = creator_list.order_by('-num_media')[:settings.MEDIALIB_CREATOR_LIMIT]
         context['external_links'] = ExternalLink.objects.all()
         return context
