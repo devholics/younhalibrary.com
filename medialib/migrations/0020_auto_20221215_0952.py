@@ -5,10 +5,8 @@ from django.db import migrations
 
 def remove_media_without_source(apps, schema_editor):
     Media = apps.get_model('medialib', 'Media')
-    for media in Media.objects.filter(creator__isnull=True):
-        media.delete()
-    for media in Media.objects.filter(source_url=''):
-        media.delete()
+    Media.objects.filter(creator__isnull=True).delete()
+    Media.objects.filter(source_url='').delete()
 
 
 class Migration(migrations.Migration):
