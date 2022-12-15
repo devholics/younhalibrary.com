@@ -48,7 +48,8 @@ class MediaInline(MediaMixin, admin.StackedInline):
     fields = ('type', 'url', 'preview', 'title', 'description', 'creator',
               'date', 'date_exact', 'tags', 'verified', 'license', 'display')
     autocomplete_fields = ['creator', 'tags']
-    extra = 1
+    max_num = 30
+    show_change_link = True
 
 
 class MediaSourceAdmin(admin.ModelAdmin):
