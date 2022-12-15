@@ -22,7 +22,7 @@ class Creator(models.Model):
     url = models.URLField('URL', max_length=400, blank=True)
 
     def __str__(self):
-        return self.name + (f' @ {self.platform.name}' if self.platform else '')
+        return self.name + (f' @{self.platform.name}' if self.platform else '')
 
 
 class Tag(models.Model):
@@ -31,6 +31,39 @@ class Tag(models.Model):
 
     def __str__(self):
         return '# ' + self.name
+
+
+class MediaSource(models.Model):
+    url = models.URLField('URL', max_length=400, unique=True)
+    title = models.CharField(max_length=100, blank=True)    # must be official
+    description = models.CharField(max_length=1000, blank=True)
+    upload_time = models.DateTimeField(verbose_name='uploaded time', auto_now_add=True)
+    update_time = models.DateTimeField(verbose_name='updated time', auto_now=True)
+
+    def __str__(self):
+        return self.title or '(Untitled)'
+
+
+class License(models.Model):
+    TYPE_CREATIVE_COMMONS = 'CC'
+    TYPE_OTHERS = 'OT'
+
+    TYPE_CHOICES = (
+        (TYPE_CREATIVE_COMMONS, 'Creative Commons License'),
+        (TYPE_OTHERS, 'Others')
+    )
+
+    type = models.CharField(max_length=2, choices=TYPE_CHOICES)
+    name = models.CharField(max_length=20, unique=True)
+    url = models.URLField('URL', blank=True)
+    description = models.TextField(blank=True)
+
+    def clean(self):
+        if not self.url and not self.description:
+            raise ValidationError('At least one of URL or description should be provided')
+
+    def __str__(self):
+        return self.name
 
 
 class Media(models.Model):
@@ -46,27 +79,18 @@ class Media(models.Model):
         (TYPE_YOUTUBE, 'Youtube video'),
     )
 
-    DATE_TYPE_CREATED = 'C'
-    DATE_TYPE_ESTIMATE = 'E'
-    DATE_TYPE_UPLOADED = 'U'
-
-    DATE_TYPE_CHOICES = (
-        (DATE_TYPE_CREATED, 'Created date'),
-        (DATE_TYPE_ESTIMATE, 'Created date estimate'),
-        (DATE_TYPE_UPLOADED, 'Uploaded date')
-    )
-
     type = models.CharField(max_length=1, choices=TYPE_CHOICES)
     url = models.URLField('URL', max_length=400, unique=True)
-    title = models.CharField(max_length=100, blank=True)
+    title = models.CharField(max_length=100, blank=True)    # must be official
     description = models.CharField(max_length=1000, blank=True)
-    creator = models.ForeignKey('Creator', null=True, blank=True, on_delete=models.CASCADE)
-    date_type = models.CharField(max_length=1, choices=DATE_TYPE_CHOICES)
+    creator = models.ForeignKey('Creator', on_delete=models.CASCADE)
     date = models.DateField()
+    date_exact = models.BooleanField(default=True)
     tags = models.ManyToManyField('Tag', blank=True)
-    source_url = models.URLField('Source URL', max_length=400, blank=True)
-    verified = models.BooleanField(default=False)   # check if source and creator verified
+    source = models.ForeignKey('MediaSource', on_delete=models.CASCADE)
+    license = models.ForeignKey('License', null=True, blank=True, on_delete=models.SET_NULL)
     display = models.BooleanField(default=True)
+    verified = models.BooleanField(default=False)   # check if source and creator verified
     upload_time = models.DateTimeField(verbose_name='uploaded time', auto_now_add=True)
     update_time = models.DateTimeField(verbose_name='updated time', auto_now=True)
 
@@ -84,8 +108,12 @@ class Media(models.Model):
             return None
         return self.url[17:]
 
+    @property
+    def official_title(self):
+        return self.title or self.source.title or self.get_type_display()
+
     def __str__(self):
-        return self.title or self.get_type_display() + f" by {self.creator.name if self.creator else 'Unknown'}"
+        return self.title or (self.get_type_display() + f" by {self.creator.name if self.creator else 'Unknown'}")
 
 
 class ExternalLink(models.Model):
