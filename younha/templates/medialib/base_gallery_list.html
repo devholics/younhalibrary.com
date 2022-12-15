@@ -31,26 +31,38 @@
         <div class="row gy-4 yh-content mb-4">
             {% for media in page_obj %}
                 <div class="col-xl-3 col-lg-4 col-md-6 align-self-center text-center">
-                    <div class="gallery">
-                        {% if media.type == "I" %}
-                            <img class="w-100 media" src="{{ media.url }}" alt="{{ media }}">
-                        {% elif media.type == "V" %}
-                            <video class="w-100 media" src="{{ media.url }}" autoplay muted loop>
-                                Video not supported
-                            </video>
-                        {% elif media.type == "Y" %}
-                            <img class="w-100 media" src="https://img.youtube.com/vi/{{ media.youtube_id }}/0.jpg" alt="{{ media }}">
-                            <div class="gallery-youtube d-flex justify-content-center align-items-center"><i class="bi bi-youtube"></i></div>
-                        {% endif %}
-                        <div class="gallery-links d-flex px-3 py-2 align-items-start">
-                            <a href="{{ media.url }}" class="glightbox preview-link" data-glightbox="type: {% if media.type == "I" %}image{% else %}video{% endif %}">
-                                <i class="bi bi-arrows-angle-expand"></i>
-                            </a>
-                            <a href="{% url 'media-detail' media.pk %}" class="details-link">
-                                <i class="bi bi-link-45deg"></i>
-                            </a>
+                    <figure>
+                        <div class="gallery">
+                            {% if media.type == "I" %}
+                                <img class="w-100 media" src="{{ media.url }}" alt="{{ media }}">
+                            {% elif media.type == "V" %}
+                                <video class="w-100 media" src="{{ media.url }}" autoplay muted loop>
+                                    Video not supported
+                                </video>
+                            {% elif media.type == "Y" %}
+                                <img class="w-100 media" src="https://img.youtube.com/vi/{{ media.youtube_id }}/0.jpg" alt="{{ media }}">
+                                <div class="gallery-youtube d-flex justify-content-center align-items-center"><i class="bi bi-youtube"></i></div>
+                            {% endif %}
+                            <div class="gallery-links d-flex px-3 py-2 align-items-start">
+                                <a href="{{ media.url }}" class="glightbox preview-link" data-glightbox="type: {% if media.type == "I" %}image{% else %}video{% endif %}">
+                                    <i class="bi bi-arrows-angle-expand"></i>
+                                </a>
+                                <a href="{% url 'media-detail' media.pk %}" class="details-link">
+                                    <i class="bi bi-link-45deg"></i>
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                        <figcaption>
+                            <p class="text-muted small">
+                                <a class="text-muted" href="{{ media.source.url }}" target="_blank">{{ media.creator.name }}</a>/
+                                {% if media.license.url %}
+                                    <a class="text-muted" href="{{ media.license.url }}" target="_blank">{{ media.license }}</a>
+                                {% else %}
+                                    {{ media.license }}
+                                {% endif %}
+                            </p>
+                        </figcaption>
+                    </figure>
                 </div>
             {% endfor %}
         </div>
