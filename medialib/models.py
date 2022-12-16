@@ -57,6 +57,7 @@ class License(models.Model):
     name = models.CharField(max_length=20, unique=True)
     url = models.URLField('URL', blank=True)
     description = models.TextField(blank=True)
+    display = models.BooleanField(default=True)
 
     def clean(self):
         if not self.url and not self.description:

@@ -10,8 +10,8 @@ class CreatorAdmin(admin.ModelAdmin):
 
 
 class LicenseAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type', 'url')
-    fields = ('name', 'type', 'url', 'description')
+    list_display = ('name', 'type', 'url', 'display')
+    fields = ('name', 'type', 'url', 'description', 'display')
 
 
 class MediaMixin:
