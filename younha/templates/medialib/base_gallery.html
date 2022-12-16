@@ -21,7 +21,7 @@
                     </ul>
                 </li>
                 <li class="yh-sidebar-group py-2">
-                    <strong class="fw-semibold"><i class="bi bi-hash"></i> <a class="yh-list-link" href="{% url 'tag-list' %}">Tags</a></strong>
+                    <strong class="fw-semibold"><i class="bi bi-tags"></i> <a class="yh-list-link" href="{% url 'tag-list' %}">Tags</a></strong>
                     <ul class="list-unstyled fw-normal pb-2">
                         {% for tag in tag_list %}
                             <li><a class="yh-badge-link d-inline-block rounded" href="{% url 'media-tag' tag.pk %}"><span class="badge yh-badge">{{ tag }}</span></a></li>

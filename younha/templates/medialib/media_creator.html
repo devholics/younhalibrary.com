@@ -4,20 +4,22 @@
 {% block title %}{{ creator }}{% endblock %}
 
 {% block intro %}
-    {% if creator.platform %}
-        {% if creator.platform.bootstrap_icon %}
-            <h1>{{ creator.name }} <i class="bi bi-{{ creator.platform.bootstrap_icon }}"></i></h1>
+    <h1>
+        {% if creator.platform %}
+            {% if creator.platform.bootstrap_icon %}
+                {{ creator.name }} <i class="bi bi-{{ creator.platform.bootstrap_icon }}"></i>
+            {% else %}
+                {{ creator.name }} <span class="fs-6">@{{ creator.platform }}</span>
+            {% endif %}
         {% else %}
-            <h1>{{ creator.name }} <span class="fs-6">@{{ creator.platform }}</span></h1>
+            {{ creator.name }}
         {% endif %}
-    {% else %}
-        <h1>{{ creator.name }}</h1>
-    {% endif %}
+        {% if creator.url %}
+            <a class="text-info" href="{{ creator.url }}" target="_blank"><i class="bi bi-link-45deg"></i></a>
+        {% endif %}
+    </h1>
     {% if creator.description %}
         <p>{{ creator.description }}</p>
     {% endif %}
     <p>총 <span class="fw-semibold">{{ paginator.count|intcomma }}개</span>의 미디어가 등록되어 있습니다.</p>
-    {% if creator.url %}
-        <p>웹페이지: <a href="{{ creator.url }}" target="_blank">{{ creator.url }}</a></p>
-    {% endif %}
 {% endblock %}

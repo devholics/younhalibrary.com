@@ -33,22 +33,21 @@
                 <div class="col-xl-3 col-lg-4 col-md-6 align-self-center text-center">
                     <figure>
                         <div class="gallery">
-                            {% if media.type == "I" %}
+                            {% if media.type == media.TYPE_IMAGE %}
                                 <img class="w-100 media" src="{{ media.url }}" alt="{{ media }}">
-                            {% elif media.type == "V" %}
+                            {% elif media.type == media.TYPE_VIDEO %}
                                 <video class="w-100 media" src="{{ media.url }}" autoplay muted loop>
                                     Video not supported
                                 </video>
-                            {% elif media.type == "Y" %}
-                                <img class="w-100 media" src="https://img.youtube.com/vi/{{ media.youtube_id }}/0.jpg" alt="{{ media }}">
-                                <div class="gallery-youtube d-flex justify-content-center align-items-center"><i class="bi bi-youtube"></i></div>
+                            {% elif media.type == media.TYPE_YOUTUBE %}
+                                <iframe class="w-100 media" src="https://www.youtube.com/embed/{{ media.youtube_id }}" title="YouTube video player" frameborder="0" allow="autoplay; muted; loop"></iframe>
                             {% endif %}
                             <div class="gallery-links d-flex px-3 py-2 align-items-start">
                                 <a href="{{ media.url }}" class="glightbox preview-link" data-glightbox="type: {% if media.type == "I" %}image{% else %}video{% endif %}">
                                     <i class="bi bi-arrows-angle-expand"></i>
                                 </a>
                                 <a href="{% url 'media-detail' media.pk %}" class="details-link">
-                                    <i class="bi bi-link-45deg"></i>
+                                    <i class="bi bi-info-circle"></i>
                                 </a>
                             </div>
                         </div>

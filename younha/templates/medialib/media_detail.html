@@ -5,16 +5,14 @@
 {% block content %}
     <div class="d-flex flex-wrap yh-media">
         <div>
-            {% if media.type == "I" %}
+            {% if media.type == media.TYPE_IMAGE %}
                 <img class="mw-100" src="{{ media.url }}" alt="{{ media }}">
-            {% elif media.type == "V" %}
+            {% elif media.type == media.TYPE_VIDEO %}
                 <video class="mw-100" src="{{ media.url }}" controls>
                     Video not supported
                 </video>
-            {% elif media.type == "Y" %}
-                <iframe width="560" height="315" class="mw-100" src="https://www.youtube.com/embed/{{ media.youtube_id }}">
-
-                </iframe>
+            {% elif media.type == media.TYPE_YOUTUBE %}
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ media.youtube_id }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             {% endif %}
         </div>
         <div>
@@ -41,16 +39,16 @@
             {% if media.description %}
                 <p>{{ media.description }}</p>
             {% endif %}
-            <p>출처: <a class="text-reset" href="{{ media.source.url }}" target="_blank">{{ media.official_title }}</a></p>
+            <p class="text-muted"><span class="badge bg-secondary rounded-pill me-2">출처</span><a class="text-reset" href="{{ media.source.url }}" target="_blank">{{ media.official_title }}</a></p>
             {% if media.license and media.license.display %}
                 {% if media.license.url %}
-                    <p>라이선스: <a class="text-reset" href="{{ media.license.url }}" target="_blank">{{ media.license }}</a></p>
+                    <p class="text-muted"><span class="badge bg-secondary rounded-pill me-2">라이선스</span><a class="text-reset" href="{{ media.license.url }}" target="_blank">{{ media.license }}</a></p>
                 {% else %}
-                    <p>라이선스: <a class="text-reset" href="{% url 'media-license' media.license.pk %}">{{ media.license }}</a></p>
+                    <p class="text-muted"><span class="badge bg-secondary rounded-pill me-2">라이선스</span><a class="text-reset" href="{% url 'media-license' media.license.pk %}">{{ media.license }}</a></p>
                 {% endif %}
             {% endif %}
             <p>
-                태그:
+                <i class="bi bi-tags-fill"></i>
                 {% for tag in media.tags.all %}
                     <a class="yh-badge-link" href="{% url 'media-tag' tag.pk %}"><span class="badge yh-badge">{{ tag }}</span></a>
                 {% endfor %}
