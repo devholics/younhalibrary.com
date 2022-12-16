@@ -41,12 +41,12 @@
             {% if media.description %}
                 <p>{{ media.description }}</p>
             {% endif %}
-            <p>출처: <a href="{{ media.source.url }}" target="_blank">{{ media.official_title }}</a></p>
+            <p>출처: <a class="text-reset" href="{{ media.source.url }}" target="_blank">{{ media.official_title }}</a></p>
             {% if media.license and media.license.type == 'CC' %}
                 {% if media.license.url %}
-                    <p>라이선스: <a href="{{ media.license.url }}" target="_blank">{{ media.license }}</a></p>
+                    <p>라이선스: <a class="text-reset" href="{{ media.license.url }}" target="_blank">{{ media.license }}</a></p>
                 {% else %}
-                    <p>라이선스: <a href="{% url 'media-license' media.license.pk %}">{{ media.license }}</a></p>
+                    <p>라이선스: <a class="text-reset" href="{% url 'media-license' media.license.pk %}">{{ media.license }}</a></p>
                 {% endif %}
             {% endif %}
             <p>
