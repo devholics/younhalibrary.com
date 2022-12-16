@@ -34,15 +34,15 @@
                 <h2>{{ media.title }}</h2>
             {% endif %}
             {% if media.date_exact %}
-                <p><i class="bi bi-calendar-check" title="미디어 제작 날짜"></i> {{ media.date }}</p>
+                <p><i class="bi bi-calendar-check"></i> {{ media.date|date:"Y년 n월 j일" }}</p>
             {% else %}
-                <p><i class="bi bi-calendar" title="업로드 날짜"></i> {{ media.date }}</p>
+                <p><i class="bi bi-calendar"></i> {{ media.date|date:"Y년 n월 j일" }}</p>
             {% endif %}
             {% if media.description %}
                 <p>{{ media.description }}</p>
             {% endif %}
             <p>출처: <a href="{{ media.source.url }}" target="_blank">{{ media.official_title }}</a></p>
-            {% if media.license %}
+            {% if media.license and media.license.type == 'CC' %}
                 {% if media.license.url %}
                     <p>라이선스: <a href="{{ media.license.url }}" target="_blank">{{ media.license }}</a></p>
                 {% else %}
