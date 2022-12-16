@@ -14,13 +14,15 @@ class GalleryMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        qs = self.get_queryset()
         tag_list = Tag.objects.annotate(
-            num_media=Count('media', filter=Q(media__display=True, media__license__isnull=False))
+            num_media=Count('media', filter=Q(media__in=qs))
         ).filter(num_media__gt=0)
         context['tag_list'] = tag_list.order_by('-num_media')[:settings.MEDIALIB_TAG_LIMIT]
 
+
         creator_list = Creator.objects.annotate(
-            num_media=Count('media', filter=Q(media__display=True, media__license__isnull=False))
+            num_media=Count('media', filter=Q(media__in=qs))
         ).filter(num_media__gt=0)
         context['creator_list'] = creator_list.order_by('-num_media')[:settings.MEDIALIB_CREATOR_LIMIT]
         context['external_links'] = ExternalLink.objects.all()
@@ -29,7 +31,7 @@ class GalleryMixin:
 
 class MediaViewMixin:
     model = Media
-    queryset = Media.objects.filter(display=True, license__isnull=False)
+    queryset = Media.objects.filter(Q(type=Media.TYPE_YOUTUBE) | Q(license__isnull=False), display=True)
     date_field = 'date'
     paginate_by = settings.MEDIALIB_PAGINATION
 
