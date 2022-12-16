@@ -14,7 +14,7 @@ class GalleryMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        qs = self.get_queryset()
+        qs = self.queryset  # Do not use self.get_queryset()!
         tag_list = Tag.objects.annotate(
             num_media=Count('media', filter=Q(media__in=qs))
         ).filter(num_media__gt=0)
