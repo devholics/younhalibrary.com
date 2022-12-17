@@ -4,17 +4,17 @@
 
 {% block content %}
     <div class="d-flex flex-wrap yh-media">
-        <div>
-            {% if media.type == media.TYPE_IMAGE %}
-                <img class="mw-100" src="{{ media.url }}" alt="{{ media }}">
-            {% elif media.type == media.TYPE_VIDEO %}
-                <video class="mw-100" src="{{ media.url }}" controls>
-                    Video not supported
-                </video>
-            {% elif media.type == media.TYPE_YOUTUBE %}
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ media.youtube_id }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            {% endif %}
-        </div>
+        {% if media.type == media.TYPE_IMAGE %}
+            <img class="mw-100" src="{{ media.url }}" alt="{{ media }}">
+        {% elif media.type == media.TYPE_VIDEO %}
+            <video class="mw-100" src="{{ media.url }}" controls>
+                Video not supported
+            </video>
+        {% elif media.type == media.TYPE_YOUTUBE %}
+            <div class="ratio ratio-16x9">
+                <iframe src="https://www.youtube.com/embed/{{ media.youtube_id }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        {% endif %}
         <div>
             {% if media.creator %}
                 <h3>
