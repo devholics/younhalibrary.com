@@ -92,7 +92,7 @@ class MediaTagView(MediaViewMixin, GalleryMixin, ListView):
     template_name = 'medialib/media_tag.html'
 
     def get_queryset(self):
-        return super().get_queryset().filter(tags=self.kwargs['pk'])
+        return super().get_queryset().filter(tags=self.kwargs['pk']).distinct()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
