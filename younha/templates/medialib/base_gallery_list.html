@@ -41,7 +41,7 @@
                                 </video>
                             {% elif media.type == media.TYPE_YOUTUBE %}
                                 <div class="w-100 media ratio ratio-16x9">
-                                    <iframe class="w-100 h-100" src="https://www.youtube.com/embed/{{ media.youtube_id }}" title="YouTube video player" frameborder="0" allow="autoplay; muted; loop"></iframe>
+                                    <iframe src="https://www.youtube.com/embed/{{ media.youtube_id }}" title="YouTube video player" frameborder="0" allow="autoplay; muted; loop"></iframe>
                                 </div>
                             {% endif %}
                             <div class="gallery-links d-flex px-3 py-2 align-items-start">
