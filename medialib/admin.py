@@ -54,6 +54,7 @@ class MediaInline(MediaMixin, admin.StackedInline):
 
 class MediaSourceAdmin(admin.ModelAdmin):
     fields = ('url', 'title', 'description')
+    search_fields = ('title',)
     # inlines = [MediaInline]
 
 
@@ -62,7 +63,7 @@ class MediaAdmin(MediaMixin, admin.ModelAdmin):
     fields = ('type', 'url', 'preview', 'title', 'description', 'creator',
               'date', 'date_exact', 'tags', 'source', 'verified', 'license', 'display')
     list_display = ('__str__', 'date', 'upload_time', 'display')
-    autocomplete_fields = ['creator', 'tags']
+    autocomplete_fields = ['creator', 'tags', 'source']
     ordering = ('-upload_time',)
 
 
