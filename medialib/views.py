@@ -69,8 +69,8 @@ class MediaViewMixin:
             'iv_load_policy': 3,
         })
         if not settings.DEBUG:
-            youtube_params['origin'] = self.request.build_absolute_uri('/')
-        context['youtube_query'] = youtube_params.urlencode()
+            youtube_params['origin'] = self.request.build_absolute_uri('')
+        context['youtube_query'] = youtube_params.urlencode(safe=True)
 
         # Pagination
         if context.get('is_paginated'):
