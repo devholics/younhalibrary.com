@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db.models import Count, Q
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 from django.shortcuts import get_object_or_404, render
 from django.views.generic.dates import ArchiveIndexView, DayArchiveView, MonthArchiveView, YearArchiveView
 from django.views.generic.detail import DetailView
@@ -54,7 +54,23 @@ class MediaViewMixin:
         query = self.request.GET.copy()
         query.pop('page', None)
         context['order'] = query.pop('order', ['desc'])[0]
-        context['query'] = query
+        context['query'] = query.urlencode()
+
+        # Youtube player
+        youtube_params = QueryDict(mutable=True)
+        youtube_params.update({
+            'enablejsapi': 1,
+            'autoplay': 1,
+            'controls': 0,
+            'cc_load_policy': 1,
+            'loop': 1,
+            'fs': 0,
+            'modestbranding': 1,
+            'iv_load_policy': 3,
+        })
+        if not settings.DEBUG:
+            youtube_params['origin'] = self.request.build_absolute_uri('/')
+        context['youtube_query'] = youtube_params.urlencode()
 
         # Pagination
         if context.get('is_paginated'):

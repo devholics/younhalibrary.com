@@ -11,18 +11,18 @@
         <p class="text-muted small">저작권 보호를 받는 미디어일 수 있습니다.</p>
         <div class="btn-toolbar justify-content-between mb-4" role="toolbar">
             <div class="btn-group" role="group">
-                <a class="btn btn-light{% if order == 'desc' %} active{% endif %}" href="?{% if query %}{{ query.urlencode }}&{% endif %}order=desc">날짜 역순</a>
-                <a class="btn btn-light{% if order == 'asc' %} active{% endif %}" href="?{% if query %}{{ query.urlencode }}&{% endif %}order=asc">날짜순</a>
-                <a class="btn btn-light{% if order == 'random' %} active{% endif %}" href="?{% if query %}{{ query.urlencode }}&{% endif %}order=random">셔플</a>
+                <a class="btn btn-light{% if order == 'desc' %} active{% endif %}" href="?{% if query %}{{ query }}&{% endif %}order=desc">날짜 역순</a>
+                <a class="btn btn-light{% if order == 'asc' %} active{% endif %}" href="?{% if query %}{{ query }}&{% endif %}order=asc">날짜순</a>
+                <a class="btn btn-light{% if order == 'random' %} active{% endif %}" href="?{% if query %}{{ query }}&{% endif %}order=random">셔플</a>
             </div>
             <div class="btn-group" role="group">
                 {% if page_obj.has_previous %}
-                    <a class="btn btn-light" href="?{% if query %}{{ query.urlencode }}&{% endif %}order={{ order }}&page={{ page_obj.previous_page_number }}"><i class="bi bi-caret-left-fill"></i></a>
+                    <a class="btn btn-light" href="?{% if query %}{{ query }}&{% endif %}order={{ order }}&page={{ page_obj.previous_page_number }}"><i class="bi bi-caret-left-fill"></i></a>
                 {% else %}
                     <a class="btn btn-light disabled" href="#"><i class="bi bi-caret-left-fill"></i></a>
                 {% endif %}
                 {% if page_obj.has_next %}
-                    <a class="btn btn-light" href="?{% if query %}{{ query.urlencode }}&{% endif %}order={{ order }}&page={{ page_obj.next_page_number }}"><i class="bi bi-caret-right-fill"></i></a>
+                    <a class="btn btn-light" href="?{% if query %}{{ query }}&{% endif %}order={{ order }}&page={{ page_obj.next_page_number }}"><i class="bi bi-caret-right-fill"></i></a>
                 {% else %}
                     <a class="btn btn-light disabled" href="#"><i class="bi bi-caret-right-fill"></i></a>
                 {% endif %}
@@ -41,7 +41,7 @@
                                 </video>
                             {% elif media.type == media.TYPE_YOUTUBE %}
                                 <div class="w-100 media ratio ratio-16x9">
-                                    <iframe src="https://www.youtube.com/embed/{{ media.youtube_id }}" title="YouTube video player" frameborder="0" allow="autoplay; muted; loop"></iframe>
+                                    <iframe id="player-{{ media.pk }}" src="https://www.youtube.com/embed/{{ media.youtube_id }}?{{ youtube_query }}" title="YouTube video player" frameborder="0"></iframe>
                                 </div>
                             {% endif %}
                             <div class="gallery-links d-flex px-3 py-2 align-items-start">
@@ -75,7 +75,7 @@
                     {% elif page_num == paginator.ELLIPSIS %}
                         <li class="page-item disbaled"><span class="page-link">{{ page_num }}</span></li>
                     {% else %}
-                        <li class="page-item"><a class="page-link" href="?{% if query %}{{ query.urlencode }}&{% endif %}order={{ order }}&page={{ page_num }}">{{ page_num }}</a></li>
+                        <li class="page-item"><a class="page-link" href="?{% if query %}{{ query }}&{% endif %}order={{ order }}&page={{ page_num }}">{{ page_num }}</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
@@ -90,5 +90,25 @@
         const lightbox = GLightbox({
             descPosition: "right"
         });
+
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player = {};
+        function onYouTubeIframeAPIReady() {
+            {% for media in page_obj %}
+                {% if media.type == media.TYPE_YOUTUBE %}
+                    player[{{ media.pk }}] = new YT.Player('player-{{ media.pk }}', {
+                        events: {
+                            'onReady': function(e) {
+                                e.target.mute();
+                            }
+                        }
+                    });
+                {% endif %}
+            {% endfor %}
+        }
     </script>
 {% endblock %}
