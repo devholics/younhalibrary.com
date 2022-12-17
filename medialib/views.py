@@ -11,10 +11,12 @@ from .models import Creator, ExternalLink, License, Media, Tag
 
 
 class GalleryMixin:
+    sidebar_queryset = Media.objects.filter(Q(type=Media.TYPE_YOUTUBE) | Q(license__isnull=False), display=True)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        qs = self.queryset  # Do not use self.get_queryset()!
+        qs = self.sidebar_queryset  # Do not use self.get_queryset()!
         tag_list = Tag.objects.annotate(
             num_media=Count('media', filter=Q(media__in=qs))
         ).filter(num_media__gt=0)
