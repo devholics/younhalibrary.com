@@ -41,7 +41,7 @@
                                 </video>
                             {% elif media.type == media.TYPE_YOUTUBE %}
                                 <div class="w-100 media ratio ratio-16x9">
-                                    <iframe id="player-{{ media.pk }}" src="https://www.youtube.com/embed/{{ media.youtube_id }}?{{ youtube_query }}" title="YouTube video player" frameborder="0"></iframe>
+                                    <iframe class="yt-player" id="player-{{ media.pk }}" src="https://www.youtube.com/embed/{{ media.youtube_id }}?{{ youtube_query }}" title="YouTube video player" frameborder="0"></iframe>
                                 </div>
                             {% endif %}
                             <div class="gallery-links d-flex px-3 py-2 align-items-start">
@@ -87,10 +87,6 @@
 
 {% block inline-script %}
     <script type="text/javascript">
-        const lightbox = GLightbox({
-            descPosition: "right"
-        });
-
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -98,17 +94,23 @@
 
         var player = {};
         function onYouTubeIframeAPIReady() {
-            {% for media in page_obj %}
-                {% if media.type == media.TYPE_YOUTUBE %}
-                    player[{{ media.pk }}] = new YT.Player('player-{{ media.pk }}', {
-                        events: {
-                            'onReady': function(e) {
-                                e.target.mute();
-                            }
-                        }
-                    });
-                {% endif %}
-            {% endfor %}
+            // https://github.com/biati-digital/glightbox/issues/394
+            /*
+            const players = Array.from(
+                document.getElementsByClassName('yt-player')).map((player) => new YT.Player(player.id, {
+                    events: {
+                        'onReady': function(e) {
+                            e.target.mute();
+                            e.target.playVideo();
+                        },
+                    }
+                })
+            );
+            */
         }
+        const lightbox = GLightbox({
+            descPosition: "right"
+        });
     </script>
+    {% block additional-script %}{% endblock %}
 {% endblock %}

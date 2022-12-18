@@ -60,17 +60,15 @@ class MediaViewMixin:
         youtube_params = QueryDict(mutable=True)
         youtube_params.update({
             'enablejsapi': 1,
-            'autoplay': 1,
             'controls': 0,
             'cc_load_policy': 1,
             'loop': 1,
             'fs': 0,
             'modestbranding': 1,
             'iv_load_policy': 3,
+            'origin': self.request.build_absolute_uri('/')[:-1]
         })
-        if not settings.DEBUG:
-            youtube_params['origin'] = self.request.build_absolute_uri('/')[:-1]
-        context['youtube_query'] = youtube_params.urlencode(safe=':/')
+        context['youtube_query'] = youtube_params.urlencode()
 
         # Pagination
         if context.get('is_paginated'):
