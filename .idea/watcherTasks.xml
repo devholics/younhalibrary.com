@@ -2,14 +2,14 @@
 <project version="4">
   <component name="ProjectTasksOptions">
     <TaskOptions isEnabled="true">
-      <option name="arguments" value="$FileName$:$ProjectFileDir$/younha/static/css/$FileNameWithoutExtension$.css" />
+      <option name="arguments" value="$ProjectFileDir$/younha/scss/main.scss:$ProjectFileDir$/younha/static/css/main.css" />
       <option name="checkSyntaxErrors" value="true" />
       <option name="description" />
       <option name="exitCodeBehavior" value="ERROR" />
       <option name="fileExtension" value="scss" />
       <option name="immediateSync" value="true" />
       <option name="name" value="Younha SCSS" />
-      <option name="output" value="$ProjectFileDir$/younha/static/css/$FileNameWithoutExtension$.css:$ProjectFileDir$/younha/static/css/$FileNameWithoutExtension$.css.map" />
+      <option name="output" value="$ProjectFileDir$/younha/static/css/main.css:$ProjectFileDir$/younha/static/css/main.css.map" />
       <option name="outputFilters">
         <array />
       </option>

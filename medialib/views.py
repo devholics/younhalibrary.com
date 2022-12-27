@@ -32,7 +32,6 @@ class GalleryMixin:
 
 
 class MediaViewMixin:
-    model = Media
     queryset = Media.objects.filter(Q(type=Media.TYPE_YOUTUBE) | Q(license__isnull=False), display=True)
     date_field = 'date'
     paginate_by = settings.MEDIALIB_PAGINATION

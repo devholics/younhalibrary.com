@@ -111,7 +111,7 @@ class Media(models.Model):
 
     @property
     def official_title(self):
-        return self.title or self.source.title or self.get_type_display()
+        return self.title or self.source.title or self.source.url
 
     def __str__(self):
         return self.title or (self.get_type_display() + f" by {self.creator.name if self.creator else 'Unknown'}")
