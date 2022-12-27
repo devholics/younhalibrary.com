@@ -1,7 +1,3 @@
-:root {
-    --yh-lightblue-rgb: 175,225,255;
-}
-
 @media (min-width: 992px) {
     .yh-layout {
         display: grid;
@@ -26,11 +22,11 @@
 .yh-navbar {
     padding: 0.75rem 0;
     background-color: transparent;
-    background-image: linear-gradient(to bottom, rgba(var(--yh-lightblue-rgb), 1), rgba(var(--yh-lightblue-rgb), 0.95));
+    background-image: linear-gradient(to bottom, rgba(var(--yh-theme-color-rgb), 1), rgba(var(--yh-theme-color-rgb), 0.95));
     box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%), inset 0 -1px 0 rgb(0 0 0 / 15%);
 
     .offcanvas-lg {
-        background-color: rgba(var(--yh-lightblue-rgb), 1);
+        background-color: rgba(var(--yh-theme-color-rgb), 1);
     }
 }
 
@@ -59,7 +55,7 @@
     }
 
     .yh-link:hover {
-        background-color: rgba(var(--yh-lightblue-rgb), 0.2);
+        background-color: rgba(var(--yh-theme-color-rgb), 0.2);
     }
 }
 
@@ -70,7 +66,7 @@
 
 .yh-badge-link:hover {
     .badge {
-        background-color: rgba(var(--yh-lightblue-rgb), 0.2);
+        background-color: rgba(var(--yh-theme-color-rgb), 0.2);
     }
 }
 

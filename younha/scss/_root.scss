@@ -1,0 +1,10 @@
+:root {
+  --yh-theme-color-rgb: #{$yholics-color-rgb};
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    --yh-theme-color-rgb: #{$yholics-color-dark-rgb};
+    color-scheme: dark;
+  }
+}

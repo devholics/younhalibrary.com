@@ -73,7 +73,7 @@ class MediaViewMixin:
         if context.get('is_paginated'):
             paginator = context['paginator']
             page = context['page_obj']
-            context['page_range'] = paginator.get_elided_page_range(page.number)
+            context['page_range'] = paginator.get_elided_page_range(page.number, on_each_side=2, on_ends=1)
         return context
 
 

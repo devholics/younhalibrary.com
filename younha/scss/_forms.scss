@@ -1,0 +1,17 @@
+.select2-selection__clear,
+.select2-selection__choice__remove {
+  opacity: $btn-close-opacity;
+
+  &:hover {
+    opacity: $btn-close-hover-opacity;
+  }
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .select2-selection__clear,
+    .select2-selection__choice__remove {
+      filter: #{$btn-close-white-filter};
+    }
+  }
+}
