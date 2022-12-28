@@ -30,8 +30,13 @@
             {% block sidebar_toggler %}
                 <div class="d-lg-none" style="width: 56px; height: 40px"></div>
             {% endblock %}
-            <a class="navbar-brand p-0 me-0 me-lg-2" href="{% url 'index' %}">
-                {% include 'yholics_logo_dark.svg' %}
+            <a class="navbar-brand p-0 me-0 me-lg-2 position-relative" href="{% url 'index' %}">
+                <div class="yh-brand-light">
+                    {% include 'yholics_logo.svg' %}
+                </div>
+                <div class="yh-brand-dark">
+                    {% include 'yholics_logo_dark.svg' %}
+                </div>
             </a>
             <div class="offcanvas-lg offcanvas-end flex-grow-1" id="yhNavbar" data-bs-scroll="true">
                 <div class="offcanvas-header px-4 pb-0">

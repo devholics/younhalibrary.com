@@ -51,22 +51,22 @@
     }
 
     .yh-link {
-        color: rgba(0,0,0,0.65);
+        color: var(--bs-body-color)
     }
 
     .yh-link:hover {
-        background-color: rgba(var(--yh-theme-color-rgb), 0.2);
+        background-color: rgba(var(--yh-theme-color-rgb), 0.3);
     }
 }
 
 .yh-badge {
-    color: #000;
-    background-color: rgba(248, 249, 250, 1);
+    color: var(--bs-body-color);
+    background-color: var(--bs-secondary-bg);
 }
 
 .yh-badge-link:hover {
     .badge {
-        background-color: rgba(var(--yh-theme-color-rgb), 0.2);
+        background-color: rgba(var(--yh-theme-color-rgb), 0.3);
     }
 }
 
@@ -106,12 +106,12 @@
 }
 
 .yh-list-link {
-    color: black;
+    color: var(--bs-emphasis-color);
     text-decoration: none;
 }
 
 .yh-list-link:hover {
-    color: rgba(0, 0, 200, 1);
+    color: var(--bs-primary-text);
 }
 
 .select2-selection {
@@ -125,4 +125,17 @@
 
 .select2-search__field {
     width: 100%!important;
+}
+
+.yh-brand-dark {
+    display: none;
+}
+
+@include color-mode(dark) {
+    .yh-brand-dark {
+        display: block;
+    }
+    .yh-brand-light {
+        display: none;
+    }
 }
