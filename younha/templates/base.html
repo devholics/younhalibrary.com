@@ -1,5 +1,5 @@
 {% load static %}<!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,8 +30,13 @@
             {% block sidebar_toggler %}
                 <div class="d-lg-none" style="width: 56px; height: 40px"></div>
             {% endblock %}
-            <a class="navbar-brand p-0 me-0 me-lg-2" href="{% url 'index' %}">
-                {% include 'yholics_logo.svg' %}
+            <a class="navbar-brand p-0 me-0 me-lg-2 position-relative" href="{% url 'index' %}">
+                <div class="yh-brand-light">
+                    {% include 'yholics_logo.svg' %}
+                </div>
+                <div class="yh-brand-dark">
+                    {% include 'yholics_logo_dark.svg' %}
+                </div>
             </a>
             <div class="offcanvas-lg offcanvas-end flex-grow-1" id="yhNavbar" data-bs-scroll="true">
                 <div class="offcanvas-header px-4 pb-0">
@@ -40,23 +45,46 @@
                 </div>
                 <div class="offcanvas-body p-4 pt-0 p-lg-0">
                     <hr class="d-lg-none text-blue-50">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                        </li>
-                        <li class="nav-item">
+                    <ul class="navbar-nav flex-row flex-wrap">
+                        <li class="nav-item col-6 col-lg-auto">
                             <a class="nav-link" href="{% url 'about' %}">About</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item col-6 col-lg-auto">
                             <a class="nav-link" href="{% url 'media-list' %}">Gallery</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item col-6 col-lg-auto">
                             <a class="nav-link" href="{% url 'media-archive' %}">Archive</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item col-6 col-lg-auto">
                             <a class="nav-link" href="{% url 'media-search' %}">Search</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item col-6 col-lg-auto">
                             <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                        </li>
+                    </ul>
+                    <hr class="d-lg-none text-blue-50">
+                    <ul class="navbar-nav flex-wrap flex-auto ms-md-auto">
+                        <li class="nav-item col-6 col-lg-auto">
+                            <a class="nav-link" href="https://twitter.com/happytogekiss" target="_blank">
+                                <i class="bi bi-twitter"></i>
+                                <small class="d-lg-none ms-2">Twitter</small>
+                            </a>
+                        </li>
+                        <li class="nav-item col-6 col-lg-auto">
+                            <a class="nav-link" href="https://github.com/joonhyungshin/younha" target="_blank">
+                                <i class="bi bi-github"></i>
+                                <small class="d-lg-none ms-2">GitHub</small>
+                            </a>
+                        </li>
+                        <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+                            <div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
+                            <hr class="d-lg-none my-2 text-blue-50">
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-link nav-link d-flex align-items-center theme-toggler" data-bs-theme-value="auto">
+                                <i class="bi bi-circle-half"></i>
+                                <small class="d-lg-none ms-2">Dark mode toggle</small>
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -67,7 +95,7 @@
         </nav>
     </header>
     {% block main %}{% endblock %}
-    <footer class="py-4 py-md-5 mt-5 bg-light yh-footer">
+    <footer class="py-4 py-md-5 mt-5 bg-body-tertiary yh-footer">
         <div class="container py-4 py-md-5 px-4 px-md-3">
             <div class="mb-2">
                 <span class="fw-semibold fs-5">Younha Library</span>
@@ -81,6 +109,64 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
             crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        /*!
+        * Color mode toggler for Bootstrap's docs (https://getbootstrap.com/)
+        * Copyright 2011-2022 The Bootstrap Authors
+        * Licensed under the Creative Commons Attribution 3.0 Unported License.
+        */
+
+        (() => {
+            'use strict'
+
+            const storedTheme = localStorage.getItem('theme')
+
+            const getPreferredTheme = () => {
+                if (storedTheme) {
+                    return storedTheme
+                }
+
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+            }
+
+            const setTheme = function (theme) {
+                if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.setAttribute('data-bs-theme', 'dark')
+                } else {
+                    document.documentElement.setAttribute('data-bs-theme', theme)
+                }
+            }
+
+            setTheme(getPreferredTheme())
+
+            const showActiveTheme = theme => {
+                const toggler = document.querySelector('.theme-toggler')
+                if (theme === 'dark') {
+                    toggler.setAttribute('data-bs-theme-value', 'light')
+                } else {
+                    toggler.setAttribute('data-bs-theme-value', 'dark')
+                }
+            }
+
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                if (storedTheme !== 'light' || storedTheme !== 'dark') {
+                    setTheme(getPreferredTheme())
+                }
+            })
+
+            window.addEventListener('DOMContentLoaded', () => {
+                showActiveTheme(getPreferredTheme())
+
+                const toggler = document.querySelector('.theme-toggler')
+                toggler.addEventListener('click', () => {
+                    const theme = toggler.getAttribute('data-bs-theme-value')
+                    localStorage.setItem('theme', theme)
+                    setTheme(theme)
+                    showActiveTheme(theme)
+                })
+            })
+        })()
+    </script>
     {% block inline-script %}{% endblock %}
 </body>
 </html>
