@@ -7,11 +7,9 @@
   }
 }
 
-@if $enable-dark-mode {
-  @include color-mode(dark) {
-    .select2-selection__clear,
-    .select2-selection__choice__remove {
-      filter: #{$btn-close-white-filter};
-    }
+@include color-mode(dark) {
+  .select2-selection__clear,
+  .select2-selection__choice__remove {
+    filter: #{$btn-close-white-filter};
   }
 }
