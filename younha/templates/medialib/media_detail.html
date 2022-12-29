@@ -19,9 +19,9 @@
             {% if media.creator %}
                 <h3>
                     {% if media.creator.platform and media.creator.platform.bootstrap_icon %}
-                        <a class="yh-link d-inline-block rounded" href="{% url 'media-creator' media.creator.pk %}">{{ media.creator.name }} <i class="bi bi-{{ media.creator.platform.bootstrap_icon }}"></i></a>
+                        <a class="yh-link d-inline-block rounded" href="{{ media.creator.get_absolute_url }}">{{ media.creator.name }} <i class="bi bi-{{ media.creator.platform.bootstrap_icon }}"></i></a>
                     {% else %}
-                        <a class="yh-link d-inline-block rounded" href="{% url 'media-creator' media.creator.pk %}">{{ media.creator }}</a>
+                        <a class="yh-link d-inline-block rounded" href="{{ media.creator.get_absolute_url }}">{{ media.creator }}</a>
                     {% endif %}
                     {% if media.verified %}
                         <i class="bi bi-check-circle-fill text-success" title="원작자 확인됨"></i>
@@ -44,13 +44,13 @@
                 {% if media.license.url %}
                     <p class="text-muted"><span class="badge bg-secondary rounded-pill me-2">라이선스</span><a class="text-reset" href="{{ media.license.url }}" target="_blank">{{ media.license }}</a></p>
                 {% else %}
-                    <p class="text-muted"><span class="badge bg-secondary rounded-pill me-2">라이선스</span><a class="text-reset" href="{% url 'media-license' media.license.pk %}">{{ media.license }}</a></p>
+                    <p class="text-muted"><span class="badge bg-secondary rounded-pill me-2">라이선스</span><a class="text-reset" href="{{ media.license.get_absolute_url }}">{{ media.license }}</a></p>
                 {% endif %}
             {% endif %}
             <p>
                 <i class="bi bi-tags-fill"></i>
                 {% for tag in media.tags.all %}
-                    <a class="yh-badge-link" href="{% url 'media-tag' tag.pk %}"><span class="badge yh-badge">{{ tag }}</span></a>
+                    <a class="yh-badge-link" href="{{ tag.get_absolute_url }}"><span class="badge yh-badge">{{ tag }}</span></a>
                 {% endfor %}
             </p>
         </div>
