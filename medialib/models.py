@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.urls import reverse
 
 
 class Platform(models.Model):
@@ -24,6 +25,9 @@ class Creator(models.Model):
     def __str__(self):
         return self.name + (f' @{self.platform.name}' if self.platform else '')
 
+    def get_absolute_url(self):
+        return reverse('media-creator', kwargs={'pk': self.pk})
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=40, unique=True)
@@ -31,6 +35,9 @@ class Tag(models.Model):
 
     def __str__(self):
         return '# ' + self.name
+
+    def get_absolute_url(self):
+        return reverse('media-tag', kwargs={'pk': self.pk})
 
 
 class MediaSource(models.Model):
@@ -65,6 +72,9 @@ class License(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('media-license', kwargs={'pk': self.pk})
 
 
 class Media(models.Model):
@@ -111,6 +121,9 @@ class Media(models.Model):
 
     def __str__(self):
         return self.title or (self.get_type_display() + f" by {self.creator.name if self.creator else 'Unknown'}")
+
+    def get_absolute_url(self):
+        return reverse('media-detail', kwargs={'pk': self.pk})
 
 
 class ExternalLink(models.Model):

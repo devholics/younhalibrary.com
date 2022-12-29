@@ -6,6 +6,6 @@
     <h1>Tags</h1>
     <p>윤하도서관에 있는 모든 태그입니다.</p>
     {% for tag in object_list %}
-        <a class="yh-badge-link" href="{% url 'media-tag' tag.pk %}"><span class="badge yh-badge fs-6 me-1 mb-2">{{ tag }}</span></a>
+        <a class="yh-badge-link" href="{{ tag.get_absolute_url }}"><span class="badge yh-badge fs-6 me-1 mb-2">{{ tag }}</span></a>
     {% endfor %}
 {% endblock %}
