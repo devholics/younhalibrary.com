@@ -34,6 +34,7 @@ SECRET_KEY = str(SECRETS["secret_key"])
 INSTALLED_APPS = [
     'medialib.apps.MedialibConfig',
 
+    'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -137,3 +138,7 @@ MEDIALIB_PAGINATION = 12
 MEDIALIB_TAG_LIMIT = 30
 MEDIALIB_CREATOR_LIMIT = 30
 MEDIALIB_TAG_SEARCH_LIMIT = 2
+
+# Django sites framework
+
+SITE_ID = 1
