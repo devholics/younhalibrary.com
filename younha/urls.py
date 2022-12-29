@@ -14,8 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 from django.views.generic import TemplateView
+
+from medialib.sitemaps import MediaCreatorSitemap, MediaTagSitemap
+
+sitemaps = {
+
+}
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name="index.html"), name="index"),
@@ -23,4 +30,5 @@ urlpatterns = [
     path('contact/', TemplateView.as_view(template_name="contact.html"), name="contact"),
     path('medialib/', include('medialib.urls')),
     path('admin/', admin.site.urls),
+    # path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ]
