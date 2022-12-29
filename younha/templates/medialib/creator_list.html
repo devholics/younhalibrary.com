@@ -17,7 +17,7 @@
         <tbody>
             {% for creator in object_list %}
                 <tr>
-                    <th scope="row"><a class="yh-link" href="{% url 'media-creator' creator.pk %}">{{ creator.name }}</a></th>
+                    <th scope="row"><a class="yh-link" href="{{ creator.get_absolute_url }}">{{ creator.name }}</a></th>
                     <td>
                         {% if creator.platform %}
                             {{ creator.platform }}{% if creator.platform.bootstrap_icon %} <i class="bi bi-{{ creator.platform.bootstrap_icon }}"></i>{% endif %}

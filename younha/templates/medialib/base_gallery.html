@@ -13,9 +13,9 @@
                     <ul class="list-unstyled fw-normal pb-2 small">
                         {% for creator in creator_list %}
                             {% if creator.platform and creator.platform.bootstrap_icon %}
-                                <li><a class="yh-link d-inline-block rounded" href="{% url 'media-creator' creator.pk %}">{{ creator.name }} <i class="bi bi-{{ creator.platform.bootstrap_icon }}"></i></a></li>
+                                <li><a class="yh-link d-inline-block rounded" href="{{ creator.get_absolute_url }}">{{ creator.name }} <i class="bi bi-{{ creator.platform.bootstrap_icon }}"></i></a></li>
                             {% else %}
-                                <li><a class="yh-link d-inline-block rounded" href="{% url 'media-creator' creator.pk %}">{{ creator }}</a></li>
+                                <li><a class="yh-link d-inline-block rounded" href="{{ creator.get_absolute_url }}">{{ creator }}</a></li>
                             {% endif %}
                         {% endfor %}
                     </ul>
@@ -24,7 +24,7 @@
                     <strong class="fw-semibold"><i class="bi bi-tags"></i> <a class="yh-list-link" href="{% url 'tag-list' %}">Tags</a></strong>
                     <ul class="list-unstyled fw-normal pb-2">
                         {% for tag in tag_list %}
-                            <li><a class="yh-badge-link d-inline-block rounded" href="{% url 'media-tag' tag.pk %}"><span class="badge yh-badge">{{ tag }}</span></a></li>
+                            <li><a class="yh-badge-link d-inline-block rounded" href="{{ tag.get_absolute_url }}"><span class="badge yh-badge">{{ tag }}</span></a></li>
                         {% endfor %}
                     </ul>
                 </li>

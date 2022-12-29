@@ -48,7 +48,7 @@
                                 <a href="{{ media.url }}" class="glightbox preview-link" data-glightbox="type: {% if media.type == media.TYPE_IMAGE %}image{% else %}video{% endif %}">
                                     <i class="bi bi-arrows-angle-expand"></i>
                                 </a>
-                                <a href="{% url 'media-detail' media.pk %}" class="details-link">
+                                <a href="{{ media.get_absolute_url }}" class="details-link">
                                     <i class="bi bi-info-circle"></i>
                                 </a>
                             </div>
@@ -59,7 +59,7 @@
                                 {% if media.license.url %}
                                     <a class="text-reset" href="{{ media.license.url }}" target="_blank">{{ media.license }}</a>
                                 {% else %}
-                                    <a class="text-reset" href="{% url 'media-license' media.license.pk %}" target="_blank">{{ media.license }}</a>
+                                    <a class="text-reset" href="{{ media.license.get_absolute_url }}" target="_blank">{{ media.license }}</a>
                                 {% endif %}{% endif %}
                             </p>
                         </figcaption>
