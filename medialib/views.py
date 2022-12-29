@@ -35,16 +35,20 @@ class MediaViewMixin:
     queryset = Media.objects.filter(Q(type=Media.TYPE_YOUTUBE) | Q(license__isnull=False), display=True)
     date_field = 'date'
     paginate_by = settings.MEDIALIB_PAGINATION
+    media_sort = 'date'
+    media_order = 'desc'
 
     def get_ordering(self):
-        ordering = self.request.GET.get('order')
-        if ordering == 'random':
+        sort = self.request.GET.get('sort', self.media_sort)
+        order = self.request.GET.get('order', self.media_order)
+        prefix = '' if order == 'asc' else '-'
+        if sort == 'random':
             return '?'
-        elif ordering == 'asc':
-            return 'date'
+        elif sort == 'id':
+            return prefix + 'id'
         else:
-            # Default: desc
-            return super().get_ordering()
+            # Default: date desc
+            return (prefix + 'date', prefix + 'id')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -52,8 +56,14 @@ class MediaViewMixin:
         # Query without page and order
         query = self.request.GET.copy()
         query.pop('page', None)
-        context['order'] = query.pop('order', ['desc'])[0]
+        sort = query.pop('sort', [self.media_sort])[0]
+        order = query.pop('order', [self.media_order])[0]
         context['query'] = query.urlencode()
+
+        # Ordering query
+        context['sort'] = sort
+        context['order'] = order
+        context['ordering_query'] = f'sort={sort}&order={order}'
 
         # Youtube player
         youtube_params = QueryDict(mutable=True)

@@ -95,10 +95,6 @@ class Media(models.Model):
     upload_time = models.DateTimeField(verbose_name='uploaded time', auto_now_add=True)
     update_time = models.DateTimeField(verbose_name='updated time', auto_now=True)
 
-    class Meta:
-        ordering = ('-date',)
-        get_latest_by = 'date'
-
     def clean(self):
         if self.type == self.TYPE_YOUTUBE and not self.url.startswith('https://youtu.be/'):
             raise ValidationError("Youtube URL should start with 'https://youtu.be/'.")
