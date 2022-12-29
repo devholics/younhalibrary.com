@@ -16,5 +16,5 @@ urlpatterns = [
     path('search/', views.MediaSearchView.as_view(), name='media-search'),
     path('tags/', views.TagListView.as_view(), name='tag-list'),
     path('creators/', views.CreatorListView.as_view(), name='creator-list'),
-    path('license/<int:pk>/', views.LicenseView.as_view(), name='media-license'),
+    path('license/<int:pk>/', views.license_detail, name='media-license'),
 ]

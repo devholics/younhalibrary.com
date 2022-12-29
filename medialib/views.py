@@ -179,5 +179,6 @@ class CreatorListView(GalleryMixin, ListView):
     model = Creator
 
 
-class LicenseView(DetailView):
-    model = License
+def license_detail(request, pk):
+    license = get_object_or_404(License, pk=pk)
+    return HttpResponse(license.description, content_type='text/plain')
