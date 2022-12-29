@@ -21,7 +21,8 @@ from django.views.generic import TemplateView
 from medialib.sitemaps import MediaCreatorSitemap, MediaTagSitemap
 
 sitemaps = {
-
+    'creators': MediaCreatorSitemap,
+    'tags': MediaTagSitemap
 }
 
 urlpatterns = [
@@ -30,5 +31,5 @@ urlpatterns = [
     path('contact/', TemplateView.as_view(template_name="contact.html"), name="contact"),
     path('medialib/', include('medialib.urls')),
     path('admin/', admin.site.urls),
-    # path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ]

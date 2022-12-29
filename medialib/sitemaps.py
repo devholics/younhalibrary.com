@@ -4,7 +4,7 @@ from .models import Creator, Tag
 
 
 class MediaCreatorSitemap(Sitemap):
-    changefreq = "never"
+    changefreq = "daily"
     priority = 0.5
 
     def items(self):
@@ -12,7 +12,7 @@ class MediaCreatorSitemap(Sitemap):
 
 
 class MediaTagSitemap(Sitemap):
-    changefreq = "never"
+    changefreq = "daily"
     priority = 0.4
 
     def items(self):
