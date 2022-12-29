@@ -11,18 +11,18 @@
         <p class="text-muted small">저작권 보호를 받는 미디어일 수 있습니다.</p>
         <div class="btn-toolbar justify-content-between mb-4" role="toolbar">
             <div class="btn-group" role="group">
-                <a class="btn btn-outline-secondary{% if order == 'desc' %} active{% endif %}" href="?{% if query %}{{ query }}&{% endif %}order=desc">날짜 역순</a>
-                <a class="btn btn-outline-secondary{% if order == 'asc' %} active{% endif %}" href="?{% if query %}{{ query }}&{% endif %}order=asc">날짜순</a>
-                <a class="btn btn-outline-secondary{% if order == 'random' %} active{% endif %}" href="?{% if query %}{{ query }}&{% endif %}order=random">셔플</a>
+                <a class="btn btn-outline-secondary{% if sort == 'date' and order == 'desc' %} active{% endif %}" href="?{% if query %}{{ query }}&{% endif %}sort=date&order=desc">날짜 역순</a>
+                <a class="btn btn-outline-secondary{% if sort == 'date' and order == 'asc' %} active{% endif %}" href="?{% if query %}{{ query }}&{% endif %}sort=date&order=asc">날짜순</a>
+                <a class="btn btn-outline-secondary{% if sort == 'random' %} active{% endif %}" href="?{% if query %}{{ query }}&{% endif %}sort=random">셔플</a>
             </div>
             <div class="btn-group" role="group">
                 {% if page_obj.has_previous %}
-                    <a class="btn btn-outline-secondary" href="?{% if query %}{{ query }}&{% endif %}order={{ order }}&page={{ page_obj.previous_page_number }}"><i class="bi bi-caret-left-fill"></i></a>
+                    <a class="btn btn-outline-secondary" href="?{% if query %}{{ query }}&{% endif %}{{ ordering_query }}&page={{ page_obj.previous_page_number }}"><i class="bi bi-caret-left-fill"></i></a>
                 {% else %}
                     <a class="btn btn-outline-secondary disabled" href="#"><i class="bi bi-caret-left-fill"></i></a>
                 {% endif %}
                 {% if page_obj.has_next %}
-                    <a class="btn btn-outline-secondary" href="?{% if query %}{{ query }}&{% endif %}order={{ order }}&page={{ page_obj.next_page_number }}"><i class="bi bi-caret-right-fill"></i></a>
+                    <a class="btn btn-outline-secondary" href="?{% if query %}{{ query }}&{% endif %}{{ ordering_query }}&page={{ page_obj.next_page_number }}"><i class="bi bi-caret-right-fill"></i></a>
                 {% else %}
                     <a class="btn btn-outline-secondary disabled" href="#"><i class="bi bi-caret-right-fill"></i></a>
                 {% endif %}
@@ -75,7 +75,7 @@
                     {% elif page_num == paginator.ELLIPSIS %}
                         <li class="page-item disbaled"><span class="page-link">{{ page_num }}</span></li>
                     {% else %}
-                        <li class="page-item"><a class="page-link" href="?{% if query %}{{ query }}&{% endif %}order={{ order }}&page={{ page_num }}">{{ page_num }}</a></li>
+                        <li class="page-item"><a class="page-link" href="?{% if query %}{{ query }}&{% endif %}{{ ordering_query }}&page={{ page_num }}">{{ page_num }}</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
