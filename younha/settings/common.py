@@ -33,6 +33,7 @@ SECRET_KEY = str(SECRETS["secret_key"])
 
 INSTALLED_APPS = [
     'medialib.apps.MedialibConfig',
+    'medialib_api',
 
     'django.contrib.sites',
     'django.contrib.admin',
