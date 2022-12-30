@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db.models import Count, Q
 from django.http import HttpResponse, QueryDict
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.views.generic.dates import ArchiveIndexView, DayArchiveView, MonthArchiveView, YearArchiveView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -21,7 +21,6 @@ class GalleryMixin:
             num_media=Count('media', filter=Q(media__in=qs))
         ).filter(num_media__gt=0)
         context['tag_list'] = tag_list.order_by('-num_media')[:settings.MEDIALIB_TAG_LIMIT]
-
 
         creator_list = Creator.objects.annotate(
             num_media=Count('media', filter=Q(media__in=qs))
@@ -48,7 +47,7 @@ class MediaViewMixin:
             return prefix + 'id'
         else:
             # Default: date desc
-            return (prefix + 'date', prefix + 'id')
+            return prefix + 'date', prefix + 'id'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -65,7 +64,7 @@ class MediaViewMixin:
         context['order'] = order
         context['ordering_query'] = f'sort={sort}&order={order}'
 
-        # Youtube player
+        # YouTube player
         youtube_params = QueryDict(mutable=True)
         youtube_params.update({
             'enablejsapi': 1,
