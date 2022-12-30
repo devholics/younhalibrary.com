@@ -9,8 +9,6 @@ router = DefaultRouter()
 router.register(r'creators', views.CreatorViewSet, basename='creator')
 router.register(r'sources', views.MediaSourceViewSet, basename='source')
 router.register(r'medias', views.MediaViewSet, basename='media')
+router.register(r'tags', views.TagViewSet, basename='tag')
 
-urlpatterns = [
-    path('creators/<int:pk>/medias/', views.MediaCreatorAPIView.as_view(), name='media-creator-api'),
-    path('tags/<int:pk>/medias/', views.MediaCreatorAPIView.as_view(), name='media-tag-api')
-] + router.urls
+urlpatterns = router.urls
