@@ -8,7 +8,7 @@ class MediaCreatorSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return Creator.objects.all()
+        return Creator.objects.all().order_by('id')
 
 
 class MediaTagSitemap(Sitemap):
@@ -16,4 +16,4 @@ class MediaTagSitemap(Sitemap):
     priority = 0.4
 
     def items(self):
-        return Tag.objects.all()
+        return Tag.objects.all().order_by('id')
