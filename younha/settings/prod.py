@@ -17,3 +17,10 @@ CSRF_COOKIE_SECURE = True
 STATIC_ROOT = str(DATA_DIR.joinpath("public", "static"))
 
 MEDIALIB_TAG_SEARCH_LIMIT = 5
+
+REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
+    'rest_framework.renderers.JSONRenderer',
+]
+REST_FRAMEWORK['DEFAULT_PERMISSION_CLASSES'] = [
+    'rest_framework.permissions.IsAuthenticated',
+]

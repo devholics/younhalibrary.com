@@ -21,14 +21,6 @@ class MediaSourceSerializer(serializers.ModelSerializer):
 
 
 class MediaSerializer(serializers.ModelSerializer):
-    creator = serializers.PrimaryKeyRelatedField(
-        queryset=Creator.objects.all(),
-    )
-    tags = serializers.SlugRelatedField(
-        many=True,
-        slug_field='name',
-        queryset=Tag.objects.all(),
-    )
     source = serializers.SlugRelatedField(
         slug_field='url',
         queryset=MediaSource.objects.all(),
@@ -46,4 +38,6 @@ class MediaSerializer(serializers.ModelSerializer):
 
 
 class TagSerializer(serializers.ModelSerializer):
-    pass
+    class Meta:
+        model = Tag
+        fields = ['id', 'name', 'description']
