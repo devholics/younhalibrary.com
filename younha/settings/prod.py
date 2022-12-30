@@ -1,7 +1,11 @@
 from .common import *
 
 
-ALLOWED_HOSTS = [] + SECRETS.get("allowed_hosts", [])
+ALLOWED_HOSTS = [
+    'www.younhalibrary.com',
+    'younhalibrary.com',
+    'api.younhalibrary.com',
+] + SECRETS.get("allowed_hosts", [])
 ADMINS = [] + SECRETS.get("admins", [])
 
 DEBUG = False
