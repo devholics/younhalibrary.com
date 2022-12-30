@@ -7,6 +7,7 @@ class CreatorSerializer(serializers.ModelSerializer):
     platform = serializers.SlugRelatedField(
         slug_field='name',
         queryset=Platform.objects.all(),
+        allow_null=True,
     )
 
     class Meta:
@@ -28,6 +29,7 @@ class MediaSerializer(serializers.ModelSerializer):
     license = serializers.SlugRelatedField(
         slug_field='name',
         queryset=License.objects.all(),
+        allow_null=True,
     )
 
     class Meta:

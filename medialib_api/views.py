@@ -1,4 +1,6 @@
-from rest_framework import generics, viewsets
+from rest_framework import generics, status, views, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from django_filters import rest_framework as filters
 
@@ -10,6 +12,12 @@ from . import serializers
 class CreatorViewSet(viewsets.ModelViewSet):
     queryset = Creator.objects.all()
     serializer_class = serializers.CreatorSerializer
+
+    @action(detail=True, methods=['get'])
+    def medias(self, request, **kwargs):
+        media_set = Media.objects.filter(creator=kwargs['pk']).order_by('id')
+        serializer = serializers.MediaSerializer(media_set, many=True)
+        return Response(serializer.data)
 
 
 class MediaFilter(filters.FilterSet):
@@ -27,6 +35,14 @@ class MediaViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = MediaFilter
 
+    @action(detail=False, methods=['post'])
+    def bulk_create(self, request):
+        serializer = serializers.MediaSerializer(data=request.data, many=True, max_length=100)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
 
 class MediaSourceViewSet(viewsets.ModelViewSet):
     queryset = MediaSource.objects.all()
@@ -37,18 +53,8 @@ class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = serializers.TagSerializer
 
-
-class MediaCreatorAPIView(generics.ListAPIView):
-    queryset = Media.objects.filter(display=True)
-    serializer_class = serializers.MediaSerializer
-
-    def get_queryset(self):
-        return super().get_queryset().filter(creator=self.kwargs['pk']).order_by('id')
-
-
-class MediaTagAPIView(generics.ListAPIView):
-    queryset = Media.objects.filter(display=True)
-    serializer_class = serializers.MediaSerializer
-
-    def get_queryset(self):
-        return super().get_queryset().filter(tags=self.kwargs['pk']).distinct().order_by('id')
+    @action(detail=True, methods=['get'])
+    def medias(self, request, **kwargs):
+        media_set = Media.objects.filter(tags=kwargs['pk']).distinct().order_by('id')
+        serializer = serializers.MediaSerializer(media_set, many=True)
+        return Response(serializer.data)

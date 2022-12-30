@@ -21,6 +21,12 @@ class Creator(models.Model):
     description = models.CharField(max_length=200, blank=True)
     url = models.URLField('URL', max_length=400, blank=True)
 
+    class Meta:
+        ordering = ('platform', 'name')
+        constraints = [
+            models.UniqueConstraint(fields=('platform', 'name'), name='unique_platform_name')
+        ]
+
     def __str__(self):
         return self.name + (f' @{self.platform.name}' if self.platform else '')
 
@@ -31,6 +37,9 @@ class Creator(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=40, unique=True)
     description = models.CharField(max_length=200, blank=True)
+
+    class Meta:
+        ordering = ('name',)
 
     def __str__(self):
         return '# ' + self.name
@@ -45,6 +54,9 @@ class MediaSource(models.Model):
     description = models.CharField(max_length=1000, blank=True)
     upload_time = models.DateTimeField(verbose_name='uploaded time', auto_now_add=True)
     update_time = models.DateTimeField(verbose_name='updated time', auto_now=True)
+
+    class Meta:
+        ordering = ('-upload_time',)
 
     def __str__(self):
         return self.title or '(Untitled)'
@@ -103,6 +115,9 @@ class Media(models.Model):
     verified = models.BooleanField(default=False)   # check if source and creator verified
     upload_time = models.DateTimeField(verbose_name='uploaded time', auto_now_add=True)
     update_time = models.DateTimeField(verbose_name='updated time', auto_now=True)
+
+    class Meta:
+        ordering = ('-upload_time',)
 
     def clean(self):
         if self.type == self.TYPE_YOUTUBE and not self.url.startswith('https://youtu.be/'):
