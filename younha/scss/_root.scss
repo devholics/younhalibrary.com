@@ -1,8 +1,10 @@
 :root {
   --yh-theme-color-rgb: #{$yholics-color-rgb};
+  --yh-secondary-color-rgb: #{$yholics-color-dark-rgb};
 }
 
 @include color-mode(dark) {
   --yh-theme-color-rgb: #{$yholics-color-dark-rgb};
+  --yh-secondary-color-rgb: #{$yholics-color-rgb};
   color-scheme: dark;
 }

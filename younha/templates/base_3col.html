@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block sidebar_toggler %}
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#yhSidebar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+{% endblock %}
+
+{% block main %}
+    <div class="container-xxl yh-layout mt-3 my-md-4">
+        <aside class="yh-sidebar">
+            <div class="offcanvas-lg offcanvas-start" id="yhSidebar">
+                {% block sidebar %}{% endblock %}
+            </div>
+        </aside>
+        <main class="yh-main yh-3col">
+            <div class="yh-intro">
+                {% block intro %}{% endblock %}
+            </div>
+            <div class="yh-dates mt-3 mb-3 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+                {% block dates %}{% endblock %}
+            </div>
+            <div class="yh-content">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+{% endblock %}

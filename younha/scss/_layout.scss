@@ -1,4 +1,4 @@
-@media (min-width: 992px) {
+@include media-breakpoint-up(lg) {
     .yh-layout {
         display: grid;
         grid-template-areas: "sidebar main";
@@ -33,7 +33,7 @@
 .yh-sidebar {
     grid-area: sidebar;
 
-    @media (max-width: 991.98px) {
+    @include media-breakpoint-down(lg) {
         .yh-sidebar-nav {
             column-count: 2;
             column-gap: 1.5rem;
@@ -72,11 +72,143 @@
 
 .yh-main {
     grid-area: main;
-    display: grid;
-    grid-template-areas:
-        "intro"
-        "content";
-    grid-template-rows: auto 1fr;
+}
+
+@include media-breakpoint-down(lg) {
+    .yh-main {
+        max-width: 760px;
+        margin-inline: auto;
+    }
+}
+
+@include media-breakpoint-up(md) {
+    .yh-main {
+        display: grid;
+        grid-template-areas:
+            "intro"
+            "dates"
+            "content";
+        grid-template-rows: auto auto 1fr;
+        gap: inherit;
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .yh-main {
+        display: grid;
+        grid-template-areas:
+            "intro"
+            "content";
+        grid-template-rows: auto 1fr;
+        gap: inherit;
+
+        &.yh-3col {
+            display: grid;
+            grid-template-areas:
+                "intro intro"
+                "content dates";
+            grid-template-rows: auto 1fr;
+            grid-template-columns: 5fr 1fr;
+            gap: inherit;
+        }
+    }
+}
+
+.yh-intro {
+    grid-area: intro;
+}
+
+.yh-content {
+    grid-area: content;
+}
+
+.yh-dates {
+    grid-area: dates;
+
+    nav {
+        ul {
+            padding-left: 0;
+            margin-bottom: 0;
+            list-style: none;
+            ul {
+                padding-left: 1.5rem;
+                ul {
+                    padding-left: 2rem;
+                }
+            }
+        }
+
+        a {
+            color: inherit;
+
+            &:not(:hover) {
+                text-decoration: none;
+            }
+        }
+    }
+
+    .active {
+        color: rgba(var(--yh-secondary-color-rgb), 1);
+        font-weight: bold;
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .yh-dates {
+        position: sticky;
+        top: 5rem;
+        right: 0;
+        overflow-y: auto;
+        height: calc(100vh - 7rem);
+    }
+}
+
+@include media-breakpoint-up(md) {
+    .yh-dates-collapse {
+        display: block !important;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .yh-dates-collapse {
+        nav {
+            padding: 1.25rem;
+            background-color: var(--bs-tertiary-bg);
+            border: 1px solid var(--bs-border-color);
+            border-radius: var(--bs-border-radius);
+        }
+    }
+
+    .yh-dates-toggle {
+        color: var(--bs-body-color);
+        border: 1px solid var(--bs-border-color);
+        border-radius: var(--bs-border-radius);
+
+        &:focus, &[aria-expanded="true"] {
+            box-shadow: 0 0 0 3px rgba(var(--yh-secondary-color-rgb), 0.25)
+        }
+        &:hover, &:focus, &:active, &[aria-expanded="true"] {
+            color: rgba(var(--yh-secondary-color-rgb), 1);
+            background-color: var(--bs-body-bg);
+            border-color: rgba(var(--yh-secondary-color-rgb), 1);
+        }
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .yh-dates-toggle {
+        justify-content: space-between;
+        width: 100%;
+    }
+}
+
+.yh-dates-toggle {
+    display: flex;
+    align-items: center;
+}
+
+.yh-dates-toggle {
+
 }
 
 .yh-wallpaper {
@@ -90,10 +222,10 @@
 
     a {
         text-decoration: none;
-    }
 
-    a:hover {
-        color: rgba(211, 211, 211, 0.7) !important;
+        &:hover {
+            color: rgba(211, 211, 211, 0.7) !important;
+        }
     }
 }
 
@@ -114,19 +246,6 @@
     color: var(--bs-primary-text);
 }
 
-.select2-selection {
-    overflow: hidden;
-}
-
-.select2-selection__rendered {
-    white-space: normal;
-    word-break: break-all;
-}
-
-.select2-search__field {
-    width: 100%!important;
-}
-
 .yh-brand-dark {
     display: none;
 }
@@ -137,5 +256,18 @@
     }
     .yh-brand-light {
         display: none;
+    }
+}
+
+.yh-dates-btn {
+    padding: 0;
+    border: 0;
+    width: 0.9rem;
+    height: 0.9rem;
+    background-image: #{escape-svg($accordion-button-active-icon)};
+    background-repeat: no-repeat;
+    @include transition(#{$accordion-icon-transition});
+    &:not(.collapsed) {
+        transform: #{$accordion-icon-transform};
     }
 }
