@@ -46,7 +46,7 @@ class MediaInline(MediaMixin, admin.StackedInline):
     model = Media
     readonly_fields = ('preview',)
     fields = ('type', 'url', 'preview', 'title', 'description', 'creator',
-              'date', 'date_exact', 'tags', 'verified', 'license', 'display')
+              'date', 'date_exact', 'tags', 'verified', 'license', 'public')
     autocomplete_fields = ['creator', 'tags']
     extra = 3
     show_change_link = True
@@ -61,8 +61,8 @@ class MediaSourceAdmin(admin.ModelAdmin):
 class MediaAdmin(MediaMixin, admin.ModelAdmin):
     readonly_fields = ('preview',)
     fields = ('type', 'url', 'preview', 'title', 'description', 'creator',
-              'date', 'date_exact', 'tags', 'source', 'verified', 'license', 'display')
-    list_display = ('__str__', 'date', 'upload_time', 'display')
+              'date', 'date_exact', 'tags', 'source', 'verified', 'license', 'public')
+    list_display = ('__str__', 'date', 'upload_time', 'public')
     autocomplete_fields = ['creator', 'tags', 'source']
     ordering = ('-upload_time',)
 

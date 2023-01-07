@@ -15,7 +15,7 @@ class CreatorViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def medias(self, request, **kwargs):
-        media_set = Media.objects.filter(creator=kwargs['pk']).order_by('id')
+        media_set = Media.objects.public().filter(creator=kwargs['pk']).order_by('id')
         serializer = serializers.MediaSerializer(media_set, many=True)
         return Response(serializer.data)
 
@@ -30,7 +30,7 @@ class MediaFilter(filters.FilterSet):
 
 
 class MediaViewSet(viewsets.ModelViewSet):
-    queryset = Media.objects.filter(display=True)
+    queryset = Media.objects.public()
     serializer_class = serializers.MediaSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = MediaFilter
@@ -55,6 +55,6 @@ class TagViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def medias(self, request, **kwargs):
-        media_set = Media.objects.filter(tags=kwargs['pk']).distinct().order_by('id')
+        media_set = Media.objects.public().filter(tags=kwargs['pk']).distinct().order_by('id')
         serializer = serializers.MediaSerializer(media_set, many=True)
         return Response(serializer.data)

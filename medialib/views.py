@@ -12,12 +12,10 @@ from .models import Creator, ExternalLink, License, Media, Tag
 
 
 class GalleryMixin:
-    sidebar_queryset = Media.objects.filter(Q(type=Media.TYPE_YOUTUBE) | Q(license__isnull=False), display=True)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        qs = self.sidebar_queryset  # Do not use self.get_queryset()!
+        qs = Media.objects.displayed()
         tag_list = Tag.objects.annotate(
             num_media=Count('media', filter=Q(media__in=qs))
         ).filter(num_media__gt=0)
@@ -42,7 +40,7 @@ class MediaDateFilter(django_filters.FilterSet):
 
 
 class MediaViewMixin:
-    queryset = Media.objects.filter(Q(type=Media.TYPE_YOUTUBE) | Q(license__isnull=False), display=True)
+    queryset = Media.objects.displayed()
     date_field = 'date'
     paginate_by = settings.MEDIALIB_PAGINATION
     media_sort = 'date'
