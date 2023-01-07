@@ -1,10 +1,11 @@
 from django.conf import settings
 from django.db.models import Count, Q
 from django.http import HttpResponse, QueryDict
-from django.shortcuts import get_object_or_404
-from django.views.generic.dates import ArchiveIndexView, DayArchiveView, MonthArchiveView, YearArchiveView
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+
+import django_filters
 
 from .forms import MediaSearchForm
 from .models import Creator, ExternalLink, License, Media, Tag
@@ -30,12 +31,32 @@ class GalleryMixin:
         return context
 
 
+class MediaDateFilter(django_filters.FilterSet):
+    year = django_filters.NumberFilter(field_name='date', lookup_expr='year')
+    month = django_filters.NumberFilter(field_name='date', lookup_expr='month')
+    day = django_filters.NumberFilter(field_name='date', lookup_expr='day')
+
+    class Meta:
+        model = Media
+        fields = ['date']
+
+
 class MediaViewMixin:
     queryset = Media.objects.filter(Q(type=Media.TYPE_YOUTUBE) | Q(license__isnull=False), display=True)
     date_field = 'date'
     paginate_by = settings.MEDIALIB_PAGINATION
     media_sort = 'date'
     media_order = 'desc'
+
+    def get_raw_queryset(self, qs):
+        return qs
+
+    def get_dates(self):
+        return self.get_raw_queryset(self.queryset).dates(self.date_field, 'day', order='DESC')
+
+    def get_queryset(self):
+        qs = self.get_raw_queryset(super().get_queryset())
+        return MediaDateFilter(self.request.GET, queryset=qs).qs
 
     def get_ordering(self):
         sort = self.request.GET.get('sort', self.media_sort)
@@ -52,17 +73,30 @@ class MediaViewMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Query without page and order
-        query = self.request.GET.copy()
-        query.pop('page', None)
+        context['dates'] = self.get_dates()
+
+        # Query for page, dates, and order
+        base_query = self.request.GET.copy()
+        base_query.pop('page', None)
+        context['query_for_page'] = base_query.urlencode() + ('&' if base_query else '')
+
+        query = base_query.copy()
         sort = query.pop('sort', [self.media_sort])[0]
         order = query.pop('order', [self.media_order])[0]
-        context['query'] = query.urlencode()
+        context['query_for_ordering'] = query.urlencode() + ('&' if query else '')
 
-        # Ordering query
+        query = base_query.copy()
+        year = query.pop('year', [''])[0]
+        month = query.pop('month', [''])[0]
+        day = query.pop('day', [''])[0]
+        context['date_year'] = int(year) if year.isdigit() else 0
+        context['date_month'] = int(month) if month.isdigit() else 0
+        context['date_day'] = int(day) if day.isdigit() else 0
+        context['query_for_dates'] = query.urlencode() + ('&' if query else '')
+
+        # Ordering
         context['sort'] = sort
         context['order'] = order
-        context['ordering_query'] = f'sort={sort}&order={order}'
 
         # YouTube player
         youtube_params = QueryDict(mutable=True)
@@ -90,20 +124,8 @@ class MediaListView(MediaViewMixin, GalleryMixin, ListView):
     pass
 
 
-class MediaArchiveIndexView(MediaViewMixin, GalleryMixin, ArchiveIndexView):
-    pass
-
-
-class MediaYearArchiveView(MediaViewMixin, GalleryMixin, YearArchiveView):
-    make_object_list = True
-
-
-class MediaMonthArchiveView(MediaViewMixin, GalleryMixin, MonthArchiveView):
-    pass
-
-
-class MediaDayArchiveView(MediaViewMixin, GalleryMixin, DayArchiveView):
-    pass
+def archive_view(request):
+    return redirect('media-list')
 
 
 class MediaDetailView(MediaViewMixin, GalleryMixin, DetailView):
@@ -113,8 +135,8 @@ class MediaDetailView(MediaViewMixin, GalleryMixin, DetailView):
 class MediaTagView(MediaViewMixin, GalleryMixin, ListView):
     template_name = 'medialib/media_tag.html'
 
-    def get_queryset(self):
-        return super().get_queryset().filter(tags=self.kwargs['pk']).distinct()
+    def get_raw_queryset(self, qs):
+        return qs.filter(tags=self.kwargs['pk']).distinct()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -126,8 +148,8 @@ class MediaTagView(MediaViewMixin, GalleryMixin, ListView):
 class MediaCreatorView(MediaViewMixin, GalleryMixin, ListView):
     template_name = 'medialib/media_creator.html'
 
-    def get_queryset(self):
-        return super().get_queryset().filter(creator=self.kwargs['pk'])
+    def get_raw_queryset(self, qs):
+        return qs.filter(creator=self.kwargs['pk'])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -145,8 +167,7 @@ class MediaSearchView(MediaViewMixin, GalleryMixin, ListView):
         context['tag_search_limit'] = settings.MEDIALIB_TAG_SEARCH_LIMIT
         return context
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
+    def get_raw_queryset(self, qs):
         form = MediaSearchForm(self.request.GET)
         if form.is_valid():
             keyword = form.cleaned_data['keyword']
@@ -157,7 +178,7 @@ class MediaSearchView(MediaViewMixin, GalleryMixin, ListView):
             end_date = form.cleaned_data['end_date']
             filters = {}
             for tag in tags:
-                queryset = queryset.filter(tags=tag)
+                qs = qs.filter(tags=tag)
             if type:
                 filters['type'] = type
             if creator:
@@ -167,7 +188,7 @@ class MediaSearchView(MediaViewMixin, GalleryMixin, ListView):
             if end_date:
                 filters['date__lte'] = end_date
             if keyword:
-                queryset = queryset.filter(
+                qs = qs.filter(
                     Q(title__icontains=keyword)
                     | Q(description__icontains=keyword)
                     | Q(tags__name__icontains=keyword)
@@ -176,8 +197,8 @@ class MediaSearchView(MediaViewMixin, GalleryMixin, ListView):
                     **filters
                 ).distinct()
             else:
-                queryset = queryset.filter(**filters)
-        return queryset
+                qs = qs.filter(**filters)
+        return qs
 
 
 class TagListView(GalleryMixin, ListView):

@@ -25,5 +25,14 @@
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
+    <option name="TEMPLATE_FOLDERS">
+      <list>
+        <option value="$MODULE_DIR$/younha/templates" />
+        <option value="$MODULE_DIR$/younha/templates/medialib" />
+        <option value="$MODULE_DIR$/younha/templates/flatpages" />
+        <option value="$MODULE_DIR$/younha/templates/includes" />
+        <option value="$MODULE_DIR$/younha/templates/medialib/includes" />
+      </list>
+    </option>
   </component>
 </module>
