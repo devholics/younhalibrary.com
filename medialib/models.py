@@ -88,6 +88,14 @@ class License(models.Model):
         return reverse('media-license', kwargs={'pk': self.pk})
 
 
+class MediaQuerySet(models.QuerySet):
+    def public(self):
+        return self.filter(public=True)
+
+    def displayed(self):
+        return self.public().filter(license__isnull=False)
+
+
 class Media(models.Model):
     TYPE_IMAGE = 'I'
     TYPE_VIDEO = 'V'
@@ -101,6 +109,8 @@ class Media(models.Model):
         (TYPE_YOUTUBE, 'Youtube video'),
     )
 
+    objects = MediaQuerySet.as_manager()
+
     type = models.CharField(max_length=1, choices=TYPE_CHOICES)
     url = models.URLField('URL', max_length=400, unique=True)
     title = models.CharField(max_length=100, blank=True)    # must be official
@@ -111,7 +121,7 @@ class Media(models.Model):
     tags = models.ManyToManyField('Tag', blank=True)
     source = models.ForeignKey('MediaSource', on_delete=models.CASCADE)
     license = models.ForeignKey('License', null=True, blank=True, on_delete=models.SET_NULL)
-    display = models.BooleanField(default=True)
+    public = models.BooleanField(default=True)
     verified = models.BooleanField(default=False)   # check if source and creator verified
     upload_time = models.DateTimeField(verbose_name='uploaded time', auto_now_add=True)
     update_time = models.DateTimeField(verbose_name='updated time', auto_now=True)
