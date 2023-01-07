@@ -16,6 +16,8 @@ CSRF_COOKIE_SECURE = True
 
 STATIC_ROOT = str(DATA_DIR.joinpath("public", "static"))
 
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+
 MEDIALIB_TAG_SEARCH_LIMIT = 5
 
 REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
