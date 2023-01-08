@@ -6,6 +6,7 @@ from .models import Creator, ExternalLink, License, Media, MediaSource, Platform
 
 class CreatorAdmin(admin.ModelAdmin):
     list_display = ('name', 'platform')
+    list_filter = ('platform',)
     search_fields = ['name']
 
 
@@ -42,20 +43,9 @@ class MediaMixin:
             return 'Save to view'
 
 
-class MediaInline(MediaMixin, admin.StackedInline):
-    model = Media
-    readonly_fields = ('preview',)
-    fields = ('type', 'url', 'preview', 'title', 'description', 'creator',
-              'date', 'date_exact', 'tags', 'verified', 'license', 'public')
-    autocomplete_fields = ['creator', 'tags']
-    extra = 3
-    show_change_link = True
-
-
 class MediaSourceAdmin(admin.ModelAdmin):
     fields = ('url', 'title', 'description')
     search_fields = ('title',)
-    # inlines = [MediaInline]
 
 
 class MediaAdmin(MediaMixin, admin.ModelAdmin):
@@ -63,6 +53,7 @@ class MediaAdmin(MediaMixin, admin.ModelAdmin):
     fields = ('type', 'url', 'preview', 'title', 'description', 'creator',
               'date', 'date_exact', 'tags', 'source', 'verified', 'license', 'public')
     list_display = ('__str__', 'date', 'upload_time', 'public')
+    list_filter = ('creator',)
     autocomplete_fields = ['creator', 'tags', 'source']
     ordering = ('-upload_time',)
 
