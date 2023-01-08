@@ -44,7 +44,8 @@ class MediaMixin:
 
 
 class MediaSourceAdmin(admin.ModelAdmin):
-    fields = ('url', 'title', 'description')
+    fields = ('url', 'title', 'description', 'available')
+    list_display = ('title', 'available')
     search_fields = ('title',)
 
 
