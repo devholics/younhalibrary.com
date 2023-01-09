@@ -24,12 +24,19 @@ class MediaSourceSerializer(serializers.ModelSerializer):
 class MediaSerializer(serializers.ModelSerializer):
     source = serializers.SlugRelatedField(
         slug_field='url',
-        queryset=MediaSource.objects.all(),
+        queryset=MediaSource.objects.available(),
     )
     license = serializers.SlugRelatedField(
         slug_field='name',
         queryset=License.objects.all(),
         allow_null=True,
+        required=False,
+    )
+    tags = serializers.SlugRelatedField(
+        many=True,
+        slug_field='name',
+        queryset=Tag.objects.all(),
+        allow_empty=True,
     )
 
     class Meta:
