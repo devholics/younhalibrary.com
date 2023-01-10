@@ -208,5 +208,5 @@ class CreatorListView(GalleryMixin, ListView):
 
 
 def license_detail(request, pk):
-    license = get_object_or_404(License, pk=pk)
-    return HttpResponse(license.description, content_type='text/plain')
+    media_license = get_object_or_404(License, pk=pk)
+    return HttpResponse(media_license.description, content_type='text/plain')
