@@ -37,7 +37,7 @@
                 <p><i class="bi bi-calendar"></i> {{ media.date|date:"Y년 n월 j일" }}</p>
             {% endif %}
             {% if media.description %}
-                <p>{{ media.description }}</p>
+                <div class="yh-text">{{ media.description }}</div>
             {% endif %}
             <p class="text-muted"><span class="badge bg-secondary rounded-pill me-2">출처</span><a class="text-reset" href="{{ media.source.url }}" target="_blank">{{ media.official_title }}</a></p>
             {% if media.license and media.license.display %}

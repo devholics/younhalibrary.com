@@ -18,7 +18,7 @@ class Creator(models.Model):
     name = models.CharField(max_length=40)
     platform = models.ForeignKey('Platform', null=True, blank=True, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
-    description = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True)
     url = models.URLField('URL', max_length=400, blank=True)
 
     class Meta:
@@ -36,7 +36,7 @@ class Creator(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=40, unique=True)
-    description = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True)
 
     class Meta:
         ordering = ('name',)
@@ -56,7 +56,7 @@ class MediaSourceQuerySet(models.QuerySet):
 class MediaSource(models.Model):
     url = models.URLField('URL', max_length=400, unique=True)
     title = models.CharField(max_length=100, blank=True)    # must be official
-    description = models.CharField(max_length=1000, blank=True)
+    description = models.TextField(blank=True)
     available = models.BooleanField(default=True)
     upload_time = models.DateTimeField(verbose_name='uploaded time', auto_now_add=True)
     update_time = models.DateTimeField(verbose_name='updated time', auto_now=True)
@@ -122,7 +122,7 @@ class Media(models.Model):
     type = models.CharField(max_length=1, choices=TYPE_CHOICES)
     url = models.URLField('URL', max_length=400, unique=True)
     title = models.CharField(max_length=100, blank=True)    # must be official
-    description = models.CharField(max_length=1000, blank=True)
+    description = models.TextField(blank=True)
     creator = models.ForeignKey('Creator', on_delete=models.CASCADE)
     date = models.DateField()
     date_exact = models.BooleanField(default=True)
