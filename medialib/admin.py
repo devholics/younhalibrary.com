@@ -1,13 +1,19 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Creator, ExternalLink, License, Media, MediaSource, Platform, Tag
+from .models import Creator, CreatorWebsite, ExternalLink, License, Media, MediaSource, Tag
+
+
+class CreatorWebsiteInline(admin.TabularInline):
+    model = CreatorWebsite
 
 
 class CreatorAdmin(admin.ModelAdmin):
-    list_display = ('name', 'platform')
-    list_filter = ('platform',)
+    list_display = ('name',)
     search_fields = ['name']
+    inlines = [
+        CreatorWebsiteInline,
+    ]
 
 
 class LicenseAdmin(admin.ModelAdmin):
@@ -67,7 +73,6 @@ class ExternalLinkAdmin(admin.ModelAdmin):
     list_display = ('name', 'url')
 
 
-admin.site.register(Platform)
 admin.site.register(Creator, CreatorAdmin)
 admin.site.register(License, LicenseAdmin)
 admin.site.register(MediaSource, MediaSourceAdmin)

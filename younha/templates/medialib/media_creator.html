@@ -4,20 +4,13 @@
 {% block title %}{{ creator }}{% endblock %}
 
 {% block intro %}
-    <h1>
-        {% if creator.platform %}
-            {% if creator.platform.bootstrap_icon %}
-                {{ creator.name }} <i class="bi bi-{{ creator.platform.bootstrap_icon }}"></i>
-            {% else %}
-                {{ creator.name }} <span class="fs-6">@{{ creator.platform }}</span>
-            {% endif %}
-        {% else %}
-            {{ creator.name }}
-        {% endif %}
-        {% if creator.url %}
-            <a class="text-info" href="{{ creator.url }}" target="_blank"><i class="bi bi-link-45deg"></i></a>
-        {% endif %}
-    </h1>
+    <div class="d-flex align-items-center">
+        <img width="50rem" height="50rem" src="{{ creator.get_profile_img_url }}" class="border rounded-circle bg-secondary me-2">
+        <span class="fs-1 fw-semibold me-3">{{ creator.name }}</span>
+        {% for website in creator.websites.all %}
+            <a class="ms-2 mt-2" href="{{ website.url }}" target="_blank"><img width="25px" height="25px" src="{{ website.get_icon_url }}"></a></a>
+        {% endfor %}
+    </div>
     {% if creator.description %}
         <div class="yh-text">{{ creator.description }}</div>
     {% endif %}

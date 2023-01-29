@@ -18,11 +18,7 @@
         <div>
             {% if media.creator %}
                 <h3>
-                    {% if media.creator.platform and media.creator.platform.bootstrap_icon %}
-                        <a class="yh-link d-inline-block rounded" href="{{ media.creator.get_absolute_url }}">{{ media.creator.name }} <i class="bi bi-{{ media.creator.platform.bootstrap_icon }}"></i></a>
-                    {% else %}
-                        <a class="yh-link d-inline-block rounded" href="{{ media.creator.get_absolute_url }}">{{ media.creator }}</a>
-                    {% endif %}
+                    <a class="yh-link d-inline-block rounded" href="{{ media.creator.get_absolute_url }}">{{ media.creator }}</a>
                     {% if media.verified %}
                         <i class="bi bi-check-circle-fill text-success" title="원작자 확인됨"></i>
                     {% endif %}

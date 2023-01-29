@@ -12,22 +12,14 @@
         <thead>
             <tr>
                 <th scope="col">크리에이터</th>
-                <th scope="col">플랫폼</th>
                 <th scope="col">소개</th>
-                <th scope="col">웹페이지</th>
             </tr>
         </thead>
         <tbody>
             {% for creator in object_list %}
                 <tr>
                     <th scope="row"><a class="yh-link" href="{{ creator.get_absolute_url }}">{{ creator.name }}</a></th>
-                    <td>
-                        {% if creator.platform %}
-                            {{ creator.platform }}{% if creator.platform.bootstrap_icon %} <i class="bi bi-{{ creator.platform.bootstrap_icon }}"></i>{% endif %}
-                        {% endif %}
-                    </td>
                     <td>{{ creator.description }}</td>
-                    <td>{% if creator.url %}<a class="yh-link" href="{{ creator.url }}" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a>{% endif %}</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -4,34 +4,55 @@ from django.db import models
 from django.urls import reverse
 
 
-class Platform(models.Model):
-    name = models.CharField(max_length=20, unique=True)
-    description = models.CharField(max_length=200, blank=True)
-    url = models.URLField('URL', max_length=400, blank=True)
-    bootstrap_icon = models.CharField(max_length=100, blank=True)
+class Creator(models.Model):
+    name = models.CharField(max_length=40)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
+    description = models.TextField(blank=True)
+    profile_img_url = models.URLField('Profile image URL', max_length=400, blank=True)
+
+    class Meta:
+        ordering = ('name',)
 
     def __str__(self):
         return self.name
 
+    def get_profile_img_url(self):
+        if not self.profile_img_url:
+            from django.templatetags.static import static
 
-class Creator(models.Model):
-    name = models.CharField(max_length=40)
-    platform = models.ForeignKey('Platform', null=True, blank=True, on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
-    description = models.TextField(blank=True)
-    url = models.URLField('URL', max_length=400, blank=True)
-
-    class Meta:
-        ordering = ('platform', 'name')
-        constraints = [
-            models.UniqueConstraint(fields=('platform', 'name'), name='unique_platform_name')
-        ]
-
-    def __str__(self):
-        return self.name + (f' @{self.platform.name}' if self.platform else '')
+            return static('img/person-fill.svg')
+        return self.profile_img_url
 
     def get_absolute_url(self):
         return reverse('media-creator', kwargs={'pk': self.pk})
+
+
+class CreatorWebsite(models.Model):
+    PLATFORM_TWITTER = 'TW'
+    PLATFORM_YOUTUBE = 'YT'
+    PLATFORM_INSTAGRAM = 'IG'
+    PLATFORM_NAVER_BLOG = 'NB'
+    PLATFORM_TISTORY = 'TI'
+
+    PLATFORM_CHOICES = (
+        (PLATFORM_TWITTER, 'Twitter'),
+        (PLATFORM_YOUTUBE, 'YouTube'),
+        (PLATFORM_INSTAGRAM, 'Instagram'),
+        (PLATFORM_NAVER_BLOG, 'Naver Blog'),
+        (PLATFORM_TISTORY, 'Tistory'),
+    )
+
+    platform = models.CharField(max_length=2, choices=PLATFORM_CHOICES, blank=True)
+    creator = models.ForeignKey('Creator', related_name='websites', on_delete=models.CASCADE)
+    url = models.URLField('URL', max_length=400)
+    icon_url = models.URLField('Icon URL', max_length=400, blank=True)
+
+    def get_icon_url(self):
+        if not self.icon_url:
+            from django.templatetags.static import static
+
+            return static(f'img/{self.platform.lower()}_logo.svg' if self.platform else 'img/globe.svg')
+        return self.icon_url
 
 
 class Tag(models.Model):
