@@ -8,11 +8,12 @@
             <strong class="fw-semibold"><i class="bi bi-camera"></i> <a class="yh-list-link" href="{% url 'creator-list' %}">Creators</a></strong>
             <ul class="list-unstyled fw-normal pb-2 small">
                 {% for creator in creator_list %}
-                    {% if creator.platform and creator.platform.bootstrap_icon %}
-                        <li><a class="yh-link d-inline-block rounded" href="{{ creator.get_absolute_url }}">{{ creator.name }} <i class="bi bi-{{ creator.platform.bootstrap_icon }}"></i></a></li>
-                    {% else %}
-                        <li><a class="yh-link d-inline-block rounded" href="{{ creator.get_absolute_url }}">{{ creator }}</a></li>
-                    {% endif %}
+                    <li>
+                        <a class="yh-link d-inline-flex align-items-center rounded" href="{{ creator.get_absolute_url }}">
+                            <img width="16rem" height="16rem" src="{{ creator.get_profile_img_url }}" class="border rounded-circle bg-secondary me-1">
+                            {{ creator }}
+                        </a>
+                    </li>
                 {% endfor %}
             </ul>
         </li>

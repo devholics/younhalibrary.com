@@ -16,18 +16,24 @@
             </div>
         {% endif %}
         <div>
-            {% if media.creator %}
-                <h3>
-                    {% if media.creator.platform and media.creator.platform.bootstrap_icon %}
-                        <a class="yh-link d-inline-block rounded" href="{{ media.creator.get_absolute_url }}">{{ media.creator.name }} <i class="bi bi-{{ media.creator.platform.bootstrap_icon }}"></i></a>
-                    {% else %}
-                        <a class="yh-link d-inline-block rounded" href="{{ media.creator.get_absolute_url }}">{{ media.creator }}</a>
-                    {% endif %}
-                    {% if media.verified %}
-                        <i class="bi bi-check-circle-fill text-success" title="원작자 확인됨"></i>
-                    {% endif %}
-                </h3>
-            {% endif %}
+            <div class="d-inline-flex align-items-center mb-2">
+                <div class="flex-shrink-0">
+                    <a href="{{ media.creator.get_absolute_url }}">
+                        <img width="60rem" height="60rem" src="{{ media.creator.get_profile_img_url }}" class="border rounded-circle bg-secondary me-1">
+                    </a>
+                </div>
+                <div class="align-self-start ms-2">
+                    <div>
+                        <a class="text-decoration-none text-reset" href="{{ media.creator.get_absolute_url }}">
+                            <span class="fs-3 fw-semibold">{{ media.creator }}</span>
+                        </a>
+                        {% if media.verified %}
+                            <span class="fs-5 ms-1 mt-2"><i class="bi bi-check-circle-fill text-success" title="원작자 확인됨"></i></span>
+                        {% endif %}
+                    </div>
+                    <span class="text-muted">Creator</span>
+                </div>
+            </div>
             {% if media.title %}
                 <h2>{{ media.title }}</h2>
             {% endif %}

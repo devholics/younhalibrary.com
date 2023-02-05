@@ -6,6 +6,7 @@
         <entryData>
           <resourceRoots>
             <path value="file://$PROJECT_DIR$/younha/static" />
+            <path value="file://$PROJECT_DIR$/medialib/static" />
           </resourceRoots>
         </entryData>
       </entry>
