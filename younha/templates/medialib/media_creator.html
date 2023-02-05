@@ -5,13 +5,17 @@
 
 {% block intro %}
     <div class="d-flex align-items-center">
-        <img width="50rem" height="50rem" src="{{ creator.get_profile_img_url }}" class="border rounded-circle bg-secondary me-2">
-        <span class="fs-1 fw-semibold me-3">{{ creator.name }}</span>
-        {% for website in creator.websites.all %}
-            <a class="ms-2 mt-2" href="{{ website.url }}" target="_blank"><img width="25px" height="25px" src="{{ website.get_icon_url }}"></a></a>
-        {% endfor %}
+        <div class="flex-shrink-0">
+            <img width="80rem" height="80rem" src="{{ creator.get_profile_img_url }}" class="border rounded-circle bg-secondary">
+        </div>
+        <div class="align-self-start ms-3">
+            <h1>{{ creator.name }}</h1>
+            {% for website in creator.websites.all %}
+                <a href="{{ website.url }}" target="_blank"><img width="20px" height="20px" src="{{ website.get_icon_url }}"></a>
+            {% endfor %}
+        </div>
     </div>
     {% if creator.description %}
-        <div class="yh-text">{{ creator.description }}</div>
+        <div class="yh-text mt-3">{{ creator.description }}</div>
     {% endif %}
 {% endblock %}

@@ -20,7 +20,7 @@ class Creator(models.Model):
         if not self.profile_img_url:
             from django.templatetags.static import static
 
-            return static('img/person-fill.svg')
+            return static('medialib/img/person-fill.svg')
         return self.profile_img_url
 
     def get_absolute_url(self):
@@ -51,7 +51,8 @@ class CreatorWebsite(models.Model):
         if not self.icon_url:
             from django.templatetags.static import static
 
-            return static(f'img/{self.platform.lower()}_logo.svg' if self.platform else 'img/globe.svg')
+            default_img = 'medialib/img/globe.svg'
+            return static(f'medialib/img/{self.platform.lower()}_logo.svg' if self.platform else default_img)
         return self.icon_url
 
 
@@ -191,3 +192,52 @@ class ExternalLink(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class AbstractMedia(models.Model):
+    objects = MediaQuerySet.as_manager()
+
+    title = models.CharField(max_length=100, blank=True)
+    description = models.TextField(blank=True)
+    creator = models.ForeignKey('Creator', on_delete=models.CASCADE)
+    date = models.DateField()
+    date_exact = models.BooleanField(default=True)
+    tags = models.ManyToManyField('Tag', blank=True)
+    public = models.BooleanField(default=True)
+    license = models.ForeignKey('License', null=True, blank=True, on_delete=models.SET_NULL)
+    upload_time = models.DateTimeField(verbose_name='uploaded time', auto_now_add=True)
+    update_time = models.DateTimeField(verbose_name='updated time', auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class FileMedia(AbstractMedia):
+    TYPE_IMAGE = 'I'
+    TYPE_VIDEO = 'V'
+    TYPE_AUDIO = 'A'
+
+    TYPE_CHOICES = (
+        (TYPE_IMAGE, 'Image'),
+        (TYPE_VIDEO, 'Video'),
+        (TYPE_AUDIO, 'Audio'),
+    )
+
+    type = models.CharField(max_length=1, choices=TYPE_CHOICES)
+    thumbnail_url = models.URLField('URL', max_length=400, blank=True)
+    url = models.URLField('URL', max_length=400, unique=True)
+    source = models.ForeignKey('MediaSource', on_delete=models.CASCADE)
+    verified = models.BooleanField(default=False)   # check if source and creator verified
+
+    def get_thumbnail_url(self):
+        if self.thumbnail_url:
+            return self.thumbnail_url
+        return self.url
+
+
+class YouTubeVideo(AbstractMedia):
+    youtube_id = models.CharField(max_length=20, unique=True)
+
+    @property
+    def url(self):
+        return f"https://youtu.be/{self.youtube_id}"
