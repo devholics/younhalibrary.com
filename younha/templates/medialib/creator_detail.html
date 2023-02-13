@@ -1,0 +1,30 @@
+{% extends 'medialib/base_flat.html' %}
+{% load humanize %}
+
+{% block title %}{{ creator }}{% endblock %}
+
+{% block intro %}
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a class="text-reset" href="{% url 'creator-list' %}">Creators</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ creator.name }}</li>
+        </ol>
+    </nav>
+    <div class="d-flex align-items-center">
+        <div class="flex-shrink-0">
+            <img width="100rem" height="100rem" src="{{ creator.get_profile_img_url }}" class="border rounded-circle bg-secondary">
+        </div>
+        <div class="align-self-start ms-4">
+            <span class="fs-1 fw-semibold text-emphasis">{{ creator.name }}</span>
+            <div class="mb-1">
+                {% for website in creator.websites.all %}
+                    <a href="{{ website.url }}" target="_blank"><img width="20px" height="20px" src="{{ website.get_icon_url }}"></a>
+                {% endfor %}
+            </div>
+            <span class="text-muted">미디어 {{ creator.media_count|intcomma }}개</span>
+        </div>
+    </div>
+    {% if creator.description %}
+        <div class="yh-text mt-3">{{ creator.description }}</div>
+    {% endif %}
+{% endblock %}

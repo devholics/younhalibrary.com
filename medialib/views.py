@@ -1,30 +1,38 @@
 from django.conf import settings
-from django.db.models import Count, Q
+from django.db.models import Count, F, Q
 from django.http import HttpResponse, QueryDict
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 import django_filters
 
-from .forms import MediaSearchForm
-from .models import Creator, ExternalLink, License, Media, Tag
+# from .forms import MediaSearchForm
+from .models import Creator, ExternalLink, License, FileMedia, YouTubeVideo, Tag
 
 
-class GalleryMixin:
+class ExhibitionMixin:
+    tag_limit = settings.MEDIALIB_TAG_LIMIT
+    creator_limit = settings.MEDIALIB_CREATOR_LIMIT
+
+    def order_by_media_count(self, qs):
+        return qs.annotate(
+            num_filemedia=Count('filemedia', filter=Q(filemedia__in=FileMedia.objects.displayed())),
+            num_youtubevideo=Count('youtubevideo', filter=Q(youtubevideo__in=YouTubeVideo.objects.displayed()))
+        ).annotate(
+            num_media=F('num_filemedia') + F('num_youtubevideo')
+        ).filter(num_media__gt=0).order_by('-num_media')
+
+    def get_creator_queryset(self):
+        return self.order_by_media_count(Creator.objects.all())[:self.creator_limit]
+
+    def get_tag_queryset(self):
+        return self.order_by_media_count(Tag.objects.all())[:self.tag_limit]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        qs = Media.objects.displayed()
-        tag_list = Tag.objects.annotate(
-            num_media=Count('media', filter=Q(media__in=qs))
-        ).filter(num_media__gt=0)
-        context['tag_list'] = tag_list.order_by('-num_media')[:settings.MEDIALIB_TAG_LIMIT]
-
-        creator_list = Creator.objects.annotate(
-            num_media=Count('media', filter=Q(media__in=qs))
-        ).filter(num_media__gt=0)
-        context['creator_list'] = creator_list.order_by('-num_media')[:settings.MEDIALIB_CREATOR_LIMIT]
+        context['tag_list'] = self.get_tag_queryset()
+        context['creator_list'] = self.get_creator_queryset()
         context['external_links'] = ExternalLink.objects.all()
         return context
 
@@ -34,27 +42,34 @@ class MediaDateFilter(django_filters.FilterSet):
     month = django_filters.NumberFilter(field_name='date', lookup_expr='month')
     day = django_filters.NumberFilter(field_name='date', lookup_expr='day')
 
+
+class FileMediaFilter(MediaDateFilter):
     class Meta:
-        model = Media
+        model = FileMedia
+        fields = ['date']
+
+
+class YouTubeVideoFilter(MediaDateFilter):
+    class Meta:
+        model = YouTubeVideo
         fields = ['date']
 
 
 class MediaViewMixin:
-    queryset = Media.objects.displayed()
     date_field = 'date'
     paginate_by = settings.MEDIALIB_PAGINATION
     media_sort = 'date'
     media_order = 'desc'
 
-    def get_raw_queryset(self, qs):
-        return qs
+    def get_raw_queryset(self):
+        return self.queryset
 
     def get_dates(self):
-        return self.get_raw_queryset(self.queryset).dates(self.date_field, 'day', order='DESC')
+        return self.get_raw_queryset().dates(self.date_field, 'day', order='DESC')
 
     def get_queryset(self):
-        qs = self.get_raw_queryset(super().get_queryset())
-        return MediaDateFilter(self.request.GET, queryset=qs).qs
+        qs = self.get_raw_queryset()
+        return self.filter(self.request.GET, queryset=qs).qs.order_by(*self.get_ordering())
 
     def get_ordering(self):
         sort = self.request.GET.get('sort', self.media_sort)
@@ -118,23 +133,55 @@ class MediaViewMixin:
         return context
 
 
-class MediaListView(MediaViewMixin, GalleryMixin, ListView):
+class FileMediaMixin(MediaViewMixin, ExhibitionMixin):
+    queryset = FileMedia.objects.displayed()
+    filter = FileMediaFilter
+
+    def get_creator_queryset(self):
+        return Creator.objects.annotate(
+            num_media=Count('filemedia', filter=Q(filemedia__in=self.queryset)),
+        ).filter(num_media__gt=0).order_by('-num_media')[:self.creator_limit]
+
+    def get_tag_queryset(self):
+        return Tag.objects.annotate(
+            num_media=Count('filemedia', filter=Q(filemedia__in=self.queryset)),
+        ).filter(num_media__gt=0).order_by('-num_media')[:self.tag_limit]
+
+
+class YouTubeVideoMixin(MediaViewMixin, ExhibitionMixin):
+    queryset = YouTubeVideo.objects.displayed()
+    filter = YouTubeVideoFilter
+
+    def get_creator_queryset(self):
+        return Creator.objects.annotate(
+            num_media=Count('youtubevideo', filter=Q(youtubevideo__in=self.queryset)),
+        ).filter(num_media__gt=0).order_by('-num_media')[:self.creator_limit]
+
+    def get_tag_queryset(self):
+        return Tag.objects.annotate(
+            num_media=Count('youtubevideo', filter=Q(youtubevideo__in=self.queryset)),
+        ).filter(num_media__gt=0).order_by('-num_media')[:self.tag_limit]
+
+
+class FileMediaListView(FileMediaMixin, ListView):
     pass
 
 
-def archive_view(request):
-    return redirect('media-list')
-
-
-class MediaDetailView(MediaViewMixin, GalleryMixin, DetailView):
+class YouTubeVideoListView(YouTubeVideoMixin, ListView):
     pass
 
 
-class MediaTagView(MediaViewMixin, GalleryMixin, ListView):
-    template_name = 'medialib/media_tag.html'
+class FileMediaDetailView(FileMediaMixin, DetailView):
+    pass
 
-    def get_raw_queryset(self, qs):
-        return qs.filter(tags=self.kwargs['pk']).distinct()
+
+class YouTubeVideoDetailView(YouTubeVideoMixin, DetailView):
+    pass
+
+
+class TagMixin:
+    def get_raw_queryset(self):
+        return self.queryset.filter(tags=self.kwargs['pk']).distinct()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -143,11 +190,21 @@ class MediaTagView(MediaViewMixin, GalleryMixin, ListView):
         return context
 
 
-class MediaCreatorView(MediaViewMixin, GalleryMixin, ListView):
-    template_name = 'medialib/media_creator.html'
+class TagDetailView(TagMixin, ExhibitionMixin, DetailView):
+    model = Tag
 
-    def get_raw_queryset(self, qs):
-        return qs.filter(creator=self.kwargs['pk'])
+
+class TagGalleryView(TagMixin, FileMediaMixin, ListView):
+    template_name = 'medialib/tag_gallery.html'
+
+
+class TagYouTubeView(TagMixin, YouTubeVideoMixin, ListView):
+    template_name = 'medialib/tag_youtube.html'
+
+
+class CreatorMixin:
+    def get_raw_queryset(self):
+        return self.queryset.filter(creator=self.kwargs['pk']).distinct()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -156,54 +213,23 @@ class MediaCreatorView(MediaViewMixin, GalleryMixin, ListView):
         return context
 
 
-class MediaSearchView(MediaViewMixin, GalleryMixin, ListView):
-    template_name = 'medialib/media_search.html'
-
-    def get_context_data(self):
-        context = super().get_context_data()
-        context['form'] = MediaSearchForm(self.request.GET)
-        context['tag_search_limit'] = settings.MEDIALIB_TAG_SEARCH_LIMIT
-        return context
-
-    def get_raw_queryset(self, qs):
-        form = MediaSearchForm(self.request.GET)
-        if form.is_valid():
-            keyword = form.cleaned_data['keyword']
-            type = form.cleaned_data['type']
-            tags = form.cleaned_data['tags']
-            creator = form.cleaned_data['creator']
-            start_date = form.cleaned_data['start_date']
-            end_date = form.cleaned_data['end_date']
-            filters = {}
-            for tag in tags:
-                qs = qs.filter(tags=tag)
-            if type:
-                filters['type'] = type
-            if creator:
-                filters['creator'] = creator
-            if start_date:
-                filters['date__gte'] = start_date
-            if end_date:
-                filters['date__lte'] = end_date
-            if keyword:
-                qs = qs.filter(
-                    Q(title__icontains=keyword)
-                    | Q(description__icontains=keyword)
-                    | Q(tags__name__icontains=keyword)
-                    | Q(tags__description__icontains=keyword)
-                    | Q(creator__name__icontains=keyword),
-                    **filters
-                ).distinct()
-            else:
-                qs = qs.filter(**filters)
-        return qs
+class CreatorDetailView(CreatorMixin, ExhibitionMixin, DetailView):
+    model = Creator
 
 
-class TagListView(GalleryMixin, ListView):
+class CreatorGalleryView(CreatorMixin, FileMediaMixin, ListView):
+    template_name = 'medialib/creator_gallery.html'
+
+
+class CreatorYouTubeView(CreatorMixin, YouTubeVideoMixin, ListView):
+    template_name = 'medialib/creator_youtube.html'
+
+
+class TagListView(ExhibitionMixin, ListView):
     model = Tag
 
 
-class CreatorListView(GalleryMixin, ListView):
+class CreatorListView(ExhibitionMixin, ListView):
     model = Creator
 
 

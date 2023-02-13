@@ -9,7 +9,7 @@ class CreatorWebsiteInline(admin.TabularInline):
 
 
 class CreatorAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'official')
     search_fields = ['name']
     inlines = [
         CreatorWebsiteInline,

@@ -12,7 +12,7 @@
                 <ul class="list-unstyled fw-normal pb-2 small">
                     {% for creator in creator_list %}
                         <li>
-                            <a class="yh-link d-inline-flex align-items-center rounded" href="{{ creator.get_file_media_url }}">
+                            <a class="yh-link d-inline-flex align-items-center rounded" href="{{ creator.get_youtube_video_url }}">
                                 <img width="16rem" height="16rem" src="{{ creator.get_profile_img_url }}" class="border rounded-circle bg-secondary me-1">
                                 {{ creator }}
                             </a>
@@ -24,7 +24,7 @@
                 <strong class="fw-semibold"><i class="bi bi-tags"></i> <a class="yh-list-link" href="{% url 'tag-list' %}">Tags</a></strong>
                 <ul class="list-unstyled fw-normal pb-2">
                     {% for tag in tag_list %}
-                        <li><a class="yh-badge-link d-inline-block rounded" href="{{ tag.get_file_media_url }}"><span class="badge yh-badge">{{ tag }}</span></a></li>
+                        <li><a class="yh-badge-link d-inline-block rounded" href="{{ tag.get_youtube_video_url }}"><span class="badge yh-badge">{{ tag }}</span></a></li>
                     {% endfor %}
                 </ul>
             </li>
@@ -41,18 +41,14 @@
 {% endblock %}
 
 {% block media-content %}
-    <div class="row gy-1 yh-content mb-4">
+    <div class="row gy-4 yh-content mb-4">
         {% for media in page_obj %}
-            <div class="col-xl-3 col-lg-4 col-md-6 align-self-center text-center">
+            <div class="col-xl-4 col-md-6 align-self-center text-center">
                 <figure>
                     <div class="gallery">
-                        {% if media.type == media.TYPE_IMAGE %}
-                            <img class="w-100 media" src="{{ media.get_thumbnail_url }}" alt="{{ media }}">
-                        {% elif media.type == media.TYPE_VIDEO %}
-                            <video class="w-100 media" src="{{ media.url }}" autoplay muted loop>
-                                Video not supported
-                            </video>
-                        {% endif %}
+                        <div class="w-100 media ratio ratio-16x9">
+                            <iframe class="yt-player" id="player-{{ media.pk }}" src="https://www.youtube.com/embed/{{ media.youtube_id }}?{{ youtube_query }}" title="YouTube video player" frameborder="0"></iframe>
+                        </div>
                         <div class="gallery-links d-flex px-3 py-2 align-items-start">
                             <a href="{{ media.url }}" class="glightbox preview-link" data-glightbox="type: {% if media.type == media.TYPE_IMAGE %}image{% else %}video{% endif %}">
                                 <i class="bi bi-arrows-angle-expand"></i>
@@ -64,7 +60,7 @@
                     </div>
                     <figcaption>
                         <p class="text-muted small">
-                            <a class="text-reset" href="{{ media.source.url }}" target="_blank">{{ media.creator.name }}</a>{% if media.license.display %}/
+                            <a class="text-reset" href="{{ media.url }}" target="_blank">{{ media.creator.name }}</a>{% if media.license.display %}/
                             {% if media.license.url %}
                                 <a class="text-reset" href="{{ media.license.url }}" target="_blank">{{ media.license }}</a>
                             {% else %}

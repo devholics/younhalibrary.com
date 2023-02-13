@@ -1,4 +1,4 @@
-{% extends 'medialib/base_gallery.html' %}
+{% extends 'base_3col.html' %}
 
 {% block media %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
@@ -68,45 +68,7 @@
             </div>
         </div>
         <p class="text-muted small">저작권 보호를 받는 미디어일 수 있습니다.</p>
-        <div class="row gy-4 yh-content mb-4">
-            {% for media in page_obj %}
-                <div class="col-xl-4 col-md-6 align-self-center text-center">
-                    <figure>
-                        <div class="gallery">
-                            {% if media.type == media.TYPE_IMAGE %}
-                                <img class="w-100 media" src="{{ media.url }}" alt="{{ media }}">
-                            {% elif media.type == media.TYPE_VIDEO %}
-                                <video class="w-100 media" src="{{ media.url }}" autoplay muted loop>
-                                    Video not supported
-                                </video>
-                            {% elif media.type == media.TYPE_YOUTUBE %}
-                                <div class="w-100 media ratio ratio-16x9">
-                                    <iframe class="yt-player" id="player-{{ media.pk }}" src="https://www.youtube.com/embed/{{ media.youtube_id }}?{{ youtube_query }}" title="YouTube video player" frameborder="0"></iframe>
-                                </div>
-                            {% endif %}
-                            <div class="gallery-links d-flex px-3 py-2 align-items-start">
-                                <a href="{{ media.url }}" class="glightbox preview-link" data-glightbox="type: {% if media.type == media.TYPE_IMAGE %}image{% else %}video{% endif %}">
-                                    <i class="bi bi-arrows-angle-expand"></i>
-                                </a>
-                                <a href="{{ media.get_absolute_url }}" class="details-link">
-                                    <i class="bi bi-info-circle"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <figcaption>
-                            <p class="text-muted small">
-                                <a class="text-reset" href="{{ media.source.url }}" target="_blank">{{ media.creator.name }}</a>{% if media.license.display %}/
-                                {% if media.license.url %}
-                                    <a class="text-reset" href="{{ media.license.url }}" target="_blank">{{ media.license }}</a>
-                                {% else %}
-                                    <a class="text-reset" href="{{ media.license.get_absolute_url }}" target="_blank">{{ media.license }}</a>
-                                {% endif %}{% endif %}
-                            </p>
-                        </figcaption>
-                    </figure>
-                </div>
-            {% endfor %}
-        </div>
+        {% block media-content %}{% endblock %}
         <nav class="d-flex justify-content-center" aria-label="Page navigation">
             <ul class="pagination pagination-sm">
                 {% for page_num in page_range %}

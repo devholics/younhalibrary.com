@@ -9,9 +9,10 @@ class Creator(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
     description = models.TextField(blank=True)
     profile_img_url = models.URLField('Profile image URL', max_length=400, blank=True)
+    official = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('-official', 'name',)
 
     def __str__(self):
         return self.name
@@ -24,7 +25,16 @@ class Creator(models.Model):
         return self.profile_img_url
 
     def get_absolute_url(self):
-        return reverse('media-creator', kwargs={'pk': self.pk})
+        return reverse('creator-detail', kwargs={'pk': self.pk})
+
+    def get_file_media_url(self):
+        return reverse('creator-gallery', kwargs={'pk': self.pk})
+
+    def get_youtube_video_url(self):
+        return reverse('creator-youtube', kwargs={'pk': self.pk})
+
+    def media_count(self):
+        return self.filemedia_set.displayed().count() + self.youtubevideo_set.displayed().count()
 
 
 class CreatorWebsite(models.Model):
@@ -67,7 +77,13 @@ class Tag(models.Model):
         return '# ' + self.name
 
     def get_absolute_url(self):
-        return reverse('media-tag', kwargs={'pk': self.pk})
+        return reverse('tag-detail', kwargs={'pk': self.pk})
+
+    def get_file_media_url(self):
+        return reverse('tag-gallery', kwargs={'pk': self.pk})
+
+    def get_youtube_video_url(self):
+        return reverse('tag-youtube', kwargs={'pk': self.pk})
 
 
 class MediaSourceQuerySet(models.QuerySet):
@@ -120,7 +136,7 @@ class License(models.Model):
 
 class MediaQuerySet(models.QuerySet):
     def public(self):
-        return self.filter(source__available=True, public=True)
+        return self.filter(public=True)
 
     def displayed(self):
         return self.public().filter(license__isnull=False)
@@ -229,15 +245,34 @@ class FileMedia(AbstractMedia):
     source = models.ForeignKey('MediaSource', on_delete=models.CASCADE)
     verified = models.BooleanField(default=False)   # check if source and creator verified
 
+    class Meta:
+        ordering = ('-date', '-id')
+
     def get_thumbnail_url(self):
         if self.thumbnail_url:
             return self.thumbnail_url
         return self.url
 
+    @property
+    def official_title(self):
+        return self.title or self.source.title or self.source.url
+
+    def get_absolute_url(self):
+        return reverse('filemedia-detail', kwargs={'pk': self.pk})
+
 
 class YouTubeVideo(AbstractMedia):
     youtube_id = models.CharField(max_length=20, unique=True)
 
+    class Meta:
+        ordering = ('-date', '-id')
+
     @property
     def url(self):
         return f"https://youtu.be/{self.youtube_id}"
+
+    def get_absolute_url(self):
+        return reverse('youtubevideo-detail', kwargs={'pk': self.pk})
+
+    def get_embed_url(self):
+        return f'https://www.youtube.com/embed/{self.youtube_id}'
