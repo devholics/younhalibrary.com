@@ -68,10 +68,11 @@ class CreatorWebsite(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=40, unique=True)
+    category = models.CharField(max_length=40, blank=True)
     description = models.TextField(blank=True)
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('category', 'name')
 
     def __str__(self):
         return '# ' + self.name
