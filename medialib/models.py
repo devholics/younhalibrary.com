@@ -142,60 +142,6 @@ class MediaQuerySet(models.QuerySet):
         return self.public().filter(license__isnull=False)
 
 
-class Media(models.Model):
-    TYPE_IMAGE = 'I'
-    TYPE_VIDEO = 'V'
-    TYPE_AUDIO = 'A'
-    TYPE_YOUTUBE = 'Y'
-
-    TYPE_CHOICES = (
-        (TYPE_IMAGE, 'Image'),
-        (TYPE_VIDEO, 'Video'),
-        (TYPE_AUDIO, 'Audio'),
-        (TYPE_YOUTUBE, 'Youtube video'),
-    )
-
-    objects = MediaQuerySet.as_manager()
-
-    type = models.CharField(max_length=1, choices=TYPE_CHOICES)
-    url = models.URLField('URL', max_length=400, unique=True)
-    title = models.CharField(max_length=100, blank=True)    # must be official
-    description = models.TextField(blank=True)
-    creator = models.ForeignKey('Creator', on_delete=models.CASCADE)
-    date = models.DateField()
-    date_exact = models.BooleanField(default=True)
-    tags = models.ManyToManyField('Tag', blank=True)
-    source = models.ForeignKey('MediaSource', on_delete=models.CASCADE)
-    license = models.ForeignKey('License', null=True, blank=True, on_delete=models.SET_NULL)
-    public = models.BooleanField(default=True)
-    verified = models.BooleanField(default=False)   # check if source and creator verified
-    upload_time = models.DateTimeField(verbose_name='uploaded time', auto_now_add=True)
-    update_time = models.DateTimeField(verbose_name='updated time', auto_now=True)
-
-    class Meta:
-        ordering = ('-upload_time',)
-
-    def clean(self):
-        if self.type == self.TYPE_YOUTUBE and not self.url.startswith('https://youtu.be/'):
-            raise ValidationError("Youtube URL should start with 'https://youtu.be/'.")
-
-    @property
-    def youtube_id(self):
-        if self.type != self.TYPE_YOUTUBE:
-            return None
-        return self.url[17:]
-
-    @property
-    def official_title(self):
-        return self.title or self.source.title or self.source.url
-
-    def __str__(self):
-        return self.title or (self.get_type_display() + f" by {self.creator.name if self.creator else 'Unknown'}")
-
-    def get_absolute_url(self):
-        return reverse('media-detail', kwargs={'pk': self.pk})
-
-
 class ExternalLink(models.Model):
     name = models.CharField(max_length=100, unique=True)
     url = models.URLField('URL', max_length=400, unique=True)
@@ -210,7 +156,7 @@ class ExternalLink(models.Model):
         return self.name
 
 
-class AbstractMedia(models.Model):
+class Media(models.Model):
     objects = MediaQuerySet.as_manager()
 
     title = models.CharField(max_length=100, blank=True)
@@ -228,7 +174,7 @@ class AbstractMedia(models.Model):
         abstract = True
 
 
-class FileMedia(AbstractMedia):
+class FileMedia(Media):
     TYPE_IMAGE = 'I'
     TYPE_VIDEO = 'V'
     TYPE_AUDIO = 'A'
@@ -264,7 +210,7 @@ class FileMedia(AbstractMedia):
         return self.title or (self.get_type_display() + f" by {self.creator.name}")
 
 
-class YouTubeVideo(AbstractMedia):
+class YouTubeVideo(Media):
     youtube_id = models.CharField('YouTube ID', max_length=20, unique=True)
 
     class Meta:
