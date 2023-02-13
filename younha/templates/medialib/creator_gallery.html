@@ -13,10 +13,12 @@
     </nav>
     <div class="d-flex align-items-center mb-4">
         <div class="flex-shrink-0">
-            <img width="100rem" height="100rem" src="{{ creator.get_profile_img_url }}" class="border rounded-circle bg-secondary">
+            <a href="{% url 'creator-detail' creator.pk %}">
+                <img width="100rem" height="100rem" src="{{ creator.get_profile_img_url }}" class="border rounded-circle bg-secondary">
+            </a>
         </div>
         <div class="align-self-start ms-4">
-            <span class="fs-1 fw-semibold text-emphasis">{{ creator.name }}</span>
+            <a class="text-reset text-decoration-none" href="{% url 'creator-detail' creator.pk %}"><span class="fs-1 fw-semibold text-emphasis">{{ creator.name }}</span></a>
             <div class="mb-1">
                 {% for website in creator.websites.all %}
                     <a href="{{ website.url }}" target="_blank"><img width="20px" height="20px" src="{{ website.get_icon_url }}"></a>
