@@ -14,6 +14,49 @@
     {% if tag.description %}
         <div class="yh-text">{{ tag.description }}</div>
     {% endif %}
-    <div class="my-3"><a href="{% url 'tag-gallery' tag.pk %}"><span class="fw-semibold">{{ tag }}</span> 태그가 달린 사진 및 영상 파일</a></div>
-    <div><a href="{% url 'tag-youtube' tag.pk %}"><span class="fw-semibold">{{ tag }}</span> 태그가 달린 YouTube 영상</a></div>
+    {% if gallery_preview %}
+        <div class="card my-4">
+            <div class="card-header">
+                최근 사진 및 영상 <a class="text-reset ms-4" href="{% url 'tag-gallery' tag.pk %}">+ 전체보기</a>
+            </div>
+            <div class="card-body row gy-2">
+                {% for media in gallery_preview %}
+                    <div class="col-lg-3 col-md-6 align-self-center text-center">
+                        <figure>
+                            <a href="{% url 'tag-detail' tag.pk %}">
+                                {% if media.type == media.TYPE_IMAGE %}
+                                    <img class="w-100" src="{{ media.get_thumbnail_url }}" alt="{{ media }}">
+                                {% elif media.type == media.TYPE_VIDEO %}
+                                    <video class="w-100" src="{{ media.url }}" autoplay muted loop>
+                                        Video not supported
+                                    </video>
+                                {% endif %}
+                            </a>
+                        </figure>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    {% if youtube_preview %}
+        <div class="card my-4">
+            <div class="card-header">
+                최근 YouTube 영상 <a class="text-reset ms-4" href="{% url 'tag-youtube' tag.pk %}">+ 전체보기</a>
+            </div>
+            <div class="card-body row gy-2">
+                {% for media in youtube_preview %}
+                    <div class="col-lg-3 col-md-6 align-self-center text-center position-relative overflow-hidden">
+                        <figure>
+                            <div class="z-0 w-100 ratio ratio-16x9 position-relative">
+                                <a class="z-1" href="{% url 'tag-detail' tag.pk %}">
+                                    <div class="position-absolute w-100"></div>
+                                </a>
+                                <iframe class="z-0" src="{{ media.get_embed_url }}?{{ youtube_query }}" title="YouTube video player" frameborder="0"></iframe>
+                            </div>
+                        </figure>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

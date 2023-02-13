@@ -47,10 +47,10 @@
                 <figure>
                     <div class="gallery">
                         <div class="w-100 media ratio ratio-16x9">
-                            <iframe class="yt-player" id="player-{{ media.pk }}" src="https://www.youtube.com/embed/{{ media.youtube_id }}?{{ youtube_query }}" title="YouTube video player" frameborder="0"></iframe>
+                            <iframe class="yt-player" id="player-{{ media.pk }}" src="{{ media.get_embed_url }}?{{ youtube_query }}" title="YouTube video player" frameborder="0"></iframe>
                         </div>
                         <div class="gallery-links d-flex px-3 py-2 align-items-start">
-                            <a href="{{ media.url }}" class="glightbox preview-link" data-glightbox="type: {% if media.type == media.TYPE_IMAGE %}image{% else %}video{% endif %}">
+                            <a href="{{ media.url }}" class="glightbox preview-link">
                                 <i class="bi bi-arrows-angle-expand"></i>
                             </a>
                             <a href="{{ media.get_absolute_url }}" class="details-link">

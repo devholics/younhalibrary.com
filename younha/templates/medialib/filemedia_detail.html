@@ -14,7 +14,7 @@
         <div>
             <div class="d-inline-flex align-items-center mb-2">
                 <div class="flex-shrink-0">
-                    <a href="{{ object.creator.get_absolute_url }}">
+                    <a href="{{ object.creator.get_file_media_url }}">
                         <img width="60rem" height="60rem" src="{{ object.creator.get_profile_img_url }}" class="border rounded-circle bg-secondary me-1">
                     </a>
                 </div>
@@ -52,7 +52,7 @@
             <p>
                 <i class="bi bi-tags-fill"></i>
                 {% for tag in object.tags.all %}
-                    <a class="yh-badge-link" href="{{ tag.get_absolute_url }}"><span class="badge yh-badge">{{ tag }}</span></a>
+                    <a class="yh-badge-link" href="{{ tag.get_file_media_url }}"><span class="badge yh-badge">{{ tag }}</span></a>
                 {% endfor %}
             </p>
         </div>

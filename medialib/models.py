@@ -276,3 +276,6 @@ class YouTubeVideo(AbstractMedia):
 
     def get_embed_url(self):
         return f'https://www.youtube.com/embed/{self.youtube_id}'
+
+    def get_youtube_thumbnail(self):
+        return f'https://i3.ytimg.com/vi/{self.youtube_id}/maxresdefault.jpg'

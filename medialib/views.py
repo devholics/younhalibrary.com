@@ -187,6 +187,8 @@ class TagMixin:
         context = super().get_context_data()
         tag = get_object_or_404(Tag, pk=self.kwargs['pk'])
         context['tag'] = tag
+        context['gallery_preview'] = tag.filemedia_set.displayed().order_by('-date', '-id')[:4]
+        context['youtube_preview'] = tag.youtubevideo_set.displayed().order_by('-date', '-id')[:4]
         return context
 
 
@@ -210,6 +212,8 @@ class CreatorMixin:
         context = super().get_context_data()
         creator = get_object_or_404(Creator, pk=self.kwargs['pk'])
         context['creator'] = creator
+        context['gallery_preview'] = creator.filemedia_set.displayed().order_by('-date', '-id')[:4]
+        context['youtube_preview'] = creator.youtubevideo_set.displayed().order_by('-date', '-id')[:4]
         return context
 
 

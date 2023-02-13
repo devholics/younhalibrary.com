@@ -16,7 +16,7 @@
                 </div>
                 <div class="align-self-start ms-2">
                     <div>
-                        <a class="text-decoration-none text-reset" href="{{ object.creator.get_absolute_url }}">
+                        <a class="text-decoration-none text-reset" href="{{ object.creator.get_youtube_video_url }}">
                             <span class="fs-3 fw-semibold">{{ object.creator }}</span>
                         </a>
                         {% if object.verified %}
@@ -47,7 +47,7 @@
             <p>
                 <i class="bi bi-tags-fill"></i>
                 {% for tag in object.tags.all %}
-                    <a class="yh-badge-link" href="{{ tag.get_absolute_url }}"><span class="badge yh-badge">{{ tag }}</span></a>
+                    <a class="yh-badge-link" href="{{ tag.get_youtube_video_url }}"><span class="badge yh-badge">{{ tag }}</span></a>
                 {% endfor %}
             </p>
         </div>
