@@ -1,16 +1,32 @@
-from django.urls import path
+from django.urls import include, path
 
 from . import views
 
 
 urlpatterns = [
-    path('', views.MediaListView.as_view(), name='media-list'),
-    path('tag/<int:pk>/', views.MediaTagView.as_view(), name='media-tag'),
-    path('creator/<int:pk>/', views.MediaCreatorView.as_view(), name='media-creator'),
-    path('archive/', views.archive_view, name='media-archive'),
-    path('<int:pk>/', views.MediaDetailView.as_view(), name='media-detail'),
-    path('search/', views.MediaSearchView.as_view(), name='media-search'),
-    path('tags/', views.TagListView.as_view(), name='tag-list'),
-    path('creators/', views.CreatorListView.as_view(), name='creator-list'),
+    path('gallery/', include([
+        path('', views.FileMediaListView.as_view(), name='filemedia-list'),
+        path('<int:pk>/', views.FileMediaDetailView.as_view(), name='filemedia-detail'),
+    ])),
+    path('youtube/', include([
+        path('', views.YouTubeVideoListView.as_view(), name='youtubevideo-list'),
+        path('<int:pk>/', views.YouTubeVideoDetailView.as_view(), name='youtubevideo-detail'),
+    ])),
+    path('tags/', include([
+        path('', views.TagListView.as_view(), name='tag-list'),
+        path('<int:pk>/', include([
+            path('', views.TagDetailView.as_view(), name='tag-detail'),
+            path('gallery/', views.TagGalleryView.as_view(), name='tag-gallery'),
+            path('youtube/', views.TagYouTubeView.as_view(), name='tag-youtube'),
+        ])),
+    ])),
+    path('creators/', include([
+        path('', views.CreatorListView.as_view(), name='creator-list'),
+        path('<int:pk>/', include([
+            path('', views.CreatorDetailView.as_view(), name='creator-detail'),
+            path('gallery/', views.CreatorGalleryView.as_view(), name='creator-gallery'),
+            path('youtube/', views.CreatorYouTubeView.as_view(), name='creator-youtube'),
+        ])),
+    ])),
     path('license/<int:pk>/', views.license_detail, name='media-license'),
 ]
