@@ -1,6 +1,10 @@
-{% extends 'medialib/base_flat.html' %}
+{% extends 'base_2col.html' %}
 
 {% block title %}{{ object.official_title }}{% endblock %}
+
+{% block sidebar %}
+    {% include 'medialib/includes/sidebar_gallery.html' %}
+{% endblock %}
 
 {% block content %}
     <div class="d-flex flex-wrap yh-media">
@@ -14,13 +18,13 @@
         <div>
             <div class="d-inline-flex align-items-center mb-2">
                 <div class="flex-shrink-0">
-                    <a href="{{ object.creator.get_file_media_url }}">
+                    <a href="{{ object.creator.get_gallery_url }}">
                         <img width="60rem" height="60rem" src="{{ object.creator.get_profile_img_url }}" class="border rounded-circle bg-secondary me-1">
                     </a>
                 </div>
                 <div class="align-self-start ms-2">
                     <div>
-                        <a class="text-decoration-none text-reset" href="{{ object.creator.get_file_media_url }}">
+                        <a class="text-decoration-none text-reset" href="{{ object.creator.get_gallery_url }}">
                             <span class="fs-3 fw-semibold">{{ object.creator }}</span>
                         </a>
                         {% if object.verified %}
@@ -52,7 +56,7 @@
             <p>
                 <i class="bi bi-tags-fill"></i>
                 {% for tag in object.tags.all %}
-                    <a class="yh-badge-link" href="{{ tag.get_file_media_url }}"><span class="badge yh-badge">{{ tag }}</span></a>
+                    <a class="yh-badge-link" href="{{ tag.get_gallery_url }}"><span class="badge yh-badge">{{ tag }}</span></a>
                 {% endfor %}
             </p>
         </div>

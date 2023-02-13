@@ -27,10 +27,10 @@ class Creator(models.Model):
     def get_absolute_url(self):
         return reverse('creator-detail', kwargs={'pk': self.pk})
 
-    def get_file_media_url(self):
+    def get_gallery_url(self):
         return reverse('creator-gallery', kwargs={'pk': self.pk})
 
-    def get_youtube_video_url(self):
+    def get_youtube_url(self):
         return reverse('creator-youtube', kwargs={'pk': self.pk})
 
     def media_count(self):
@@ -79,10 +79,10 @@ class Tag(models.Model):
     def get_absolute_url(self):
         return reverse('tag-detail', kwargs={'pk': self.pk})
 
-    def get_file_media_url(self):
+    def get_gallery_url(self):
         return reverse('tag-gallery', kwargs={'pk': self.pk})
 
-    def get_youtube_video_url(self):
+    def get_youtube_url(self):
         return reverse('tag-youtube', kwargs={'pk': self.pk})
 
 
