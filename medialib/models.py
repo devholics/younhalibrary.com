@@ -260,12 +260,16 @@ class FileMedia(AbstractMedia):
     def get_absolute_url(self):
         return reverse('filemedia-detail', kwargs={'pk': self.pk})
 
+    def __str__(self):
+        return self.title or (self.get_type_display() + f" by {self.creator.name}")
+
 
 class YouTubeVideo(AbstractMedia):
-    youtube_id = models.CharField(max_length=20, unique=True)
+    youtube_id = models.CharField('YouTube ID', max_length=20, unique=True)
 
     class Meta:
         ordering = ('-date', '-id')
+        verbose_name = 'YouTube video'
 
     @property
     def url(self):
@@ -279,3 +283,6 @@ class YouTubeVideo(AbstractMedia):
 
     def get_youtube_thumbnail(self):
         return f'https://i3.ytimg.com/vi/{self.youtube_id}/maxresdefault.jpg'
+
+    def __str__(self):
+        return self.title or f"YouTube video by {self.creator.name}"
