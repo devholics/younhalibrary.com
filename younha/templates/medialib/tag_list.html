@@ -8,7 +8,13 @@
 {% endblock %}
 
 {% block content %}
-    {% for tag in object_list %}
-        <a class="yh-badge-link" href="{{ tag.get_absolute_url }}"><span class="badge yh-badge fs-6 me-1 mb-2">{{ tag }}</span></a>
+    {% regroup object_list by category as categories %}
+    {% for category in categories %}
+        <h4>{% if category.grouper %}{{ category.grouper }}{% else %}미분류{% endif %}</h4>
+        <div class="mb-3">
+            {% for tag in category.list %}
+                <a class="yh-badge-link" href="{{ tag.get_absolute_url }}"><span class="badge yh-badge fs-6 me-1 mb-2">{{ tag }}</span></a>
+            {% endfor %}
+        </div>
     {% endfor %}
 {% endblock %}

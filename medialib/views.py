@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.db.models import Count, F, Q
+from django.db.models import Case, Count, F, IntegerField, Q, When
 from django.http import HttpResponse, QueryDict
 from django.shortcuts import get_object_or_404
 from django.views.generic.detail import DetailView
@@ -231,6 +231,14 @@ class CreatorYouTubeView(CreatorMixin, YouTubeVideoMixin, ListView):
 
 class TagListView(ExhibitionMixin, ListView):
     model = Tag
+    queryset = Tag.objects.annotate(
+        isempty=Case(
+            When(category='', then=1),
+            default=0,
+            output_field=IntegerField(),
+        )
+    )
+    ordering = ('isempty', 'category', 'name')
 
 
 class CreatorListView(ExhibitionMixin, ListView):
