@@ -34,15 +34,17 @@
                 {% for media in gallery_preview %}
                     <div class="col-lg-3 col-md-6 align-self-center text-center">
                         <figure>
-                            <a href="{% url 'filemedia-detail' media.pk %}">
-                                {% if media.type == media.TYPE_IMAGE %}
-                                    <img class="w-100" src="{{ media.get_thumbnail_url }}" alt="{{ media }}">
-                                {% elif media.type == media.TYPE_VIDEO %}
-                                    <video class="w-100" src="{{ media.url }}" autoplay muted loop>
-                                        Video not supported
-                                    </video>
-                                {% endif %}
-                            </a>
+                            <div class="gallery">
+                                <a href="{% url 'filemedia-detail' media.pk %}">
+                                    {% if media.type == media.TYPE_IMAGE %}
+                                        <img class="w-100" src="{{ media.get_thumbnail_url }}" alt="{{ media }}">
+                                    {% elif media.type == media.TYPE_VIDEO %}
+                                        <video class="w-100" src="{{ media.url }}" autoplay muted loop>
+                                            Video not supported
+                                        </video>
+                                    {% endif %}
+                                </a>
+                            </div>
                         </figure>
                     </div>
                 {% endfor %}
@@ -58,7 +60,7 @@
                 {% for media in youtube_preview %}
                     <div class="col-lg-3 col-md-6 align-self-center text-center position-relative overflow-hidden">
                         <figure>
-                            <div class="z-0 w-100 ratio ratio-16x9 position-relative">
+                            <div class="gallery z-0 w-100 ratio ratio-16x9 position-relative">
                                 <a class="z-1" href="{% url 'youtubevideo-detail' media.pk %}">
                                     <div class="position-absolute w-100"></div>
                                 </a>

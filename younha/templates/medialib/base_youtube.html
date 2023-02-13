@@ -58,16 +58,6 @@
                             </a>
                         </div>
                     </div>
-                    <figcaption>
-                        <p class="text-muted small">
-                            <a class="text-reset" href="{{ media.url }}" target="_blank">{{ media.creator.name }}</a>{% if media.license.display %}/
-                            {% if media.license.url %}
-                                <a class="text-reset" href="{{ media.license.url }}" target="_blank">{{ media.license }}</a>
-                            {% else %}
-                                <a class="text-reset" href="{{ media.license.get_absolute_url }}" target="_blank">{{ media.license }}</a>
-                            {% endif %}{% endif %}
-                        </p>
-                    </figcaption>
                 </figure>
             </div>
         {% endfor %}
