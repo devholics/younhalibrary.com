@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db.models import Case, Count, F, IntegerField, Q, When
 from django.http import HttpResponse, QueryDict
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
@@ -248,3 +248,7 @@ class CreatorListView(ExhibitionMixin, ListView):
 def license_detail(request, pk):
     media_license = get_object_or_404(License, pk=pk)
     return HttpResponse(media_license.description, content_type='text/plain')
+
+
+def gallery_redirect_view(request):
+    return redirect('filemedia-list')

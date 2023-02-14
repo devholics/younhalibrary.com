@@ -29,4 +29,5 @@ urlpatterns = [
         ])),
     ])),
     path('license/<int:pk>/', views.license_detail, name='media-license'),
+    path('', views.gallery_redirect_view, name='gallery-legacy'),
 ]
