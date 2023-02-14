@@ -57,7 +57,6 @@ class YouTubeVideoFilter(MediaDateFilter):
 
 class MediaViewMixin:
     date_field = 'date'
-    paginate_by = settings.MEDIALIB_PAGINATION
     media_sort = 'date'
     media_order = 'desc'
 
@@ -136,6 +135,7 @@ class MediaViewMixin:
 class FileMediaMixin(MediaViewMixin, ExhibitionMixin):
     queryset = FileMedia.objects.displayed()
     filter = FileMediaFilter
+    paginate_by = settings.MEDIALIB_GALLERY_PAGINATION
 
     def get_creator_queryset(self):
         return Creator.objects.annotate(
@@ -151,6 +151,7 @@ class FileMediaMixin(MediaViewMixin, ExhibitionMixin):
 class YouTubeVideoMixin(MediaViewMixin, ExhibitionMixin):
     queryset = YouTubeVideo.objects.displayed()
     filter = YouTubeVideoFilter
+    paginate_by = settings.MEDIALIB_YOUTUBE_PAGINATION
 
     def get_creator_queryset(self):
         return Creator.objects.annotate(
