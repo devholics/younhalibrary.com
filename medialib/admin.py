@@ -88,6 +88,7 @@ class YouTubeVideoAdmin(YouTubeVideoMixin, admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name', 'category')
+    list_filter = ('category',)
 
 
 class ExternalLinkAdmin(admin.ModelAdmin):
