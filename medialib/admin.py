@@ -77,7 +77,7 @@ class FileMediaAdmin(FileMediaMixin, admin.ModelAdmin):
 
 class YouTubeVideoAdmin(YouTubeVideoMixin, admin.ModelAdmin):
     readonly_fields = ('preview',)
-    fields = ('youtube_id', 'preview', 'title', 'description', 'creator',
+    fields = ('youtube_id', 'preview', 'thumbnail_url', 'title', 'description', 'creator',
               'date', 'date_exact', 'tags', 'license', 'embeddable', 'public')
     list_display = ('__str__', 'date', 'upload_time', 'embeddable', 'public')
     list_filter = ('creator',)
