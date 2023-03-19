@@ -202,7 +202,7 @@ class FileMedia(Media):
 
     @property
     def official_title(self):
-        return self.title or self.source.title or "(제목없음)"
+        return self.title or self.source.title or "(Untitled)"
 
     def get_absolute_url(self):
         return reverse('filemedia-detail', kwargs={'pk': self.pk})
