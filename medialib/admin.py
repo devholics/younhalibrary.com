@@ -30,7 +30,7 @@ class FileMediaMixin:
         if obj.type == FileMedia.TYPE_IMAGE:
             return format_html(
                 '<img src="{}" alt="{}" height="300">',
-                obj.thumbnail_url,
+                obj.get_thumbnail_url(),
                 str(obj)
             )
         elif obj.type == FileMedia.TYPE_VIDEO:
