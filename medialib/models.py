@@ -187,7 +187,7 @@ class FileMedia(Media):
     )
 
     type = models.CharField(max_length=1, choices=TYPE_CHOICES)
-    thumbnail_url = models.URLField('URL', max_length=400, blank=True)
+    thumbnail_url = models.URLField('Thumbnail URL', max_length=400, blank=True)
     url = models.URLField('URL', max_length=400, unique=True)
     source = models.ForeignKey('MediaSource', on_delete=models.CASCADE)
     verified = models.BooleanField(default=False)   # check if source and creator verified
@@ -213,6 +213,7 @@ class FileMedia(Media):
 
 class YouTubeVideo(Media):
     youtube_id = models.CharField('YouTube ID', max_length=20, unique=True)
+    thumbnail_url = models.URLField('Thumbnail URL', max_length=400, blank=True)
     embeddable = models.BooleanField(default=True)
 
     class Meta:
@@ -230,7 +231,7 @@ class YouTubeVideo(Media):
         return f'https://www.youtube.com/embed/{self.youtube_id}'
 
     def get_youtube_thumbnail(self):
-        return f'https://i.ytimg.com/vi/{self.youtube_id}/maxresdefault.jpg'
+        return self.thumbnail_url or f'https://i.ytimg.com/vi/{self.youtube_id}/maxresdefault.jpg'
 
     def __str__(self):
         return self.title or f"YouTube video by {self.creator.name}"
