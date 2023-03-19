@@ -7,21 +7,33 @@
 {% block media-content %}
     <div class="row gy-4 yh-content mb-4">
         {% for media in page_obj %}
-            <div class="col-xl-4 col-md-6 align-self-center text-center">
+            <div class="col-xl-4 col-md-6">
                 <figure>
                     <div class="gallery">
-                        <div class="w-100 media ratio ratio-16x9">
-                            <iframe class="yt-player" id="player-{{ media.pk }}" src="{{ media.get_embed_url }}?{{ youtube_query }}" title="YouTube video player" frameborder="0"></iframe>
-                        </div>
+                        <img class="w-100 youtube" src="{{ media.get_youtube_thumbnail }}" alt="Youtube thumbnail">
                         <div class="gallery-links d-flex px-3 py-2 align-items-start">
-                            <a href="{{ media.url }}" class="glightbox preview-link">
-                                <i class="bi bi-arrows-angle-expand"></i>
-                            </a>
+                            {% if media.embeddable %}
+                                <a href="{{ media.url }}" class="glightbox preview-link">
+                                    <i class="bi bi-arrows-angle-expand"></i>
+                                </a>
+                            {% endif %}
                             <a href="{{ media.get_absolute_url }}" class="details-link">
                                 <i class="bi bi-info-circle"></i>
                             </a>
+                            <a href="{{ media.url }}" class="details-link ms-auto" target="_blank">
+                                <i class="bi bi-youtube"></i>
+                            </a>
                         </div>
                     </div>
+                    <figcaption class="mt-2 d-flex">
+                        <div>
+                            <a href="{{ media.creator.get_youtube_url }}"><img width="36rem" height="36rem" src="{{ media.creator.get_profile_img_url }}" class="border rounded-circle bg-secondary me-1" alt="Profile"></a>
+                        </div>
+                        <div class="ms-1">
+                            <h6 class="mb-1"><a class="text-decoration-none text-reset" href="{{ media.url }}" target="_blank">{{ media.title|truncatechars:36 }}</a></h6>
+                            <a href="{{ media.creator.get_youtube_url }}" class="text-decoration-none text-reset">{{ media.creator }}</a>
+                        </div>
+                    </figcaption>
                 </figure>
             </div>
         {% endfor %}

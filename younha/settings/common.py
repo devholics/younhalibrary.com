@@ -143,7 +143,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # MediaLib
 
 MEDIALIB_GALLERY_PAGINATION = 36
-MEDIALIB_YOUTUBE_PAGINATION = 12
+MEDIALIB_YOUTUBE_PAGINATION = 36
 MEDIALIB_TAG_LIMIT = 30
 MEDIALIB_CREATOR_LIMIT = 30
 MEDIALIB_TAG_SEARCH_LIMIT = 2
@@ -161,3 +161,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+# Referrer policy
+
+SECURE_REFERRER_POLICY = 'origin-when-cross-origin'

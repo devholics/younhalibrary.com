@@ -30,7 +30,7 @@ class FileMediaMixin:
         if obj.type == FileMedia.TYPE_IMAGE:
             return format_html(
                 '<img src="{}" alt="{}" height="300">',
-                obj.url,
+                obj.thumbnail_url,
                 str(obj)
             )
         elif obj.type == FileMedia.TYPE_VIDEO:
@@ -78,8 +78,8 @@ class FileMediaAdmin(FileMediaMixin, admin.ModelAdmin):
 class YouTubeVideoAdmin(YouTubeVideoMixin, admin.ModelAdmin):
     readonly_fields = ('preview',)
     fields = ('youtube_id', 'preview', 'title', 'description', 'creator',
-              'date', 'date_exact', 'tags', 'license', 'public')
-    list_display = ('__str__', 'date', 'upload_time', 'public')
+              'date', 'date_exact', 'tags', 'license', 'embeddable', 'public')
+    list_display = ('__str__', 'date', 'upload_time', 'embeddable', 'public')
     list_filter = ('creator',)
     autocomplete_fields = ['creator', 'tags']
     ordering = ('-upload_time',)

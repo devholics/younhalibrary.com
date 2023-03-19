@@ -45,7 +45,7 @@
             {% if object.description %}
                 <div class="yh-text mb-2">{{ object.description }}</div>
             {% endif %}
-            <p class="text-muted"><span class="badge bg-secondary rounded-pill me-2">출처</span><a class="text-reset" href="{{ object.source.url }}" target="_blank">{{ object.official_title }}</a></p>
+            <p class="text-muted"><span class="badge bg-secondary rounded-pill me-2">출처</span><a class="text-reset" href="{{ object.source.url }}" target="_blank">{{ object.source }}</a></p>
             {% if object.license and object.license.display %}
                 {% if object.license.url %}
                     <p class="text-muted"><span class="badge bg-secondary rounded-pill me-2">라이선스</span><a class="text-reset" href="{{ object.license.url }}" target="_blank">{{ object.license }}</a></p>

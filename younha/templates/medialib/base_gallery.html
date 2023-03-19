@@ -7,7 +7,7 @@
 {% block media-content %}
     <div class="row gy-1 yh-content mb-4">
         {% for media in page_obj %}
-            <div class="col-xl-3 col-lg-4 col-md-6 align-self-center text-center">
+            <div class="col-xl-4 col-md-6 align-self-center">
                 <figure>
                     <div class="gallery">
                         {% if media.type == media.TYPE_IMAGE %}
@@ -17,25 +17,27 @@
                                 Video not supported
                             </video>
                         {% endif %}
-                        <div class="gallery-links d-flex px-3 py-2 align-items-start">
-                            <a href="{{ media.url }}" class="glightbox preview-link" data-glightbox="type: {% if media.type == media.TYPE_IMAGE %}image{% else %}video{% endif %}">
-                                <i class="bi bi-arrows-angle-expand"></i>
-                            </a>
-                            <a href="{{ media.get_absolute_url }}" class="details-link">
-                                <i class="bi bi-info-circle"></i>
-                            </a>
+                        <div class="gallery-links d-flex flex-column">
+                            <div class="d-flex px-3 py-2 align-items-start">
+                                <a href="{{ media.url }}" class="glightbox preview-link" data-glightbox="type: {% if media.type == media.TYPE_IMAGE %}image{% else %}video{% endif %}">
+                                    <i class="bi bi-arrows-angle-expand"></i>
+                                </a>
+                                <a href="{{ media.get_absolute_url }}" class="details-link">
+                                    <i class="bi bi-info-circle"></i>
+                                </a>
+                                <a href="{{ media.source.url }}" class="details-link ms-auto" style="font-size: 2rem;" target="_blank">
+                                    <i class="bi bi-link-45deg"></i>
+                                </a>
+                            </div>
+                            <div class="px-3 py-3 mt-auto d-flex">
+                                <a href="{{ media.creator.get_gallery_url }}"><img width="32rem" height="32rem" src="{{ media.creator.get_profile_img_url }}" class="border rounded-circle bg-secondary me-1" alt="Profile"></a>
+                                <div class="ms-1" style="font-size: 0.7rem;">
+                                    <a class="text-decoration-none text-reset d-block fs-6" href="{{ media.source.url }}" target="_blank">{{ media.official_title|truncatechars:20 }}</a>
+                                    <a href="{{ media.creator.get_gallery_url }}" class="text-decoration-none text-reset">{{ media.creator }}</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <figcaption>
-                        <p class="text-muted small">
-                            <a class="text-reset" href="{{ media.source.url }}" target="_blank">{{ media.creator.name }}</a>{% if media.license.display %}/
-                            {% if media.license.url %}
-                                <a class="text-reset" href="{{ media.license.url }}" target="_blank">{{ media.license }}</a>
-                            {% else %}
-                                <a class="text-reset" href="{{ media.license.get_absolute_url }}" target="_blank">{{ media.license }}</a>
-                            {% endif %}{% endif %}
-                        </p>
-                    </figcaption>
                 </figure>
             </div>
         {% endfor %}

@@ -3,10 +3,71 @@
 
 {% block main %}
     <main>
-        <div class="yh-wallpaper">
-            <img class="yh-image img-fluid" src="{% static "img/universe.png" %}">
-            <div class="yh-welcome d-flex align-items-center justify-content-center">
-                <h1 class="text-white" style="font-family: Didot; font-weight: bold;">Younha Library</h1>
+        <div class="yh-wallpaper" data-bs-theme="dark">
+            <img class="yh-image img-fluid" src="{% static "img/c2022yh.jpeg" %}" alt="Wallpaper">
+            <div class="yh-welcome d-none d-lg-flex flex-column" style="padding-top: 3rem;">
+                <img src="{% static "img/ylib_logo_v2.svg" %}" alt="YHLibrary Logo" class="yh-logo d-block mx-auto mb-3">
+                <h1 class="text-white text-center fw-semibold lh-1 mb-3" style="font-size: 4rem;">𝐘𝐨𝐮𝐧𝐡𝐚 𝐋𝐢𝐛𝐫𝐚𝐫𝐲</h1>
+                <h5 class="text-white text-center">윤하와 홀릭스의 기록 보관소</h5>
+                <div class="row my-auto">
+                    <div class="col-xl-3 col-lg-4">
+                        <div class="card border-primary mb-3 opacity-75 mx-auto" style="max-width: 18rem;">
+                            <div class="card-body text-body">
+                                <h5 class="card-title text-body-emphasis">윤하와 홀릭스의 역사를 함께 돌아보아요! <i class="bi bi-clock-history"></i></h5>
+                                <p class="card-text">
+                                    <a href="{% url 'tag-list' %}" class="text-reset text-decoration-underline">갤러리</a>와
+                                    <a href="{% url 'youtubevideo-list' %}" class="text-reset text-decoration-underline">유튜브</a>
+                                    페이지에서 윤하의 최근 및 예전 사진과 직캠을 날짜별로 볼 수 있습니다. 예전의 윤하는 어떤 모습이었을까요?
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4">
+                        <div class="card border-primary mb-3 opacity-75 mx-auto" style="max-width: 18rem;">
+                            <div class="card-body text-body">
+                                <h5 class="card-title text-body-emphasis">콘서트의 감동을 다시 한번! <i class="bi bi-ticket-perforated"></i></h5>
+                                <p class="card-text">
+                                    <a href="{% url 'tag-list' %}" class="text-reset text-decoration-underline">태그</a>
+                                    페이지에서 윤하의 콘서트 태그를 찾아서 누르면 해당 콘서트의 사진과 영상을 볼 수 있어요! 혹시 아직 <span class="text-body-emphasis">서울 앵콜 콘서트</span>의 여운이 남아있나요?
+                                </p>
+                                <a href="https://www.younhalibrary.com/medialib/tags/176/" class="btn btn-primary">C/2023YH 태그 페이지</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4">
+                        <div class="card border-primary mb-3 opacity-75 mx-auto" style="max-width: 18rem;">
+                            <div class="card-body text-body">
+                                <h5 class="card-title text-body-emphasis">좋아하는 노래의 라이브 영상을 모아보세요! <i class="bi bi-music-note-beamed"></i></h5>
+                                <p class="card-text">
+                                    <a href="{% url 'tag-list' %}" class="text-reset text-decoration-underline">태그</a>
+                                    페이지에서 좋아하는 노래를 찾아서 그 노래가 달린 유튜브 영상을 찾아보세요. <span class="text-body-emphasis">사건의 지평선</span>은 어떤가요?
+                                </p>
+                                <a href="https://www.younhalibrary.com/medialib/tags/147/youtube/" class="btn btn-primary">사건의 지평선 라이브 모음</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-none d-xl-block col-xl-3 col-lg-4">
+                        <div class="card border-primary mb-3 opacity-75 mx-auto" style="max-width: 18rem;">
+                            <div class="card-body text-body">
+                                <h5 class="card-title text-body-emphasis">트위터에서 윤하도서관을 팔로우해보세요! <i class="bi bi-twitter"></i></h5>
+                                <p class="card-text">
+                                    윤하도서관은 트위터를 통해 업데이트 등 다양한 소식을 전해드리고 있습니다. 종종 귀엽고 깜찍한 윤하의 사진도 공유해드려요!
+                                </p>
+                                <a href="https://twitter.com/intent/follow?user_id=1599996904661819393" target="_blank" class="btn btn-sm btn-dark rounded-pill px-3" style="background-color: #1DA1F2;"><i class="bi bi-twitter"></i> 팔로우</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="yh-welcome d-flex d-lg-none flex-column justify-content-center align-items-center">
+                <img src="{% static "img/ylib_logo_v2.svg" %}" alt="YHLibrary" class="yh-logo d-block mx-auto mb-3">
+                <h1 class="yh-title text-white fw-semibold lh-1 mb-3">𝐘𝐨𝐮𝐧𝐡𝐚 𝐋𝐢𝐛𝐫𝐚𝐫𝐲</h1>
+                <h5 class="text-white d-none d-md-block">윤하와 홀릭스의 기록 보관소</h5>
+            </div>
+            <div class="position-absolute text-muted" style="bottom: 0.5rem; left: 0.5rem; font-size: 0.7rem;">
+                <a href="https://holics-leetro.tistory.com/129" class="text-reset" target="_blank">[22.12.02] 연말 콘서트〈c/2022YH〉</a>
+                by Leetro,
+                <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko" class="text-reset" target="_blank">CC-BY-SA 4.0</a>
             </div>
         </div>
         <div class="container-xxl mt-3 my-md-4">

@@ -106,7 +106,7 @@ class MediaSource(models.Model):
         ordering = ('-upload_time',)
 
     def __str__(self):
-        return self.title or '(Untitled)'
+        return self.title or self.url
 
 
 class License(models.Model):
@@ -202,7 +202,7 @@ class FileMedia(Media):
 
     @property
     def official_title(self):
-        return self.title or self.source.title or self.source.url
+        return self.title or self.source.title or "(Untitled)"
 
     def get_absolute_url(self):
         return reverse('filemedia-detail', kwargs={'pk': self.pk})
@@ -213,6 +213,7 @@ class FileMedia(Media):
 
 class YouTubeVideo(Media):
     youtube_id = models.CharField('YouTube ID', max_length=20, unique=True)
+    embeddable = models.BooleanField(default=True)
 
     class Meta:
         ordering = ('-date', '-id')
@@ -229,7 +230,7 @@ class YouTubeVideo(Media):
         return f'https://www.youtube.com/embed/{self.youtube_id}'
 
     def get_youtube_thumbnail(self):
-        return f'https://i3.ytimg.com/vi/{self.youtube_id}/maxresdefault.jpg'
+        return f'https://i.ytimg.com/vi/{self.youtube_id}/maxresdefault.jpg'
 
     def __str__(self):
         return self.title or f"YouTube video by {self.creator.name}"

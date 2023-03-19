@@ -65,7 +65,7 @@ class YouTubeVideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = YouTubeVideo
         fields = ['id', 'youtube_id', 'title', 'description',
-                  'creator', 'date', 'date_exact', 'tags', 'license']
+                  'creator', 'date', 'date_exact', 'tags', 'license', 'embeddable']
 
 
 class TagSerializer(serializers.ModelSerializer):
