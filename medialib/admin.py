@@ -52,7 +52,7 @@ class YouTubeVideoMixin:
     def preview(self, obj):
         if obj.youtube_id:
             return format_html(
-                '<iframe width="560" height="315" src="{}" style="border:0;"></iframe>',
+                '<iframe width="560" height="315" src="{}" style="border:0;" referrerpolicy="origin"></iframe>',
                 obj.get_embed_url()
             )
         else:

@@ -161,7 +161,3 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
-
-# Referrer policy
-
-SECURE_REFERRER_POLICY = 'origin-when-cross-origin'
