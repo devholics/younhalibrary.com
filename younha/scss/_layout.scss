@@ -218,6 +218,7 @@
     .yh-welcome, .yh-welcome-src {
         position: absolute;
         inset: 0;
+        padding: 0 4rem 0 4rem;
     }
 
     a {
@@ -225,6 +226,38 @@
 
         &:hover {
             color: rgba(211, 211, 211, 0.7) !important;
+        }
+    }
+}
+
+@include media-breakpoint-up(xl) {
+    .yh-wallpaper {
+        .yh-logo {
+            width: 150px;
+        }
+
+        .yh-title {
+            font-size: 3rem;
+        }
+    }
+}
+
+@include media-breakpoint-between(md, xl) {
+    .yh-wallpaper {
+        .yh-logo {
+            width: 100px;
+        }
+
+        .yh-title {
+            font-size: 3rem;
+        }
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .yh-wallpaper {
+        .yh-logo {
+            width: 80px;
         }
     }
 }

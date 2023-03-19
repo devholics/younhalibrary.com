@@ -2,7 +2,8 @@
     position: relative;
     overflow: hidden;
     border-radius: 7px;
-    .media {
+
+    .media, .youtube {
         transition: 0.3s;
         display: block;
     }
@@ -32,7 +33,7 @@
         .details-link {
             transition: 0.2s;
             color: rgba(255, 255, 255, 0.5);
-            margin: 15px 4px 0px 4px;
+            margin: 15px 4px 0 4px;
             font-size: 25px;
         }
         .preview-link:hover, .details-link:hover {

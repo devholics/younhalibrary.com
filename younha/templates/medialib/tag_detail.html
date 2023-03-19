@@ -17,11 +17,11 @@
     {% if gallery_preview %}
         <div class="card my-4">
             <div class="card-header">
-                최근 사진 및 영상 <a class="text-reset ms-4" href="{% url 'tag-gallery' tag.pk %}">+ 전체보기</a>
+                <i class="bi bi-images"></i> 최근 사진 및 영상 <a class="text-reset ms-4" href="{% url 'tag-gallery' tag.pk %}">+ 전체보기</a>
             </div>
             <div class="card-body row gy-2">
                 {% for media in gallery_preview %}
-                    <div class="col-lg-3 col-md-6 align-self-center text-center">
+                    <div class="col-xl-3 col-lg-6 align-self-center text-center">
                         <figure>
                             <div class="gallery">
                                 <a href="{% url 'filemedia-detail' media.pk %}">
@@ -34,16 +34,6 @@
                                     {% endif %}
                                 </a>
                             </div>
-                            <figcaption>
-                                <p class="text-muted small">
-                                    <a class="text-reset" href="{{ media.source.url }}" target="_blank">{{ media.creator.name }}</a>{% if media.license.display %}/
-                                    {% if media.license.url %}
-                                        <a class="text-reset" href="{{ media.license.url }}" target="_blank">{{ media.license }}</a>
-                                    {% else %}
-                                        <a class="text-reset" href="{{ media.license.get_absolute_url }}" target="_blank">{{ media.license }}</a>
-                                    {% endif %}{% endif %}
-                                </p>
-                            </figcaption>
                         </figure>
                     </div>
                 {% endfor %}
@@ -53,22 +43,34 @@
     {% if youtube_preview %}
         <div class="card my-4">
             <div class="card-header">
-                최근 YouTube 영상 <a class="text-reset ms-4" href="{% url 'tag-youtube' tag.pk %}">+ 전체보기</a>
+                <i class="bi bi-youtube"></i> 최근 YouTube 영상 <a class="text-reset ms-4" href="{% url 'tag-youtube' tag.pk %}">+ 전체보기</a>
             </div>
             <div class="card-body row gy-2">
                 {% for media in youtube_preview %}
-                    <div class="col-lg-3 col-md-6 align-self-center text-center position-relative overflow-hidden">
+                    <div class="col-lg-4 col-md-6">
                         <figure>
-                            <div class="gallery z-0 w-100 ratio ratio-16x9 position-relative">
-                                <a class="z-1" href="{% url 'youtubevideo-detail' media.pk %}">
-                                    <div class="position-absolute w-100"></div>
+                            <div class="gallery">
+                                <a href="{% url 'youtubevideo-detail' media.pk %}">
+                                    <img class="w-100" src="{{ media.get_youtube_thumbnail }}" alt="{{ media }}">
                                 </a>
-                                <iframe class="z-0" src="{{ media.get_embed_url }}?{{ youtube_query }}" title="YouTube video player" frameborder="0"></iframe>
                             </div>
+                            <figcaption class="mt-2 d-flex">
+                                <div>
+                                    <a href="{{ media.creator.get_youtube_url }}"><img width="36rem" height="36rem" src="{{ media.creator.get_profile_img_url }}" class="border rounded-circle bg-secondary me-1" alt="Profile"></a>
+                                </div>
+                                <div class="ms-1">
+                                    <h6 class="mb-1"><a class="text-decoration-none text-reset" href="{{ media.url }}" target="_blank">{{ media.title|truncatechars:36 }}</a></h6>
+                                    <a href="{{ media.creator.get_youtube_url }}" class="text-decoration-none text-reset">{{ media.creator }}</a>
+                                </div>
+                            </figcaption>
                         </figure>
                     </div>
                 {% endfor %}
             </div>
         </div>
+    {% endif %}
+    {% if not gallery_preview and not youtube_preview %}
+        <hr>
+        <p>아무것도 없어요!</p>
     {% endif %}
 {% endblock %}
