@@ -17,7 +17,7 @@
                                 Video not supported
                             </video>
                         {% endif %}
-                        <div class="gallery-links d-flex flex-column">
+                        <div class="gallery-links d-flex flex-column" data-bs-theme="dark">
                             <div class="d-flex px-3 pt-2 align-items-start">
                                 <a href="{{ media.url }}" class="glightbox preview-link" data-glightbox="type: {% if media.type == media.TYPE_IMAGE %}image{% else %}video{% endif %}">
                                     <i class="bi bi-arrows-angle-expand"></i>
@@ -29,10 +29,10 @@
                                     <i class="bi bi-link-45deg"></i>
                                 </a>
                             </div>
-                            <div class="px-3 pb-2 mt-auto d-flex">
+                            <div class="px-3 pb-2 mt-auto d-flex text-body">
                                 <a href="{{ media.creator.get_gallery_url }}"><img width="32rem" height="32rem" src="{{ media.creator.get_profile_img_url }}" class="border rounded-circle bg-secondary me-1" alt="Profile"></a>
                                 <div class="ms-1" style="font-size: 0.7rem;">
-                                    <a class="text-decoration-none text-reset d-block fs-6" href="{{ media.source.url }}" target="_blank">{{ media.official_title|truncatechars:20 }}</a>
+                                    <a class="text-decoration-none text-reset fs-6 yh-photo-title" href="{{ media.source.url }}" target="_blank">{{ media.official_title }}</a>
                                     <a href="{{ media.creator.get_gallery_url }}" class="text-decoration-none text-reset">{{ media.creator }}</a>
                                 </div>
                             </div>
