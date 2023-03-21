@@ -32,7 +32,7 @@
                             <div class="px-3 pb-2 mt-auto d-flex text-body">
                                 <a href="{{ media.creator.get_gallery_url }}"><img width="32rem" height="32rem" src="{{ media.creator.get_profile_img_url }}" class="border rounded-circle bg-secondary me-1" alt="Profile"></a>
                                 <div class="ms-1" style="font-size: 0.7rem;">
-                                    <a class="text-decoration-none text-reset fs-6 yh-photo-title" href="{{ media.source.url }}" target="_blank">{{ media.official_title }}</a>
+                                    <a class="text-decoration-none text-reset fs-6 yh-photo-title" href="{{ media.source.url }}" target="_blank" title="{{ media.official_title }}">{{ media.official_title }}</a>
                                     <a href="{{ media.creator.get_gallery_url }}" class="text-decoration-none text-reset">{{ media.creator }}</a>
                                 </div>
                             </div>

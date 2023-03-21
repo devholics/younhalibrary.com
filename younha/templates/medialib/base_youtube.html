@@ -30,7 +30,7 @@
                             <a href="{{ media.creator.get_youtube_url }}"><img width="36rem" height="36rem" src="{{ media.creator.get_profile_img_url }}" class="border rounded-circle bg-secondary me-1" alt="Profile"></a>
                         </div>
                         <div class="ms-1">
-                            <h6 class="mb-1 yh-youtube-title"><a class="text-decoration-none text-reset" href="{{ media.url }}" target="_blank">{{ media.title }}</a></h6>
+                            <h6 class="mb-1 yh-youtube-title" title="{{ media.title }}"><a class="text-decoration-none text-reset" href="{{ media.url }}" target="_blank">{{ media.title }}</a></h6>
                             <a href="{{ media.creator.get_youtube_url }}" class="text-decoration-none text-reset">{{ media.creator }}</a>
                         </div>
                     </figcaption>
