@@ -140,6 +140,10 @@ STATICFILES_DIRS = [str(PROJECT_PACKAGE.joinpath('static'))]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Referrer policy
+
+SECURE_REFERRER_POLICY = "origin-when-cross-origin"
+
 # MediaLib
 
 MEDIALIB_GALLERY_PAGINATION = 36

@@ -29,7 +29,7 @@ class FileMediaMixin:
     def preview(self, obj):
         if obj.type == FileMedia.TYPE_IMAGE:
             return format_html(
-                '<img src="{}" alt="{}" height="300">',
+                '<img src="{}" alt="{}" height="300" referrerpolicy="no-referrer">',
                 obj.get_thumbnail_url(),
                 str(obj)
             )
@@ -52,7 +52,7 @@ class YouTubeVideoMixin:
     def preview(self, obj):
         if obj.youtube_id:
             return format_html(
-                '<iframe width="560" height="315" src="{}" style="border:0;" referrerpolicy="origin"></iframe>',
+                '<iframe width="560" height="315" src="{}" style="border:0;"></iframe>',
                 obj.get_embed_url()
             )
         else:
