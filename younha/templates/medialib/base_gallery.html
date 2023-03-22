@@ -11,7 +11,7 @@
                 <figure>
                     <div class="gallery">
                         {% if media.type == media.TYPE_IMAGE %}
-                            <img class="w-100 media" src="{{ media.get_thumbnail_url }}" alt="{{ media }}">
+                            <img class="w-100 media" src="{{ media.get_thumbnail_url }}" alt="{{ media }}" referrerpolicy="no-referrer">
                         {% elif media.type == media.TYPE_VIDEO %}
                             <video class="w-100 media" src="{{ media.url }}" autoplay muted loop>
                                 Video not supported

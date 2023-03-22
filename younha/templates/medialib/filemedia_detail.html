@@ -9,7 +9,7 @@
 {% block content %}
     <div class="d-flex flex-wrap yh-media">
         {% if object.type == object.TYPE_IMAGE %}
-            <img class="mw-100" src="{{ object.url }}" alt="{{ object }}">
+            <img class="mw-100" src="{{ object.url }}" alt="{{ object }}" referrerpolicy="no-referrer">
         {% elif object.type == object.TYPE_VIDEO %}
             <video class="mw-100" src="{{ object.url }}" controls>
                 Video not supported
