@@ -297,7 +297,7 @@
     border: 0;
     width: 0.9rem;
     height: 0.9rem;
-    background-image: #{escape-svg($accordion-button-active-icon)};
+    background-image: #{escape-svg($accordion-button-active-icon-dark)};
     background-repeat: no-repeat;
     @include transition(#{$accordion-icon-transition});
     &:not(.collapsed) {
