@@ -7,10 +7,12 @@ urlpatterns = [
     path('gallery/', include([
         path('', views.FileMediaListView.as_view(), name='filemedia-list'),
         path('<int:pk>/', views.FileMediaDetailView.as_view(), name='filemedia-detail'),
+        path('search/', views.FileMediaSearchView.as_view(), name='filemedia-search')
     ])),
     path('youtube/', include([
         path('', views.YouTubeVideoListView.as_view(), name='youtubevideo-list'),
         path('<int:pk>/', views.YouTubeVideoDetailView.as_view(), name='youtubevideo-detail'),
+        path('search/', views.YouTubeVideoSearchView.as_view(), name='youtubevideo-search')
     ])),
     path('tags/', include([
         path('', views.TagListView.as_view(), name='tag-list'),
