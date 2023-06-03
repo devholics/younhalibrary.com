@@ -11,6 +11,22 @@
             <li class="breadcrumb-item active" aria-current="page">Gallery</li>
         </ol>
     </nav>
-    <h1>{{ tag }}</h1>
+    <div class="d-flex mb-3">
+        <div class="flex-grow-1">
+            <h1>{{ tag }}</h1>
+        </div>
+        <div class="align-self-start mt-2 me-1 d-none d-sm-block">
+            <form action="{% url 'filemedia-search' %}" method="GET">
+                <div class="input-group input-group-sm">
+                    <input aria-label="Search" type="search" name="keyword" maxlength="20" class="form-control" placeholder="Search {{ tag }}">
+                    <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
+                </div>
+                <input type="hidden" name="tags" value="{{ tag.pk }}">
+            </form>
+        </div>
+        <div class="mt-1 d-sm-none">
+            <a href="{% url 'filemedia-search' %}?tags={{ tag.pk }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-search"></i></a>
+        </div>
+    </div>
     <h5><i class="bi bi-images"></i> <a class="yh-badge-link d-inline-block rounded" href="{{ tag.get_absolute_url }}"><span class="badge yh-badge">{{ tag }}</span></a> 태그가 달린 사진 및 영상 파일</h5>
 {% endblock %}

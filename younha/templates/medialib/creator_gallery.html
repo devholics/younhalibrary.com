@@ -11,21 +11,35 @@
             <li class="breadcrumb-item active" aria-current="page">Gallery</li>
         </ol>
     </nav>
-    <div class="d-flex align-items-center mb-4">
-        <div class="flex-shrink-0">
-            <a href="{% url 'creator-detail' creator.pk %}">
-                <img width="100rem" height="100rem" src="{{ creator.get_profile_img_url }}" class="border rounded-circle bg-secondary">
-            </a>
-        </div>
-        <div class="align-self-start ms-4">
-            <a class="text-reset text-decoration-none" href="{% url 'creator-detail' creator.pk %}"><span class="fs-1 fw-semibold text-emphasis">{{ creator.name }}</span></a>
-            <div class="mb-1">
-                {% for website in creator.websites.all %}
-                    <a href="{{ website.url }}" target="_blank"><img width="20px" height="20px" src="{{ website.get_icon_url }}"></a>
-                {% endfor %}
+    <div class="d-flex mb-4">
+        <div class="flex-grow-1 d-flex align-items-center">
+            <div class="flex-shrink-0">
+                <a href="{% url 'creator-detail' creator.pk %}">
+                    <img width="100rem" height="100rem" src="{{ creator.get_profile_img_url }}" class="border rounded-circle bg-secondary">
+                </a>
             </div>
-            <span class="text-muted">미디어 {{ creator.media_count|intcomma }}개</span>
+            <div class="align-self-start ms-4">
+                <a class="text-reset text-decoration-none" href="{% url 'creator-detail' creator.pk %}"><span class="fs-1 fw-semibold text-emphasis">{{ creator.name }}</span></a>
+                <div class="mb-1">
+                    {% for website in creator.websites.all %}
+                        <a href="{{ website.url }}" target="_blank"><img width="20px" height="20px" src="{{ website.get_icon_url }}"></a>
+                    {% endfor %}
+                </div>
+                <span class="text-muted">미디어 {{ creator.media_count|intcomma }}개</span>
+            </div>
+        </div>
+        <div class="align-self-start mt-2 me-1 d-none d-sm-block">
+            <form action="{% url 'filemedia-search' %}" method="GET">
+                <div class="input-group input-group-sm">
+                    <input aria-label="Search" type="search" name="keyword" maxlength="20" class="form-control" placeholder="Search {{ creator.name }}">
+                    <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
+                </div>
+                <input type="hidden" name="creator" value="{{ creator.pk }}">
+            </form>
+        </div>
+        <div class="mt-2 d-sm-none">
+            <a href="{% url 'filemedia-search' %}?creator={{ creator.pk }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-search"></i></a>
         </div>
     </div>
-    <h5><i class="bi bi-images"></i> <span class="fw-bolder">{{ creator.name }}</span>의 사진 및 영상 파일</h5>
+    <h5><i class="bi bi-images"></i> <span class="fw-bolder">{{ creator.name }}</span>의 갤러리</h5>
 {% endblock %}
