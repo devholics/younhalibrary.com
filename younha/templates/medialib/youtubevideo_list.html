@@ -8,11 +8,11 @@
         <div class="flex-grow-1">
             <h1>YouTube <i class="bi bi-youtube"></i></h1>
         </div>
-        <div class="align-self-center me-1">
+        <div class="align-self-start me-1">
             <form action="{% url 'youtubevideo-search' %}" method="GET">
                 <div class="input-group input-group-sm">
-                    <label for="ytSearch" class="input-group-text"><i class="bi bi-search"></i></label>
-                    <input type="search" name="keyword" maxlength="20" class="form-control" placeholder="Search YouTube" id="ytSearch">
+                    <input aria-label="Search" type="search" name="keyword" maxlength="20" class="form-control" placeholder="Search YouTube">
+                    <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
                 </div>
             </form>
         </div>
