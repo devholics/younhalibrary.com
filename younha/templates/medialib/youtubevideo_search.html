@@ -1,0 +1,87 @@
+{% extends 'medialib/base_youtube.html' %}
+{% load humanize %}
+
+{% block title %}Search{% endblock %}
+
+{% block media %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+{% endblock %}
+
+{% block intro %}
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a class="text-reset" href="{% url 'youtubevideo-list' %}">YouTube</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Search</li>
+        </ol>
+    </nav>
+    <h1>Search <i class="bi bi-youtube"></i></h1>
+    <p>여기서는 등록된 YouTube 영상을 검색해볼 수 있습니다.</p>
+    <div style="max-width:40rem;">
+        <form action="{% url 'youtubevideo-search' %}" method="GET">
+            <div class="input-group">
+                <label class="input-group-text" for="{{ form.keyword.id_for_label }}"><i class="bi bi-search"></i></label>
+                {{ form.keyword }}
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+            <div class="row my-2">
+                <div class="col">
+                    <label for="{{ form.creator.id_for_label }}" class="form-label">크리에이터</label>
+                    {{ form.creator }}
+                </div>
+                <div class="col">
+                    <label for="{{ form.tags.id_for_label }}" class="form-label">태그</label>
+                    {{ form.tags }}
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col">
+                    <label for="{{ form.date_after.id_for_label }}" class="form-label">시작 날짜</label>
+                    {{ form.date_after }}
+                    {% if form.date_after.errors %}
+                        <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                            {% for error in form.date_after.errors %}
+                                {{ error }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col">
+                    <label for="{{ form.date_before.id_for_label }}" class="form-label">마지막 날짜</label>
+                    {{ form.date_before }}
+                    {% if form.date_before.errors %}
+                        <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                            {% for error in form.date_before.errors %}
+                                {{ error }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr class="d-md-none">
+{% endblock %}
+
+{% block additional-script %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#{{ form.creator.id_for_label }}").select2({
+                theme: "bootstrap-5",
+                width: "100%",
+                allowClear: true,
+            });
+            $("#{{ form.tags.id_for_label }}").select2({
+                theme: "bootstrap-5",
+                width: "100%",
+                maximumSelectionLength: {{ tag_search_limit }},
+            });
+        });
+    </script>
+{% endblock %}

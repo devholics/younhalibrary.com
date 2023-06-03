@@ -5,9 +5,8 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-import django_filters
-
-# from .forms import MediaSearchForm
+from .forms import MediaSearchForm
+from .filters import FileMediaFilter, YouTubeVideoFilter, FileMediaSearchFilter, YouTubeVideoSearchFilter
 from .models import Creator, ExternalLink, License, FileMedia, YouTubeVideo, Tag
 
 
@@ -146,24 +145,6 @@ class ExhibitionMixin:
         context['creator_list'] = self.get_creator_queryset()
         context['external_links'] = ExternalLink.objects.all()
         return context
-
-
-class MediaDateFilter(django_filters.FilterSet):
-    year = django_filters.NumberFilter(field_name='date', lookup_expr='year')
-    month = django_filters.NumberFilter(field_name='date', lookup_expr='month')
-    day = django_filters.NumberFilter(field_name='date', lookup_expr='day')
-
-
-class FileMediaFilter(MediaDateFilter):
-    class Meta:
-        model = FileMedia
-        fields = ['date']
-
-
-class YouTubeVideoFilter(MediaDateFilter):
-    class Meta:
-        model = YouTubeVideo
-        fields = ['date']
 
 
 class MediaViewMixin:
@@ -360,6 +341,40 @@ class CreatorListView(ExhibitionMixin, ListView):
 def license_detail(request, pk):
     media_license = get_object_or_404(License, pk=pk)
     return HttpResponse(media_license.description, content_type='text/plain')
+
+
+class MediaSearchView(ListView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = MediaSearchForm(self.request.GET)
+        context['tag_search_limit'] = settings.MEDIALIB_TAG_SEARCH_LIMIT
+        return context
+
+    def search_filter(self, qs):
+        keyword = self.request.GET.get('keyword')
+        if keyword:
+            qs = qs.filter(
+                Q(title__icontains=keyword)
+                | Q(description__icontains=keyword)
+                | Q(tags__name__icontains=keyword)
+                | Q(tags__description__icontains=keyword)
+                | Q(creator__name__icontains=keyword)
+            ).distinct()
+        return qs
+
+
+class FileMediaSearchView(FileMediaMixin, MediaSearchView):
+    template_name = 'medialib/filemedia_search.html'
+
+    def get_raw_queryset(self):
+        return self.search_filter(FileMediaSearchFilter(self.request.GET, queryset=self.queryset).qs)
+
+
+class YouTubeVideoSearchView(YouTubeVideoMixin, MediaSearchView):
+    template_name = 'medialib/youtubevideo_search.html'
+
+    def get_raw_queryset(self):
+        return self.search_filter(YouTubeVideoSearchFilter(self.request.GET, queryset=self.queryset).qs)
 
 
 def gallery_redirect_view(request):
