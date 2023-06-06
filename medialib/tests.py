@@ -30,7 +30,7 @@ class TestCreator(TestCase):
         response = self.client.get(reverse("creator-list"))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context["object_list"]), 2)
-        response = self.client.get(reverse("creator-detail"), {"pk": self.younha.id})
+        response = self.client.get(reverse("creator-detail", kwargs={"pk": self.younha.id}))
         self.assertEqual(response.status_code, 200)
 
 
