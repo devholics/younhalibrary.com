@@ -6,6 +6,7 @@ jobs:
   test-younha:
     runs-on: ubuntu-latest
     env:
+      DJANGO_SETTINGS_MODULE: younha.settings.docker
       SQL_ENGINE: django.db.backends.postgresql
       SQL_DATABASE: younha
       SQL_USER: younha
