@@ -1,0 +1,268 @@
+[
+  {
+    "model": "medialib.creator",
+    "pk": 1,
+    "fields": {
+      "name": "jbooba",
+      "user": null,
+      "description": "",
+      "profile_img_url": "https://cdn.pixabay.com/user/2022/08/20/17-47-55-686_250x250.jpg",
+      "official": false
+    }
+  },
+  {
+    "model": "medialib.creator",
+    "pk": 2,
+    "fields": {
+      "name": "Illuvis",
+      "user": null,
+      "description": "",
+      "profile_img_url": "https://cdn.pixabay.com/user/2022/11/16/08-07-43-420_250x250.jpg",
+      "official": false
+    }
+  },
+  {
+    "model": "medialib.mediasource",
+    "pk": 1,
+    "fields": {
+      "url": "https://pixabay.com/ko/users/jbooba-23039065/",
+      "title": "",
+      "description": "",
+      "available": true,
+      "upload_time": "2022-12-15T03:09:42.270Z",
+      "update_time": "2022-12-15T19:38:00.487Z"
+    }
+  },
+  {
+    "model": "medialib.license",
+    "pk": 1,
+    "fields": {
+      "type": "OT",
+      "name": "Pixabay",
+      "url": "https://pixabay.com/ko/service/terms/",
+      "description": "",
+      "display": true
+    }
+  },
+  {
+    "model": "medialib.license",
+    "pk": 2,
+    "fields": {
+      "type": "CC",
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko",
+      "description": "",
+      "display": true
+    }
+  },
+  {
+    "model": "medialib.filemedia",
+    "pk": 1,
+    "fields": {
+      "title": "",
+      "description": "",
+      "creator": 1,
+      "date": "2022-01-01",
+      "date_exact": true,
+      "public": false,
+      "license": 1,
+      "upload_time": "2023-01-30T00:28:44.814Z",
+      "update_time": "2023-01-30T00:28:44.814Z",
+      "type": "I",
+      "thumbnail_url": "",
+      "url": "https://cdn.pixabay.com/photo/2023/06/03/16/48/cumberland-slider-8038054__480.jpg",
+      "source": 1,
+      "verified": true,
+      "tags": []
+    }
+  },
+  {
+    "model": "medialib.filemedia",
+    "pk": 2,
+    "fields": {
+      "title": "",
+      "description": "",
+      "creator": 1,
+      "date": "2022-01-01",
+      "date_exact": true,
+      "public": true,
+      "license": null,
+      "upload_time": "2023-01-30T00:28:44.814Z",
+      "update_time": "2023-01-30T00:28:44.814Z",
+      "type": "I",
+      "thumbnail_url": "",
+      "url": "https://cdn.pixabay.com/photo/2023/06/03/17/11/giraffe-8038107__480.jpg",
+      "source": 1,
+      "verified": true,
+      "tags": []
+    }
+  },
+  {
+    "model": "medialib.filemedia",
+    "pk": 3,
+    "fields": {
+      "title": "",
+      "description": "",
+      "creator": 1,
+      "date": "2022-01-01",
+      "date_exact": true,
+      "public": true,
+      "license": 1,
+      "upload_time": "2023-01-30T00:28:44.814Z",
+      "update_time": "2023-01-30T00:28:44.814Z",
+      "type": "I",
+      "thumbnail_url": "",
+      "url": "https://cdn.pixabay.com/photo/2023/06/03/16/51/flamingo-8038061__480.jpg",
+      "source": 1,
+      "verified": true,
+      "tags": []
+    }
+  },
+  {
+    "model": "medialib.filemedia",
+    "pk": 4,
+    "fields": {
+      "title": "",
+      "description": "",
+      "creator": 1,
+      "date": "2022-01-01",
+      "date_exact": true,
+      "public": true,
+      "license": 1,
+      "upload_time": "2023-01-30T00:28:44.814Z",
+      "update_time": "2023-01-30T00:28:44.814Z",
+      "type": "I",
+      "thumbnail_url": "",
+      "url": "https://cdn.pixabay.com/photo/2023/06/03/16/47/gibbon-8038050__480.jpg",
+      "source": 1,
+      "verified": true,
+      "tags": []
+    }
+  },
+  {
+    "model": "medialib.filemedia",
+    "pk": 5,
+    "fields": {
+      "title": "",
+      "description": "",
+      "creator": 1,
+      "date": "2022-01-01",
+      "date_exact": true,
+      "public": true,
+      "license": 1,
+      "upload_time": "2023-01-30T00:28:44.814Z",
+      "update_time": "2023-01-30T00:28:44.814Z",
+      "type": "I",
+      "thumbnail_url": "",
+      "url": "https://cdn.pixabay.com/photo/2023/05/19/18/07/bee-8005091__480.jpg",
+      "source": 1,
+      "verified": true,
+      "tags": []
+    }
+  },
+  {
+    "model": "medialib.filemedia",
+    "pk": 6,
+    "fields": {
+      "title": "",
+      "description": "",
+      "creator": 1,
+      "date": "2022-01-01",
+      "date_exact": true,
+      "public": true,
+      "license": 1,
+      "upload_time": "2023-01-30T00:28:44.814Z",
+      "update_time": "2023-01-30T00:28:44.814Z",
+      "type": "I",
+      "thumbnail_url": "",
+      "url": "https://cdn.pixabay.com/photo/2023/05/07/17/25/snail-7976786__480.jpg",
+      "source": 1,
+      "verified": true,
+      "tags": []
+    }
+  },
+  {
+    "model": "medialib.filemedia",
+    "pk": 7,
+    "fields": {
+      "title": "",
+      "description": "",
+      "creator": 1,
+      "date": "2022-01-01",
+      "date_exact": true,
+      "public": true,
+      "license": 1,
+      "upload_time": "2023-01-30T00:28:44.814Z",
+      "update_time": "2023-01-30T00:28:44.814Z",
+      "type": "I",
+      "thumbnail_url": "",
+      "url": "https://cdn.pixabay.com/photo/2023/05/29/13/19/damselfly-8026054__480.jpg",
+      "source": 1,
+      "verified": true,
+      "tags": []
+    }
+  },
+  {
+    "model": "medialib.filemedia",
+    "pk": 8,
+    "fields": {
+      "title": "",
+      "description": "",
+      "creator": 1,
+      "date": "2022-01-01",
+      "date_exact": true,
+      "public": true,
+      "license": 1,
+      "upload_time": "2023-01-30T00:28:44.814Z",
+      "update_time": "2023-01-30T00:28:44.814Z",
+      "type": "I",
+      "thumbnail_url": "",
+      "url": "https://cdn.pixabay.com/photo/2023/05/29/13/16/damselfly-8026046__480.jpg",
+      "source": 1,
+      "verified": true,
+      "tags": []
+    }
+  },
+  {
+    "model": "medialib.filemedia",
+    "pk": 9,
+    "fields": {
+      "title": "",
+      "description": "",
+      "creator": 1,
+      "date": "2022-01-01",
+      "date_exact": true,
+      "public": true,
+      "license": 1,
+      "upload_time": "2023-01-30T00:28:44.814Z",
+      "update_time": "2023-01-30T00:28:44.814Z",
+      "type": "I",
+      "thumbnail_url": "",
+      "url": "https://cdn.pixabay.com/photo/2023/05/19/17/18/rose-beetle-8004990__480.jpg",
+      "source": 1,
+      "verified": true,
+      "tags": []
+    }
+  },
+  {
+    "model": "medialib.filemedia",
+    "pk": 10,
+    "fields": {
+      "title": "",
+      "description": "",
+      "creator": 1,
+      "date": "2022-01-01",
+      "date_exact": true,
+      "public": true,
+      "license": 1,
+      "upload_time": "2023-01-30T00:28:44.814Z",
+      "update_time": "2023-01-30T00:28:44.814Z",
+      "type": "I",
+      "thumbnail_url": "",
+      "url": "https://cdn.pixabay.com/photo/2023/05/11/11/21/house-sparrow-7986139__480.jpg",
+      "source": 1,
+      "verified": true,
+      "tags": []
+    }
+  }
+]
