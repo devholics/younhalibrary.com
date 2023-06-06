@@ -29,7 +29,7 @@ class TestCreator(TestCase):
     def test_index(self):
         response = self.client.get(reverse("creator-list"))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context["creator_list"]), 2)
+        self.assertEqual(len(response.context["object_list"]), 2)
         response = self.client.get(reverse("creator-detail"), {"pk": self.younha.id})
         self.assertEqual(response.status_code, 200)
 
