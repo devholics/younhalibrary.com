@@ -5,15 +5,17 @@ on: [push, pull_request]
 jobs:
   test-younha:
     runs-on: ubuntu-latest
-    env:
-      DJANGO_SETTINGS_MODULE: younha.settings.docker
-      SQL_ENGINE: django.db.backends.postgresql
-      SQL_DATABASE: younha
-      SQL_USER: younha
-      SQL_PASSWORD: younha
-      SQL_HOST: postgres
-      SQL_PORT: 5432
-      SECRET_KEY: younha
+    container:
+      image: python:3.9-bullseye
+      env:
+        DJANGO_SETTINGS_MODULE: younha.settings.docker
+        SQL_ENGINE: django.db.backends.postgresql
+        SQL_DATABASE: younha
+        SQL_USER: younha
+        SQL_PASSWORD: younha
+        SQL_HOST: postgres
+        SQL_PORT: 5432
+        SECRET_KEY: younha
 
     services:
       postgres:
@@ -29,6 +31,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: Install pipx
+        run: python -m pip install --user pipx
       - name: Install poetry
         run: pipx install poetry
       - uses: actions/setup-python@v4
