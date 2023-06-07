@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 
-@override_settings(ROOT_URLCONF="younha.urls.api")
+@override_settings(ROOT_URLCONF="younhalibrary.urls.api")
 class TestGalleryAPI(APITestCase):
     fixtures = ["medialib_gallery_data.json"]
 

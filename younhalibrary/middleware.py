@@ -8,6 +8,6 @@ class APIMiddleware:
     def __call__(self, request):
         host = request.get_host()
         if host.startswith('api'):
-            request.urlconf = 'younha.urls.api'
+            request.urlconf = 'younhalibrary.urls.api'
         response = self.get_response(request)
         return response
