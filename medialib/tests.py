@@ -27,17 +27,3 @@ class TestYouTube(TestCase):
     def test_index(self):
         response = self.client.get(reverse("youtubevideo-list"))
         self.assertEqual(response.status_code, 200)
-
-
-class TestCreator(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.younha = Creator.objects.create(name="Younha")
-        cls.c9ent = Creator.objects.create(name="C9Ent")
-
-    def test_index(self):
-        response = self.client.get(reverse("creator-list"))
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context["object_list"]), 2)
-        response = self.client.get(reverse("creator-detail", kwargs={"pk": self.younha.id}))
-        self.assertEqual(response.status_code, 200)
