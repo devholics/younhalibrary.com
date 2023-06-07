@@ -1,21 +1,16 @@
 name: test-younha
 run-name: Test Younha Library
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   test-younha:
-    runs-on: ubuntu-latest
-    container:
-      image: python:3.9-bullseye
-      env:
-        DJANGO_SETTINGS_MODULE: younha.settings.docker
-        SQL_ENGINE: django.db.backends.postgresql
-        SQL_DATABASE: younha
-        SQL_USER: younha
-        SQL_PASSWORD: younha
-        SQL_HOST: postgres
-        SQL_PORT: 5432
-        SECRET_KEY: younha
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
 
     services:
       postgres:
@@ -28,13 +23,24 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        ports:
+          - 5432:5432
 
     steps:
       - uses: actions/checkout@v3
-      - name: Install pipx
-        run: python -m pip install pipx
       - name: Install poetry
-        run: PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin python -m pipx install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'poetry'
       - run: poetry install
+      - name: Create secrets.json
+        working-directory: ..
+        run: |
+            mkdir conf
+            echo '{"db_host": "localhost", ' > conf/secrets.json
+            echo '"db_password": "younha", ' >> conf/secrets.json
+            echo '"secret_key": "a"}' >> conf/secrets.json
       - name: Run tests
         run: poetry run python manage.py test
