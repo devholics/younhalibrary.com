@@ -227,7 +227,9 @@ class MediaViewMixin:
 class FileMediaMixin(MediaViewMixin, ExhibitionMixin):
     queryset = FileMedia.objects.displayed()
     filter = FileMediaFilter
-    paginate_by = settings.MEDIALIB_GALLERY_PAGINATION
+
+    def get_paginate_by(self, queryset):
+        return settings.MEDIALIB_GALLERY_PAGINATION
 
     def get_creator_queryset(self):
         return Creator.objects.annotate(
@@ -243,7 +245,9 @@ class FileMediaMixin(MediaViewMixin, ExhibitionMixin):
 class YouTubeVideoMixin(MediaViewMixin, ExhibitionMixin):
     queryset = YouTubeVideo.objects.displayed()
     filter = YouTubeVideoFilter
-    paginate_by = settings.MEDIALIB_YOUTUBE_PAGINATION
+
+    def get_paginate_by(self, queryset):
+        return settings.MEDIALIB_YOUTUBE_PAGINATION
 
     def get_creator_queryset(self):
         return Creator.objects.annotate(
