@@ -1,0 +1,218 @@
+[
+  {
+    "model": "medialib.creator",
+    "pk": 2,
+    "fields": {
+      "name": "iamholics",
+      "user": null,
+      "description": "",
+      "profile_img_url": "https://yt3.googleusercontent.com/d51efPkb0kZxM8YrYPpMTg7mPqIQM9RHPYiczUqMfS_rlpO2yCg6xxFl9wKtm9vGaPraW9vV=s176-c-k-c0x00ffffff-no-rj",
+      "official": false
+    }
+  },
+  {
+    "model": "medialib.creator",
+    "pk": 27,
+    "fields": {
+      "name": "rec_gate",
+      "user": null,
+      "description": "",
+      "profile_img_url": "https://yt3.googleusercontent.com/0wQwgZjYUPvpJCTkeBXXu780X6hXkxFF1W0x2-yxDiCG_4Dvay96oNuAMryvKVM1gg5cD56ebw=s176-c-k-c0x00ffffff-no-rj",
+      "official": false
+    }
+  },
+  {
+    "model": "medialib.license",
+    "pk": 2,
+    "fields": {
+      "type": "CC",
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko",
+      "description": "",
+      "display": true
+    }
+  },
+  {
+    "model": "medialib.license",
+    "pk": 5,
+    "fields": {
+      "type": "OT",
+      "name": "Youtube",
+      "url": "https://www.youtube.com/static?gl=KR&template=terms",
+      "description": "",
+      "display": true
+    }
+  },
+  {
+    "model": "medialib.youtubevideo",
+    "pk": 1,
+    "fields": {
+      "title": "2022 아낌없이 반짝인 윤하 연말결산✨",
+      "description": "",
+      "creator": 2,
+      "date": "2022-12-30",
+      "date_exact": false,
+      "public": true,
+      "license": 5,
+      "upload_time": "2023-01-30T00:27:18.435Z",
+      "update_time": "2023-01-30T00:27:18.435Z",
+      "youtube_id": "7fDzppLZqAs",
+      "thumbnail_url": "",
+      "embeddable": true,
+      "tags": []
+    }
+  },
+  {
+    "model": "medialib.youtubevideo",
+    "pk": 2,
+    "fields": {
+      "title": "221229 후즈팬 카페 윤하 (Edit)",
+      "description": "",
+      "creator": 27,
+      "date": "2022-12-29",
+      "date_exact": true,
+      "public": true,
+      "license": 5,
+      "upload_time": "2023-01-30T00:27:18.455Z",
+      "update_time": "2023-01-30T00:27:18.455Z",
+      "youtube_id": "0BSkHdHxLyo",
+      "thumbnail_url": "",
+      "embeddable": true,
+      "tags": []
+    }
+  },
+  {
+    "model":
+    "medialib.youtubevideo",
+    "pk": 4,
+    "fields": {
+      "title": "221204 연말 콘서트 c/2022YH 윤하 - 기다리다",
+      "description": "",
+      "creator": 27,
+      "date": "2022-12-04",
+      "date_exact": true,
+      "public": true,
+      "license": 5,
+      "upload_time": "2023-01-30T00:27:27.671Z",
+      "update_time": "2023-03-18T18:31:09.759Z",
+      "youtube_id": "29qx7i_qxr0",
+      "thumbnail_url": "",
+      "embeddable": true,
+      "tags": []
+    }
+  },
+  {
+    "model": "medialib.youtubevideo",
+    "pk": 5,
+    "fields": {
+      "title": "221204 연말 콘서트 c/2022YH 윤하 - 연애조건",
+      "description": "",
+      "creator": 27,
+      "date": "2022-12-04",
+      "date_exact": true,
+      "public": true,
+      "license": 5,
+      "upload_time": "2023-01-30T00:27:27.683Z",
+      "update_time": "2023-03-18T18:31:18.256Z",
+      "youtube_id": "N5rrcQazmds",
+      "thumbnail_url": "",
+      "embeddable": true,
+      "tags": []
+    }
+  },
+  {
+    "model": "medialib.youtubevideo",
+    "pk": 6,
+    "fields": {
+      "title": "221204 연말 콘서트 c/2022YH 윤하 - 비밀번호 486",
+      "description": "",
+      "creator": 27,
+      "date": "2022-12-04",
+      "date_exact": true,
+      "public": true,
+      "license": 5,
+      "upload_time": "2023-01-30T00:27:27.696Z",
+      "update_time": "2023-03-18T18:31:22.709Z",
+      "youtube_id": "PtfVTGOBfLg",
+      "thumbnail_url": "",
+      "embeddable": true,
+      "tags": []
+    }
+  },
+  {
+    "model": "medialib.youtubevideo",
+    "pk": 7,
+    "fields": {
+      "title": "221204 연말 콘서트 c/2022YH 윤하 - タッチ (Touch)",
+      "description": "",
+      "creator": 27,
+      "date": "2022-12-04",
+      "date_exact": true,
+      "public": true,
+      "license": 5,
+      "upload_time": "2023-01-30T00:27:27.712Z",
+      "update_time": "2023-03-18T18:31:26.919Z",
+      "youtube_id": "HdJXT5HCsRc",
+      "thumbnail_url": "",
+      "embeddable": true,
+      "tags": []
+    }
+  },
+  {
+    "model": "medialib.youtubevideo",
+    "pk": 8,
+    "fields": {
+      "title": "221204 연말 콘서트 c/2022YH 윤하 - 혜성",
+      "description": "",
+      "creator": 27,
+      "date": "2022-12-04",
+      "date_exact": true,
+      "public": true,
+      "license": 5,
+      "upload_time": "2023-01-30T00:27:27.732Z",
+      "update_time": "2023-03-18T18:31:31.637Z",
+      "youtube_id": "56TVPuFrcqw",
+      "thumbnail_url": "",
+      "embeddable": true,
+      "tags": []
+    }
+  },
+  {
+    "model": "medialib.youtubevideo",
+    "pk": 9,
+    "fields": {
+      "title": "221204 연말 콘서트 c/2022YH 윤하 - 오르트구름",
+      "description": "",
+      "creator": 27,
+      "date": "2022-12-04",
+      "date_exact": true,
+      "public": true,
+      "license": 5,
+      "upload_time": "2023-01-30T00:27:27.744Z",
+      "update_time": "2023-03-18T18:31:38.170Z",
+      "youtube_id": "RUXikne4gSg",
+      "thumbnail_url": "",
+      "embeddable": true,
+      "tags": []
+    }
+  },
+  {
+    "model": "medialib.youtubevideo",
+    "pk": 10,
+    "fields": {
+      "title": "221204 연말 콘서트 c/2022YH 윤하 - 살별",
+      "description": "",
+      "creator": 27,
+      "date": "2022-12-04",
+      "date_exact": true,
+      "public": false,
+      "license": 5,
+      "upload_time": "2023-01-30T00:27:27.758Z",
+      "update_time": "2023-03-18T18:31:45.528Z",
+      "youtube_id": "WMtWrkDGa_c",
+      "thumbnail_url": "",
+      "embeddable": true,
+      "tags": []
+    }
+  }
+]
