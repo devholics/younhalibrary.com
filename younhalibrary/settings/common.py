@@ -51,7 +51,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'younha.middleware.APIMiddleware',
+    'younhalibrary.middleware.APIMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -62,7 +62,7 @@ MIDDLEWARE = [
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 ]
 
-ROOT_URLCONF = 'younha.urls.www'
+ROOT_URLCONF = 'younhalibrary.urls.www'
 
 TEMPLATES = [
     {
@@ -80,7 +80,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'younha.wsgi.application'
+WSGI_APPLICATION = 'younhalibrary.wsgi.application'
 
 
 # Database

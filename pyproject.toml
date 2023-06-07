@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "younha"
+name = "younhalibrary"
 version = "0.1.0"
 description = "Younha Library of photos and videos"
 authors = ["Joonhyung Shin <joon46551@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "younha"}]
+packages = [{include = "younhalibrary"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
