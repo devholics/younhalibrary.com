@@ -12,6 +12,8 @@ DATABASES = {
     }
 }
 
+STATIC_ROOT = str(DATA_DIR.joinpath("static_root"))
+
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 ALLOWED_HOSTS = [".localhost", "127.0.0.1", "www.127.0.0.1"]
