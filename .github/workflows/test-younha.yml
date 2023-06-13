@@ -1,4 +1,4 @@
-name: test-younha
+name: Tests
 run-name: Test Younha Library
 on:
   push:

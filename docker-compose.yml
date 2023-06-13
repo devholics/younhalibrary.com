@@ -1,0 +1,28 @@
+services:
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app/
+    ports:
+      - 8000:8000
+    environment:
+      - SECRET_KEY=younha
+      - YOUNHA_DATA_DIR=./data
+      - DJANGO_SETTINGS_MODULE=younhalibrary.settings.docker
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_DATABASE=younha
+      - SQL_USER=younha
+      - SQL_PASSWORD=younha
+      - SQL_HOST=postgres
+      - SQL_PORT=5432
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: younha
+      POSTGRES_PASSWORD: younha
+      POSTGRES_DB: younha
