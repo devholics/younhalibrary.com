@@ -58,3 +58,7 @@ Without Docker, you'll need [Poetry](https://python-poetry.org/) and [Sass](http
     ```shell
     poetry run python manage.py createsuperuser
     ```
+8. Run a development server:
+    ```shell
+    poetry run python manage.py runserver
+    ```
