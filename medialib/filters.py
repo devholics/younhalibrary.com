@@ -1,6 +1,6 @@
 import django_filters
 
-from .models import Creator, FileMedia, Tag, YouTubeVideo
+from .models import Creator, Photo, Tag, YouTubeVideo
 
 
 class MediaDateFilter(django_filters.FilterSet):
@@ -19,9 +19,9 @@ class MediaSearchFilter(django_filters.FilterSet):
     )
 
 
-class FileMediaFilter(MediaDateFilter):
+class PhotoFilter(MediaDateFilter):
     class Meta:
-        model = FileMedia
+        model = Photo
         fields = ['date']
 
 
@@ -31,9 +31,9 @@ class YouTubeVideoFilter(MediaDateFilter):
         fields = ['date']
 
 
-class FileMediaSearchFilter(MediaSearchFilter):
+class PhotoSearchFilter(MediaSearchFilter):
     class Meta:
-        model = FileMedia
+        model = Photo
         fields = ['date', 'creator', 'tags']
 
 

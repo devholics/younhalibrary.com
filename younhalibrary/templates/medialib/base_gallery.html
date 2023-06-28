@@ -10,16 +10,10 @@
             <div class="col-xl-4 col-md-6 align-self-center">
                 <figure>
                     <div class="gallery">
-                        {% if media.type == media.TYPE_IMAGE %}
-                            <img class="w-100 media" src="{{ media.get_thumbnail_url }}" alt="{{ media }}" referrerpolicy="no-referrer">
-                        {% elif media.type == media.TYPE_VIDEO %}
-                            <video class="w-100 media" src="{{ media.url }}" autoplay muted loop>
-                                Video not supported
-                            </video>
-                        {% endif %}
+                        <img class="w-100 media" src="{{ media.get_thumbnail_url }}" alt="{{ media }}" referrerpolicy="no-referrer">
                         <div class="gallery-links d-flex flex-column" data-bs-theme="dark">
                             <div class="d-flex px-3 pt-2 align-items-start">
-                                <a href="{{ media.url }}" class="glightbox preview-link" data-glightbox="type: {% if media.type == media.TYPE_IMAGE %}image{% else %}video{% endif %}">
+                                <a href="{{ media.url }}" class="glightbox preview-link" data-glightbox="type: image">
                                     <i class="bi bi-arrows-angle-expand"></i>
                                 </a>
                                 <a href="{{ media.get_absolute_url }}" class="details-link">

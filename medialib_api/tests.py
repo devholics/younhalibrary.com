@@ -7,7 +7,7 @@ from rest_framework.test import APITestCase
 
 @override_settings(ROOT_URLCONF="younhalibrary.urls.api")
 class TestGalleryAPI(APITestCase):
-    fixtures = ["medialib_gallery_data.json"]
+    fixtures = ["medialib_photo_data.json"]
 
     def test_get_creator_list(self):
         response = self.client.get(reverse("creator-list"))
@@ -31,8 +31,8 @@ class TestGalleryAPI(APITestCase):
         }, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    def test_make_file_media(self):
-        response = self.client.post(reverse("file_media-list"), {
+    def test_make_photo(self):
+        response = self.client.post(reverse("photo-list"), {
             "type": "I",
             "thumbnail_url": "",
             "url": "https://cdn.pixabay.com/photo/2023/01/25/22/46/grey-reef-shark-7744765__480.jpg",
@@ -49,8 +49,8 @@ class TestGalleryAPI(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 10)
 
-    def test_bulk_create_file_media(self):
-        response = self.client.post(reverse("file_media-bulk-create"), [
+    def test_bulk_create_photo(self):
+        response = self.client.post(reverse("photo-bulk-create"), [
             {
                 "type": "I",
                 "thumbnail_url": "",

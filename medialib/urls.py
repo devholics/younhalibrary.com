@@ -5,9 +5,9 @@ from . import views
 
 urlpatterns = [
     path('gallery/', include([
-        path('', views.FileMediaListView.as_view(), name='filemedia-list'),
-        path('<int:pk>/', views.FileMediaDetailView.as_view(), name='filemedia-detail'),
-        path('search/', views.FileMediaSearchView.as_view(), name='filemedia-search')
+        path('', views.PhotoListView.as_view(), name='photo-list'),
+        path('<int:pk>/', views.PhotoDetailView.as_view(), name='photo-detail'),
+        path('search/', views.PhotoSearchView.as_view(), name='photo-search')
     ])),
     path('youtube/', include([
         path('', views.YouTubeVideoListView.as_view(), name='youtubevideo-list'),
