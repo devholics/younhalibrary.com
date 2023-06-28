@@ -34,7 +34,7 @@ class Creator(models.Model):
         return reverse('creator-youtube', kwargs={'pk': self.pk})
 
     def media_count(self):
-        return self.filemedia_set.displayed().count() + self.youtubevideo_set.displayed().count()
+        return self.photo_set.displayed().count() + self.youtubevideo_set.displayed().count()
 
 
 class CreatorWebsite(models.Model):
@@ -175,22 +175,10 @@ class Media(models.Model):
         abstract = True
 
 
-class FileMedia(Media):
-    TYPE_IMAGE = 'I'
-    TYPE_VIDEO = 'V'
-    TYPE_AUDIO = 'A'
-
-    TYPE_CHOICES = (
-        (TYPE_IMAGE, 'Image'),
-        (TYPE_VIDEO, 'Video'),
-        (TYPE_AUDIO, 'Audio'),
-    )
-
-    type = models.CharField(max_length=1, choices=TYPE_CHOICES)
+class Photo(Media):
     thumbnail_url = models.URLField('Thumbnail URL', max_length=400, blank=True)
     url = models.URLField('URL', max_length=400, unique=True)
     source = models.ForeignKey('MediaSource', on_delete=models.CASCADE)
-    verified = models.BooleanField(default=False)   # check if source and creator verified
 
     class Meta:
         ordering = ('-date', '-id')
@@ -204,11 +192,39 @@ class FileMedia(Media):
     def official_title(self):
         return self.title or self.source.title or "(Untitled)"
 
+    def __str__(self):
+        return self.title or f"Photo by {self.creator.name}"
+
     def get_absolute_url(self):
-        return reverse('filemedia-detail', kwargs={'pk': self.pk})
+        return reverse('photo-detail', kwargs={'pk': self.pk})
+
+
+class Video(Media):
+    thumbnail_url = models.URLField('Thumbnail URL', max_length=400, blank=True)
+    url = models.URLField('URL', max_length=400, unique=True)
+    source = models.ForeignKey('MediaSource', on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ('-date', '-id')
+
+    def get_thumbnail_url(self):
+        if self.thumbnail_url:
+            return self.thumbnail_url
+        return self.url
 
     def __str__(self):
-        return self.title or (self.get_type_display() + f" by {self.creator.name}")
+        return self.title or f"Video by {self.creator.name}"
+
+
+class Audio(Media):
+    url = models.URLField('URL', max_length=400, unique=True)
+    source = models.ForeignKey('MediaSource', on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ('-date', '-id')
+
+    def __str__(self):
+        return self.title or f"Audio by {self.creator.name}"
 
 
 class YouTubeVideo(Media):

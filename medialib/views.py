@@ -6,36 +6,36 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 from .forms import MediaSearchForm
-from .filters import FileMediaFilter, YouTubeVideoFilter, FileMediaSearchFilter, YouTubeVideoSearchFilter
-from .models import Creator, ExternalLink, License, FileMedia, YouTubeVideo, Tag
+from .filters import PhotoFilter, YouTubeVideoFilter, PhotoSearchFilter, YouTubeVideoSearchFilter
+from .models import Creator, ExternalLink, License, Photo, YouTubeVideo, Tag
 
 
 TAG_ORDER_QUERY = '''
 SELECT
     A.*,
-    num_filemedia + num_youtubevideo as num_media
+    num_photo + num_youtubevideo as num_media
 FROM
     medialib_tag A
 LEFT JOIN
     (
         SELECT
             B.id,
-            COUNT(C.filemedia_id)
+            COUNT(C.photo_id)
                 FILTER (
                     WHERE
-                        C.filemedia_id in (
+                        C.photo_id in (
                             SELECT
                                 id
                             FROM
-                                medialib_filemedia
+                                medialib_photo
                             WHERE
                                 public AND license_id IS NOT NULL
                         )
-                ) as num_filemedia
+                ) as num_photo
         FROM
             medialib_tag B
         LEFT JOIN
-            medialib_filemedia_tags C
+            medialib_photo_tags C
         ON
             B.id = C.tag_id
         GROUP BY
@@ -71,7 +71,7 @@ LEFT JOIN
 ON
     A.id = G.id
 WHERE
-    num_filemedia + num_youtubevideo > 0
+    num_photo + num_youtubevideo > 0
 ORDER BY
     num_media DESC
 '''
@@ -79,7 +79,7 @@ ORDER BY
 CREATOR_ORDER_QUERY = '''
 SELECT
     A.*,
-    num_filemedia + num_youtubevideo as num_media
+    num_photo + num_youtubevideo as num_media
 FROM
     medialib_creator A
 INNER JOIN
@@ -90,11 +90,11 @@ INNER JOIN
                 FILTER (
                     WHERE
                         C.public AND C.license_id IS NOT NULL
-                ) as num_filemedia
+                ) as num_photo
         FROM
             medialib_creator B
         LEFT JOIN
-            medialib_filemedia C
+            medialib_photo C
         ON
             B.id = C.creator_id
         GROUP BY
@@ -123,7 +123,7 @@ INNER JOIN
 ON
     A.id = G.id
 WHERE
-    num_filemedia + num_youtubevideo > 0
+    num_photo + num_youtubevideo > 0
 ORDER BY
     num_media DESC
 '''
@@ -224,21 +224,21 @@ class MediaViewMixin:
         return context
 
 
-class FileMediaMixin(MediaViewMixin, ExhibitionMixin):
-    queryset = FileMedia.objects.displayed()
-    filter = FileMediaFilter
+class PhotoMixin(MediaViewMixin, ExhibitionMixin):
+    queryset = Photo.objects.displayed()
+    filter = PhotoFilter
 
     def get_paginate_by(self, queryset):
         return settings.MEDIALIB_GALLERY_PAGINATION
 
     def get_creator_queryset(self):
         return Creator.objects.annotate(
-            num_media=Count('filemedia', filter=Q(filemedia__in=self.queryset)),
+            num_media=Count('photo', filter=Q(photo__in=self.queryset)),
         ).filter(num_media__gt=0).order_by('-num_media')[:self.creator_limit]
 
     def get_tag_queryset(self):
         return Tag.objects.annotate(
-            num_media=Count('filemedia', filter=Q(filemedia__in=self.queryset)),
+            num_media=Count('photo', filter=Q(photo__in=self.queryset)),
         ).filter(num_media__gt=0).order_by('-num_media')[:self.tag_limit]
 
 
@@ -260,7 +260,7 @@ class YouTubeVideoMixin(MediaViewMixin, ExhibitionMixin):
         ).filter(num_media__gt=0).order_by('-num_media')[:self.tag_limit]
 
 
-class FileMediaListView(FileMediaMixin, ListView):
+class PhotoListView(PhotoMixin, ListView):
     pass
 
 
@@ -268,7 +268,7 @@ class YouTubeVideoListView(YouTubeVideoMixin, ListView):
     pass
 
 
-class FileMediaDetailView(FileMediaMixin, DetailView):
+class PhotoDetailView(PhotoMixin, DetailView):
     pass
 
 
@@ -284,7 +284,7 @@ class TagMixin:
         context = super().get_context_data()
         tag = get_object_or_404(Tag, pk=self.kwargs['pk'])
         context['tag'] = tag
-        context['gallery_preview'] = tag.filemedia_set.displayed().order_by('-date', '-id')[:4]
+        context['gallery_preview'] = tag.photo_set.displayed().order_by('-date', '-id')[:4]
         context['youtube_preview'] = tag.youtubevideo_set.displayed().order_by('-date', '-id')[:6]
         return context
 
@@ -293,7 +293,7 @@ class TagDetailView(TagMixin, ExhibitionMixin, DetailView):
     model = Tag
 
 
-class TagGalleryView(TagMixin, FileMediaMixin, ListView):
+class TagGalleryView(TagMixin, PhotoMixin, ListView):
     template_name = 'medialib/tag_gallery.html'
 
 
@@ -309,7 +309,7 @@ class CreatorMixin:
         context = super().get_context_data()
         creator = get_object_or_404(Creator, pk=self.kwargs['pk'])
         context['creator'] = creator
-        context['gallery_preview'] = creator.filemedia_set.displayed().order_by('-date', '-id')[:4]
+        context['gallery_preview'] = creator.photo_set.displayed().order_by('-date', '-id')[:4]
         context['youtube_preview'] = creator.youtubevideo_set.displayed().order_by('-date', '-id')[:6]
         return context
 
@@ -318,7 +318,7 @@ class CreatorDetailView(CreatorMixin, ExhibitionMixin, DetailView):
     model = Creator
 
 
-class CreatorGalleryView(CreatorMixin, FileMediaMixin, ListView):
+class CreatorGalleryView(CreatorMixin, PhotoMixin, ListView):
     template_name = 'medialib/creator_gallery.html'
 
 
@@ -367,11 +367,11 @@ class MediaSearchView(ListView):
         return qs
 
 
-class FileMediaSearchView(FileMediaMixin, MediaSearchView):
-    template_name = 'medialib/filemedia_search.html'
+class PhotoSearchView(PhotoMixin, MediaSearchView):
+    template_name = 'medialib/photo_search.html'
 
     def get_raw_queryset(self):
-        return self.search_filter(FileMediaSearchFilter(self.request.GET, queryset=self.queryset).qs)
+        return self.search_filter(PhotoSearchFilter(self.request.GET, queryset=self.queryset).qs)
 
 
 class YouTubeVideoSearchView(YouTubeVideoMixin, MediaSearchView):
@@ -382,4 +382,4 @@ class YouTubeVideoSearchView(YouTubeVideoMixin, MediaSearchView):
 
 
 def gallery_redirect_view(request):
-    return redirect('filemedia-list')
+    return redirect('photo-list')

@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from django_filters import rest_framework as filters
 
-from medialib.models import Creator, FileMedia, YouTubeVideo, MediaSource, Tag
+from medialib.models import Creator, Photo, YouTubeVideo, MediaSource, Tag
 
 from . import serializers
 
@@ -15,8 +15,8 @@ class CreatorViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def gallery(self, request, **kwargs):
-        media_set = FileMedia.objects.public().filter(creator=kwargs['pk']).order_by('id')
-        serializer = serializers.FileMediaSerializer(media_set, many=True)
+        media_set = Photo.objects.public().filter(creator=kwargs['pk']).order_by('id')
+        serializer = serializers.PhotoSerializer(media_set, many=True)
         return Response(serializer.data)
 
     @action(detail=True, methods=['get'])
@@ -26,24 +26,24 @@ class CreatorViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class FileMediaFilter(filters.FilterSet):
+class PhotoFilter(filters.FilterSet):
     start_date = filters.DateFilter(field_name='date', lookup_expr='gte')
     end_date = filters.DateFilter(field_name='date', lookup_expr='lte')
 
     class Meta:
-        model = FileMedia
-        fields = ['type', 'creator', 'tags', 'date']
+        model = Photo
+        fields = ['creator', 'tags', 'date']
 
 
-class FileMediaViewSet(viewsets.ModelViewSet):
-    queryset = FileMedia.objects.public()
-    serializer_class = serializers.FileMediaSerializer
+class PhotoViewSet(viewsets.ModelViewSet):
+    queryset = Photo.objects.public()
+    serializer_class = serializers.PhotoSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filterset_class = FileMediaFilter
+    filterset_class = PhotoFilter
 
     @action(detail=False, methods=['post'])
     def bulk_create(self, request):
-        serializer = serializers.FileMediaSerializer(data=request.data, many=True, max_length=100)
+        serializer = serializers.PhotoSerializer(data=request.data, many=True, max_length=100)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -77,8 +77,8 @@ class TagViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def gallery(self, request, **kwargs):
-        media_set = FileMedia.objects.public().filter(tags=kwargs['pk']).distinct().order_by('id')
-        serializer = serializers.FileMediaSerializer(media_set, many=True)
+        media_set = Photo.objects.public().filter(tags=kwargs['pk']).distinct().order_by('id')
+        serializer = serializers.PhotoSerializer(media_set, many=True)
         return Response(serializer.data)
 
     @action(detail=True, methods=['get'])

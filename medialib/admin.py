@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .models import (
-    Creator, CreatorWebsite, ExternalLink, License, FileMedia,
+    Creator, CreatorWebsite, ExternalLink, License, Photo, Video, Audio,
     MediaSource, Tag, YouTubeVideo
 )
 
@@ -24,29 +24,6 @@ class LicenseAdmin(admin.ModelAdmin):
     fields = ('name', 'type', 'url', 'description', 'display')
 
 
-class FileMediaMixin:
-    @admin.display(description='Preview')
-    def preview(self, obj):
-        if obj.type == FileMedia.TYPE_IMAGE:
-            return format_html(
-                '<img src="{}" alt="{}" height="300" referrerpolicy="no-referrer">',
-                obj.get_thumbnail_url(),
-                str(obj)
-            )
-        elif obj.type == FileMedia.TYPE_VIDEO:
-            return format_html(
-                '<video src="{}" height="300" controls>Video not supported</video>',
-                obj.url
-            )
-        elif obj.type == FileMedia.TYPE_AUDIO:
-            return format_html(
-                '<audio src="{}" controls>Audio not supported</audio>',
-                obj.url
-            )
-        else:
-            return 'Save to view'
-
-
 class YouTubeVideoMixin:
     @admin.display(description='Preview')
     def preview(self, obj):
@@ -65,14 +42,66 @@ class MediaSourceAdmin(admin.ModelAdmin):
     search_fields = ('title',)
 
 
-class FileMediaAdmin(FileMediaMixin, admin.ModelAdmin):
+class PhotoAdmin(admin.ModelAdmin):
     readonly_fields = ('preview',)
-    fields = ('type', 'url', 'preview', 'title', 'description', 'creator',
-              'date', 'date_exact', 'tags', 'source', 'verified', 'license', 'public')
+    fields = ('url', 'preview', 'title', 'description', 'creator',
+              'date', 'date_exact', 'tags', 'source', 'license', 'public')
     list_display = ('__str__', 'date', 'upload_time', 'public')
     list_filter = ('creator',)
     autocomplete_fields = ['creator', 'tags', 'source']
     ordering = ('-upload_time',)
+
+    @admin.display(description='Preview')
+    def preview(self, obj):
+        url = obj.get_thumbnail_url()
+        if url:
+            return format_html(
+                '<img src="{}" alt="{}" height="300" referrerpolicy="no-referrer">',
+                url,
+                str(obj)
+            )
+        else:
+            return 'Save to view'
+
+
+class VideoAdmin(admin.ModelAdmin):
+    readonly_fields = ('preview',)
+    fields = ('url', 'preview', 'title', 'description', 'creator',
+              'date', 'date_exact', 'tags', 'source', 'license', 'public')
+    list_display = ('__str__', 'date', 'upload_time', 'public')
+    list_filter = ('creator',)
+    autocomplete_fields = ['creator', 'tags', 'source']
+    ordering = ('-upload_time',)
+
+    @admin.display(description='Preview')
+    def preview(self, obj):
+        if obj.url:
+            return format_html(
+                '<video src="{}" height="300" controls>Video not supported</video>',
+                obj.url
+            )
+        else:
+            return 'Save to view'
+
+
+class AudioAdmin(admin.ModelAdmin):
+    readonly_fields = ('preview',)
+    fields = ('url', 'preview', 'title', 'description', 'creator',
+              'date', 'date_exact', 'tags', 'source', 'license', 'public')
+    list_display = ('__str__', 'date', 'upload_time', 'public')
+    list_filter = ('creator',)
+    autocomplete_fields = ['creator', 'tags', 'source']
+    ordering = ('-upload_time',)
+
+    @admin.display(description='Preview')
+    def preview(self, obj):
+        if obj.url:
+            return format_html(
+                '<audio src="{}" controls>Audio not supported</audio>',
+                obj.url
+            )
+        else:
+            return 'Save to view'
 
 
 class YouTubeVideoAdmin(YouTubeVideoMixin, admin.ModelAdmin):
@@ -98,7 +127,9 @@ class ExternalLinkAdmin(admin.ModelAdmin):
 admin.site.register(Creator, CreatorAdmin)
 admin.site.register(License, LicenseAdmin)
 admin.site.register(MediaSource, MediaSourceAdmin)
-admin.site.register(FileMedia, FileMediaAdmin)
+admin.site.register(Photo, PhotoAdmin)
+admin.site.register(Video, VideoAdmin)
+admin.site.register(Audio, AudioAdmin)
 admin.site.register(YouTubeVideo, YouTubeVideoAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(ExternalLink, ExternalLinkAdmin)

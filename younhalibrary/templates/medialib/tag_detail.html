@@ -24,14 +24,8 @@
                     <div class="col-xl-3 col-lg-6 align-self-center text-center">
                         <figure>
                             <div class="gallery">
-                                <a href="{% url 'filemedia-detail' media.pk %}">
-                                    {% if media.type == media.TYPE_IMAGE %}
-                                        <img class="w-100" src="{{ media.get_thumbnail_url }}" alt="{{ media }}">
-                                    {% elif media.type == media.TYPE_VIDEO %}
-                                        <video class="w-100" src="{{ media.url }}" autoplay muted loop>
-                                            Video not supported
-                                        </video>
-                                    {% endif %}
+                                <a href="{% url 'photo-detail' media.pk %}">
+                                    <img class="w-100" src="{{ media.get_thumbnail_url }}" alt="{{ media }}">
                                 </a>
                             </div>
                         </figure>

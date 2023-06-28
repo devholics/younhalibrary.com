@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from medialib.models import Creator, CreatorWebsite, License, FileMedia, YouTubeVideo, MediaSource, Tag
+from medialib.models import Creator, CreatorWebsite, License, Photo, YouTubeVideo, MediaSource, Tag
 
 
 class CreatorWebsiteSerializer(serializers.ModelSerializer):
@@ -23,7 +23,7 @@ class MediaSourceSerializer(serializers.ModelSerializer):
         fields = ['id', 'url', 'title', 'description']
 
 
-class FileMediaSerializer(serializers.ModelSerializer):
+class PhotoSerializer(serializers.ModelSerializer):
     source = serializers.SlugRelatedField(
         slug_field='url',
         queryset=MediaSource.objects.available(),
@@ -42,10 +42,10 @@ class FileMediaSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = FileMedia
-        fields = ['id', 'type', 'url', 'thumbnail_url', 'title', 'description',
+        model = Photo
+        fields = ['id', 'url', 'thumbnail_url', 'title', 'description',
                   'creator', 'date', 'date_exact', 'tags', 'source',
-                  'license', 'verified']
+                  'license']
 
 
 class YouTubeVideoSerializer(serializers.ModelSerializer):

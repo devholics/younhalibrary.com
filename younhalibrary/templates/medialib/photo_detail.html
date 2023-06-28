@@ -8,13 +8,7 @@
 
 {% block content %}
     <div class="d-flex flex-wrap yh-media">
-        {% if object.type == object.TYPE_IMAGE %}
-            <img class="mw-100" src="{{ object.url }}" alt="{{ object }}" referrerpolicy="no-referrer">
-        {% elif object.type == object.TYPE_VIDEO %}
-            <video class="mw-100" src="{{ object.url }}" controls>
-                Video not supported
-            </video>
-        {% endif %}
+        <img class="mw-100" src="{{ object.url }}" alt="{{ object }}" referrerpolicy="no-referrer">
         <div>
             <div class="d-inline-flex align-items-center mb-2">
                 <div class="flex-shrink-0">
@@ -27,9 +21,6 @@
                         <a class="text-decoration-none text-reset" href="{{ object.creator.get_gallery_url }}">
                             <span class="fs-3 fw-semibold">{{ object.creator }}</span>
                         </a>
-                        {% if object.verified %}
-                            <span class="fs-5 ms-1 mt-2"><i class="bi bi-check-circle-fill text-success" title="원작자 확인됨"></i></span>
-                        {% endif %}
                     </div>
                     <span class="text-muted">미디어 {{ object.creator.media_count }}개</span>
                 </div>

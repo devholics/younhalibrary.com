@@ -3,10 +3,10 @@ from django.urls import reverse
 
 
 class TestGallery(TestCase):
-    fixtures = ["medialib_gallery_data.json"]
+    fixtures = ["medialib_photo_data.json"]
 
     def test_index(self):
-        response = self.client.get(reverse("filemedia-list"))
+        response = self.client.get(reverse("photo-list"))
         self.assertEqual(response.status_code, 200)
 
     @override_settings(MEDIALIB_GALLERY_PAGINATION=5)
