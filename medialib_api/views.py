@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from django_filters import rest_framework as filters
 
-from medialib.models import Creator, Photo, YouTubeVideo, MediaSource, Tag
+from medialib.models import Creator, Photo, YouTubeVideo, MediaSource, Tag, Video
 
 from . import serializers
 
@@ -38,20 +38,47 @@ class PhotoFilter(filters.FilterSet):
 
 class PhotoViewSet(viewsets.ModelViewSet):
     queryset = Photo.objects.public()
-    serializer_class = serializers.PhotoSerializer
     filter_backends = (filters.DjangoFilterBackend, OrderingFilter, SearchFilter)
     filterset_class = PhotoFilter
     ordering_fields = ('date', 'id')
     search_fields = ('title', 'description', 'tags__name', 'tags__description', 'creator__name',
                      'source__title', 'source__description')
 
+    def get_serializer_class(self):
+        if self.action in ['list', 'retrieve']:
+            return serializers.PhotoSerializer
+        return serializers.PhotoWritableSerializer
+
     @action(detail=False, methods=['post'])
     def bulk_create(self, request):
-        serializer = serializers.PhotoSerializer(data=request.data, many=True, max_length=100)
+        serializer = serializers.PhotoWritableSerializer(data=request.data, many=True, max_length=100)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class VideoFilter(filters.FilterSet):
+    start_date = filters.DateFilter(field_name='date', lookup_expr='gte')
+    end_date = filters.DateFilter(field_name='date', lookup_expr='lte')
+
+    class Meta:
+        model = Video
+        fields = ['creator', 'tags', 'date']
+
+
+class VideoViewSet(viewsets.ModelViewSet):
+    queryset = Video.objects.public()
+    filter_backends = (filters.DjangoFilterBackend, OrderingFilter, SearchFilter)
+    filterset_class = VideoFilter
+    ordering_fields = ('date', 'id')
+    search_fields = ('title', 'description', 'tags__name', 'tags__description', 'creator__name',
+                     'source__title', 'source__description')
+
+    def get_serializer_class(self):
+        if self.action in ['list', 'retrieve']:
+            return serializers.VideoSerializer
+        return serializers.VideoWritableSerializer
 
 
 class YouTubeVideoFilter(filters.FilterSet):
