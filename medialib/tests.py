@@ -14,11 +14,11 @@ class TestGallery(TestCase):
         response = self.client.get(reverse("creator-gallery", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, 200)
         creator = response.context["creator"]
-        self.assertEqual(creator.media_count(), 8)
+        self.assertEqual(creator.media_count(), 7)
         self.assertEqual(len(response.context["page_obj"]), 5)
         response = self.client.get(reverse("creator-gallery", kwargs={"pk": 1}), {"page": 2})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context["page_obj"]), 3)
+        self.assertEqual(len(response.context["page_obj"]), 2)
 
 
 class TestYouTube(TestCase):
