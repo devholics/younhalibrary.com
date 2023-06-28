@@ -1,5 +1,6 @@
 from rest_framework import generics, status, views, viewsets
 from rest_framework.decorators import action
+from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.response import Response
 
 from django_filters import rest_framework as filters
@@ -38,8 +39,11 @@ class PhotoFilter(filters.FilterSet):
 class PhotoViewSet(viewsets.ModelViewSet):
     queryset = Photo.objects.public()
     serializer_class = serializers.PhotoSerializer
-    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (filters.DjangoFilterBackend, OrderingFilter, SearchFilter)
     filterset_class = PhotoFilter
+    ordering_fields = ('date', 'id')
+    search_fields = ('title', 'description', 'tags__name', 'tags__description', 'creator__name',
+                     'source__title', 'source__description')
 
     @action(detail=False, methods=['post'])
     def bulk_create(self, request):
