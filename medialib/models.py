@@ -179,6 +179,8 @@ class Photo(Media):
     thumbnail_url = models.URLField('Thumbnail URL', max_length=400, blank=True)
     url = models.URLField('URL', max_length=400, unique=True)
     source = models.ForeignKey('MediaSource', on_delete=models.CASCADE)
+    width = models.IntegerField(blank=True, null=True)
+    height = models.IntegerField(blank=True, null=True)
 
     class Meta:
         ordering = ('-date', '-id')

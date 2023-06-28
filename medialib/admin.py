@@ -44,7 +44,7 @@ class MediaSourceAdmin(admin.ModelAdmin):
 
 class PhotoAdmin(admin.ModelAdmin):
     readonly_fields = ('preview',)
-    fields = ('url', 'preview', 'title', 'description', 'creator',
+    fields = ('url', 'preview', 'width', 'height', 'title', 'description', 'creator',
               'date', 'date_exact', 'tags', 'source', 'license', 'public')
     list_display = ('__str__', 'date', 'upload_time', 'public')
     list_filter = ('creator',)
