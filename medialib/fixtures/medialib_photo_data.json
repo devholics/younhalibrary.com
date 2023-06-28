@@ -22,6 +22,17 @@
     }
   },
   {
+    "model": "medialib.creator",
+    "pk": 3,
+    "fields": {
+      "name": "Hans",
+      "user": null,
+      "description": "",
+      "profile_img_url": "https://cdn.pixabay.com/user/2019/01/29/15-01-52-802_250x250.jpg",
+      "official": false
+    }
+  },
+  {
     "model": "medialib.mediasource",
     "pk": 1,
     "fields": {
@@ -56,10 +67,28 @@
     }
   },
   {
+    "model": "medialib.tag",
+    "pk": 1,
+    "fields" : {
+      "name": "Animal",
+      "category": "",
+      "description": ""
+    }
+  },
+  {
+    "model": "medialib.tag",
+    "pk": 2,
+    "fields" : {
+      "name": "Plant",
+      "category": "",
+      "description": ""
+    }
+  },
+  {
     "model": "medialib.photo",
     "pk": 1,
     "fields": {
-      "title": "",
+      "title": "Slider",
       "description": "",
       "creator": 1,
       "date": "2022-01-01",
@@ -71,17 +100,17 @@
       "thumbnail_url": "",
       "url": "https://cdn.pixabay.com/photo/2023/06/03/16/48/cumberland-slider-8038054__480.jpg",
       "source": 1,
-      "tags": []
+      "tags": [1]
     }
   },
   {
     "model": "medialib.photo",
     "pk": 2,
     "fields": {
-      "title": "",
+      "title": "Giraffe",
       "description": "",
       "creator": 1,
-      "date": "2022-01-01",
+      "date": "2022-02-01",
       "date_exact": true,
       "public": true,
       "license": null,
@@ -90,17 +119,17 @@
       "thumbnail_url": "",
       "url": "https://cdn.pixabay.com/photo/2023/06/03/17/11/giraffe-8038107__480.jpg",
       "source": 1,
-      "tags": []
+      "tags": [1]
     }
   },
   {
     "model": "medialib.photo",
     "pk": 3,
     "fields": {
-      "title": "",
+      "title": "Flamingo",
       "description": "",
       "creator": 1,
-      "date": "2022-01-01",
+      "date": "2022-03-01",
       "date_exact": true,
       "public": true,
       "license": 1,
@@ -109,17 +138,17 @@
       "thumbnail_url": "",
       "url": "https://cdn.pixabay.com/photo/2023/06/03/16/51/flamingo-8038061__480.jpg",
       "source": 1,
-      "tags": []
+      "tags": [1]
     }
   },
   {
     "model": "medialib.photo",
     "pk": 4,
     "fields": {
-      "title": "",
+      "title": "Gibbon",
       "description": "",
       "creator": 1,
-      "date": "2022-01-01",
+      "date": "2022-04-01",
       "date_exact": true,
       "public": true,
       "license": 1,
@@ -128,17 +157,17 @@
       "thumbnail_url": "",
       "url": "https://cdn.pixabay.com/photo/2023/06/03/16/47/gibbon-8038050__480.jpg",
       "source": 1,
-      "tags": []
+      "tags": [1]
     }
   },
   {
     "model": "medialib.photo",
     "pk": 5,
     "fields": {
-      "title": "",
+      "title": "Bee",
       "description": "",
       "creator": 1,
-      "date": "2022-01-01",
+      "date": "2022-05-01",
       "date_exact": true,
       "public": true,
       "license": 1,
@@ -147,17 +176,17 @@
       "thumbnail_url": "",
       "url": "https://cdn.pixabay.com/photo/2023/05/19/18/07/bee-8005091__480.jpg",
       "source": 1,
-      "tags": []
+      "tags": [1]
     }
   },
   {
     "model": "medialib.photo",
     "pk": 6,
     "fields": {
-      "title": "",
+      "title": "Snail",
       "description": "",
       "creator": 1,
-      "date": "2022-01-01",
+      "date": "2022-06-01",
       "date_exact": true,
       "public": true,
       "license": 1,
@@ -166,17 +195,17 @@
       "thumbnail_url": "",
       "url": "https://cdn.pixabay.com/photo/2023/05/07/17/25/snail-7976786__480.jpg",
       "source": 1,
-      "tags": []
+      "tags": [1]
     }
   },
   {
     "model": "medialib.photo",
     "pk": 7,
     "fields": {
-      "title": "",
+      "title": "Damselfly",
       "description": "",
       "creator": 1,
-      "date": "2022-01-01",
+      "date": "2022-07-01",
       "date_exact": true,
       "public": true,
       "license": 1,
@@ -185,17 +214,17 @@
       "thumbnail_url": "",
       "url": "https://cdn.pixabay.com/photo/2023/05/29/13/19/damselfly-8026054__480.jpg",
       "source": 1,
-      "tags": []
+      "tags": [1]
     }
   },
   {
     "model": "medialib.photo",
     "pk": 8,
     "fields": {
-      "title": "",
+      "title": "Damselfly",
       "description": "",
       "creator": 1,
-      "date": "2022-01-01",
+      "date": "2022-08-01",
       "date_exact": true,
       "public": true,
       "license": 1,
@@ -204,36 +233,36 @@
       "thumbnail_url": "",
       "url": "https://cdn.pixabay.com/photo/2023/05/29/13/16/damselfly-8026046__480.jpg",
       "source": 1,
-      "tags": []
+      "tags": [1]
     }
   },
   {
     "model": "medialib.photo",
     "pk": 9,
     "fields": {
-      "title": "",
+      "title": "Pink",
       "description": "",
-      "creator": 1,
-      "date": "2022-01-01",
+      "creator": 3,
+      "date": "2022-08-01",
       "date_exact": true,
       "public": true,
       "license": 1,
       "upload_time": "2023-01-30T00:28:44.814Z",
       "update_time": "2023-01-30T00:28:44.814Z",
       "thumbnail_url": "",
-      "url": "https://cdn.pixabay.com/photo/2023/05/19/17/18/rose-beetle-8004990__480.jpg",
+      "url": "https://cdn.pixabay.com/photo/2014/04/14/20/11/pink-324175_1280.jpg",
       "source": 1,
-      "tags": []
+      "tags": [2]
     }
   },
   {
     "model": "medialib.photo",
     "pk": 10,
     "fields": {
-      "title": "",
+      "title": "Sparrow",
       "description": "",
       "creator": 1,
-      "date": "2022-01-01",
+      "date": "2022-09-01",
       "date_exact": true,
       "public": true,
       "license": 1,
@@ -242,7 +271,7 @@
       "thumbnail_url": "",
       "url": "https://cdn.pixabay.com/photo/2023/05/11/11/21/house-sparrow-7986139__480.jpg",
       "source": 1,
-      "tags": []
+      "tags": [1]
     }
   }
 ]
