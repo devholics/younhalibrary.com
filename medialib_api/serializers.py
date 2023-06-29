@@ -14,7 +14,7 @@ class CreatorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Creator
-        fields = ['id', 'name', 'websites', 'description']
+        fields = ['id', 'name', 'websites', 'description', 'profile_img_url', 'official']
 
 
 class MediaSourceSerializer(serializers.ModelSerializer):
