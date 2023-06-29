@@ -13,7 +13,7 @@ from . import serializers
 
 
 class CreatorViewSet(viewsets.ModelViewSet):
-    queryset = Creator.objects.annotate(num_photos=Count("photo")).order_by("-photo")
+    queryset = Creator.objects.annotate(num_photos=Count("photo")).order_by("-num_photos")
     serializer_class = serializers.CreatorSerializer
 
     @action(detail=True, methods=['get'])
@@ -105,7 +105,7 @@ class MediaSourceViewSet(viewsets.ModelViewSet):
 
 
 class TagViewSet(viewsets.ModelViewSet):
-    queryset = Tag.objects.annotate(num_photos=Count("photo")).order_by("-photo")
+    queryset = Tag.objects.annotate(num_photos=Count("photo")).order_by("-num_photos")
     serializer_class = serializers.TagSerializer
 
     @action(detail=True, methods=['get'])
