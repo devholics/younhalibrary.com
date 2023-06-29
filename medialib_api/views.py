@@ -1,3 +1,5 @@
+from django.db.models import Count
+
 from rest_framework import generics, status, views, viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter, SearchFilter
@@ -11,7 +13,7 @@ from . import serializers
 
 
 class CreatorViewSet(viewsets.ModelViewSet):
-    queryset = Creator.objects.all()
+    queryset = Creator.objects.annotate(num_photos=Count("photo")).order_by("-photo")
     serializer_class = serializers.CreatorSerializer
 
     @action(detail=True, methods=['get'])
@@ -103,7 +105,7 @@ class MediaSourceViewSet(viewsets.ModelViewSet):
 
 
 class TagViewSet(viewsets.ModelViewSet):
-    queryset = Tag.objects.all()
+    queryset = Tag.objects.annotate(num_photos=Count("photo")).order_by("-photo")
     serializer_class = serializers.TagSerializer
 
     @action(detail=True, methods=['get'])

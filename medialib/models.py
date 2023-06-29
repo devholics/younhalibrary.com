@@ -33,8 +33,11 @@ class Creator(models.Model):
     def get_youtube_url(self):
         return reverse('creator-youtube', kwargs={'pk': self.pk})
 
+    def gallery_count(self):
+        return self.photo_set.displayed().count() + self.video_set.displayed().count()
+
     def media_count(self):
-        return self.photo_set.displayed().count() + self.youtubevideo_set.displayed().count()
+        return self.gallery_count() + self.youtubevideo_set.displayed().count()
 
 
 class CreatorWebsite(models.Model):

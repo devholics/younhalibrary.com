@@ -106,3 +106,15 @@ class TestGalleryAPI(APITestCase):
         response = self.client.get("/photos/?search=animal&start_date=2022-03-01&end_date=2022-05-03&creator=1&tags=1")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertGreater(response.data["count"], 0)
+
+    def test_creator_ordering(self):
+        response = self.client.get("/creators/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], 3)
+        self.assertEqual(response.data["results"][0]["id"], 1)
+
+    def test_tag_ordering(self):
+        response = self.client.get("/tags/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["count"], 2)
+        self.assertEqual(response.data["results"][0]["id"], 1)
