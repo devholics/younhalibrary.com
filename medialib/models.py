@@ -121,10 +121,10 @@ class Tag(models.Model):
         return reverse('tag-youtube', kwargs={'pk': self.pk})
 
     def photo_count(self):
-        return self.photo_set.count()
+        return self.photo_set.displayed().count()
 
     def video_count(self):
-        return self.video_set.count()
+        return self.video_set.displayed().count()
 
 
 class MediaSourceQuerySet(models.QuerySet):
