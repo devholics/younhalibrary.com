@@ -120,6 +120,12 @@ class Tag(models.Model):
     def get_youtube_url(self):
         return reverse('tag-youtube', kwargs={'pk': self.pk})
 
+    def photo_count(self):
+        return self.photo_set.count()
+
+    def video_count(self):
+        return self.video_set.count()
+
 
 class MediaSourceQuerySet(models.QuerySet):
     def available(self):

@@ -119,3 +119,13 @@ class TestGalleryAPI(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["count"], 2)
         self.assertEqual(response.data["results"][0]["id"], 1)
+
+    def test_photo_detail_has_creator(self):
+        response = self.client.get("/photos/2/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsInstance(response.data["creator"], dict)
+
+    def test_tag_counts(self):
+        response = self.client.get("/tags/1/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["photo_count"], 8)
