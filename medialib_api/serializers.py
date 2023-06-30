@@ -33,7 +33,7 @@ class LicenseSerializer(serializers.ModelSerializer):
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ['id', 'name', 'description']
+        fields = ['id', 'name', 'description', 'photo_count', 'video_count']
 
 
 class PhotoSerializer(serializers.ModelSerializer):
