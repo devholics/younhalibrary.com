@@ -37,6 +37,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class PhotoSerializer(serializers.ModelSerializer):
+    creator = CreatorSerializer(read_only=True)
     source = MediaSourceSerializer(read_only=True)
     license = LicenseSerializer(read_only=True)
     tags = TagSerializer(many=True, read_only=True)

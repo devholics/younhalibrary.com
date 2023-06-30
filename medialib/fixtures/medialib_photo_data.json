@@ -7,7 +7,8 @@
       "user": null,
       "description": "",
       "profile_img_url": "https://cdn.pixabay.com/user/2022/08/20/17-47-55-686_250x250.jpg",
-      "official": false
+      "official": false,
+      "public": true
     }
   },
   {
@@ -18,7 +19,8 @@
       "user": null,
       "description": "",
       "profile_img_url": "https://cdn.pixabay.com/user/2022/11/16/08-07-43-420_250x250.jpg",
-      "official": false
+      "official": false,
+      "public": true
     }
   },
   {
@@ -29,7 +31,20 @@
       "user": null,
       "description": "",
       "profile_img_url": "https://cdn.pixabay.com/user/2019/01/29/15-01-52-802_250x250.jpg",
-      "official": false
+      "official": false,
+      "public": true
+    }
+  },
+  {
+    "model": "medialib.creator",
+    "pk": 4,
+    "fields": {
+      "name": "Anonymous",
+      "user": null,
+      "description": "",
+      "profile_img_url": "",
+      "official": false,
+      "public": false
     }
   },
   {
