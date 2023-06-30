@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.db.models import Case, Count, IntegerField, Q, When
+from django.db.models import Case, Count, F, IntegerField, Q, When
 from django.http import HttpResponse, QueryDict
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic.detail import DetailView
@@ -12,14 +12,20 @@ from .queries import CREATOR_ORDER_QUERY, TAG_ORDER_QUERY
 
 
 class ExhibitionMixin:
-    tag_limit = settings.MEDIALIB_TAG_LIMIT
-    creator_limit = settings.MEDIALIB_CREATOR_LIMIT
+    tag_limit = None
+    creator_limit = None
+
+    def get_tag_limit(self):
+        return self.tag_limit or settings.MEDIALIB_TAG_LIMIT
+
+    def get_creator_limit(self):
+        return self.creator_limit or settings.MEDIALIB_CREATOR_LIMIT
 
     def get_creator_queryset(self):
-        return Creator.objects.raw(CREATOR_ORDER_QUERY)[:self.creator_limit]
+        return Creator.objects.raw(CREATOR_ORDER_QUERY)[:self.get_creator_limit()]
 
     def get_tag_queryset(self):
-        return Tag.objects.raw(TAG_ORDER_QUERY)[:self.tag_limit]
+        return Tag.objects.raw(TAG_ORDER_QUERY)[:self.get_tag_limit()]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -107,39 +113,41 @@ class MediaViewMixin:
 
 
 class PhotoMixin(MediaViewMixin, ExhibitionMixin):
+    paginate_by = None
     queryset = Photo.objects.displayed()
     filter = PhotoFilter
 
     def get_paginate_by(self, queryset):
-        return settings.MEDIALIB_GALLERY_PAGINATION
+        return self.paginate_by or settings.MEDIALIB_GALLERY_PAGINATION
 
     def get_creator_queryset(self):
         return Creator.objects.annotate(
             num_media=Count('photo', filter=Q(photo__in=self.queryset)),
-        ).filter(num_media__gt=0).order_by('-num_media')[:self.creator_limit]
+        ).filter(num_media__gt=0).order_by('-num_media')[:self.get_creator_limit()]
 
     def get_tag_queryset(self):
         return Tag.objects.annotate(
             num_media=Count('photo', filter=Q(photo__in=self.queryset)),
-        ).filter(num_media__gt=0).order_by('-num_media')[:self.tag_limit]
+        ).filter(num_media__gt=0).order_by('-num_media')[:self.get_tag_limit()]
 
 
 class YouTubeVideoMixin(MediaViewMixin, ExhibitionMixin):
+    paginate_by = None
     queryset = YouTubeVideo.objects.displayed()
     filter = YouTubeVideoFilter
 
     def get_paginate_by(self, queryset):
-        return settings.MEDIALIB_YOUTUBE_PAGINATION
+        return self.paginate_by or settings.MEDIALIB_YOUTUBE_PAGINATION
 
     def get_creator_queryset(self):
         return Creator.objects.annotate(
             num_media=Count('youtubevideo', filter=Q(youtubevideo__in=self.queryset)),
-        ).filter(num_media__gt=0).order_by('-num_media')[:self.creator_limit]
+        ).filter(num_media__gt=0).order_by('-num_media')[:self.get_creator_limit()]
 
     def get_tag_queryset(self):
         return Tag.objects.annotate(
             num_media=Count('youtubevideo', filter=Q(youtubevideo__in=self.queryset)),
-        ).filter(num_media__gt=0).order_by('-num_media')[:self.tag_limit]
+        ).filter(num_media__gt=0).order_by('-num_media')[:self.get_tag_limit()]
 
 
 class PhotoListView(PhotoMixin, ListView):
