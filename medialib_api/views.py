@@ -13,7 +13,7 @@ from . import serializers
 
 
 class CreatorViewSet(viewsets.ModelViewSet):
-    queryset = Creator.objects.with_counts().annotate(
+    queryset = Creator.objects.with_counts().filter(public=True).annotate(
         num_media=F('num_photos') + F('num_videos')
     ).order_by('-num_media')
     serializer_class = serializers.CreatorSerializer

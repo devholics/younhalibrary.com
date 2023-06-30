@@ -32,6 +32,7 @@ class Creator(models.Model):
     description = models.TextField(blank=True)
     profile_img_url = models.URLField('Profile image URL', max_length=400, blank=True)
     official = models.BooleanField(default=False)
+    public = models.BooleanField(default=True)
 
     objects = CreatorManager()
 
