@@ -1,7 +1,29 @@
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models.expressions import RawSQL
 from django.urls import reverse
+
+
+class CreatorManager(models.Manager):
+    def with_counts(self):
+        # An ugly hack to deal with multiple aggregations...
+        # https://docs.djangoproject.com/en/4.2/topics/db/aggregation/#combining-multiple-aggregations
+        # https://code.djangoproject.com/ticket/10060
+        return self.annotate(
+            num_photos=RawSQL("SELECT COUNT(*) "
+                              "FROM medialib_photo A "
+                              "WHERE A.creator_id = medialib_creator.id "
+                              "  AND A.public AND A.license_id IS NOT NULL", [], models.IntegerField()),
+            num_videos=RawSQL("SELECT COUNT(*) "
+                              "FROM medialib_video A "
+                              "WHERE A.creator_id = medialib_creator.id "
+                              "  AND A.public AND A.license_id IS NOT NULL", [], models.IntegerField()),
+            num_youtubevideos=RawSQL("SELECT COUNT(*) "
+                                     "FROM medialib_youtubevideo A "
+                                     "WHERE A.creator_id = medialib_creator.id "
+                                     "  AND A.public AND A.license_id IS NOT NULL", [], models.IntegerField())
+        )
 
 
 class Creator(models.Model):
@@ -10,6 +32,8 @@ class Creator(models.Model):
     description = models.TextField(blank=True)
     profile_img_url = models.URLField('Profile image URL', max_length=400, blank=True)
     official = models.BooleanField(default=False)
+
+    objects = CreatorManager()
 
     class Meta:
         ordering = ('-official', 'name',)

@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, F
 
 from rest_framework import generics, status, views, viewsets
 from rest_framework.decorators import action
@@ -13,7 +13,9 @@ from . import serializers
 
 
 class CreatorViewSet(viewsets.ModelViewSet):
-    queryset = Creator.objects.annotate(num_photos=Count("photo")).order_by("-num_photos")
+    queryset = Creator.objects.with_counts().annotate(
+        num_media=F('num_photos') + F('num_videos')
+    ).order_by('-num_media')
     serializer_class = serializers.CreatorSerializer
 
     @action(detail=True, methods=['get'])
