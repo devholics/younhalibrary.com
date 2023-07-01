@@ -10,11 +10,9 @@ class CreatorWebsiteSerializer(serializers.ModelSerializer):
 
 
 class CreatorSerializer(serializers.ModelSerializer):
-    websites = CreatorWebsiteSerializer(many=True, read_only=True)
-
     class Meta:
         model = Creator
-        fields = ['id', 'name', 'websites', 'description', 'profile_img_url', 'official']
+        fields = ['id', 'name', 'description', 'profile_img_url', 'official']
 
 
 class CreatorDetailSerializer(serializers.ModelSerializer):
