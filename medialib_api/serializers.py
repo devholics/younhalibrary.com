@@ -17,11 +17,13 @@ class CreatorSerializer(serializers.ModelSerializer):
 
 class CreatorDetailSerializer(serializers.ModelSerializer):
     websites = CreatorWebsiteSerializer(many=True, read_only=True)
+    num_photos = serializers.IntegerField(read_only=True)
+    num_videos = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Creator
         fields = ['id', 'name', 'websites', 'description', 'profile_img_url', 'official',
-                  'photo_count', 'video_count']
+                  'num_photos', 'num_videos']
 
 
 class MediaSourceSerializer(serializers.ModelSerializer):

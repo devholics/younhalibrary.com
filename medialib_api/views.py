@@ -16,11 +16,7 @@ class CreatorViewSet(viewsets.ModelViewSet):
     queryset = Creator.objects.with_counts().filter(public=True).annotate(
         num_media=F('num_photos') + F('num_videos')
     ).order_by('-num_media')
-
-    def get_serializer_class(self):
-        if self.action == 'retrieve':
-            return serializers.CreatorDetailSerializer
-        return serializers.CreatorSerializer
+    serializer_class = serializers.CreatorDetailSerializer
 
     @action(detail=True, methods=['get'])
     def gallery(self, request, **kwargs):
