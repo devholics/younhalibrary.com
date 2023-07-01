@@ -112,7 +112,6 @@ class TestGalleryAPI(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["count"], 3)
         self.assertEqual(response.data["results"][0]["id"], 1)
-        self.assertEqual(response.data["results"][0]["photo_count"], 7)
 
     def test_tag_ordering(self):
         response = self.client.get("/tags/")

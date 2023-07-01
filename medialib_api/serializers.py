@@ -14,6 +14,14 @@ class CreatorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Creator
+        fields = ['id', 'name', 'websites', 'description', 'profile_img_url', 'official']
+
+
+class CreatorDetailSerializer(serializers.ModelSerializer):
+    websites = CreatorWebsiteSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Creator
         fields = ['id', 'name', 'websites', 'description', 'profile_img_url', 'official',
                   'photo_count', 'video_count']
 
@@ -31,6 +39,12 @@ class LicenseSerializer(serializers.ModelSerializer):
 
 
 class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['id', 'name', 'description']
+
+
+class TagDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ['id', 'name', 'description', 'photo_count', 'video_count']
