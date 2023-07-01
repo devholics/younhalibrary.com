@@ -45,7 +45,7 @@ class PhotoFilter(filters.FilterSet):
 
 
 class PhotoViewSet(viewsets.ModelViewSet):
-    queryset = Photo.objects.public()
+    queryset = Photo.objects.public().select_related('source', 'license').prefetch_related('tags')
     filter_backends = (filters.DjangoFilterBackend, OrderingFilter, SearchFilter)
     filterset_class = PhotoFilter
     ordering_fields = ('date', 'id')
@@ -76,7 +76,7 @@ class VideoFilter(filters.FilterSet):
 
 
 class VideoViewSet(viewsets.ModelViewSet):
-    queryset = Video.objects.public()
+    queryset = Video.objects.public().select_related('source', 'license').prefetch_related('tags')
     filter_backends = (filters.DjangoFilterBackend, OrderingFilter, SearchFilter)
     filterset_class = VideoFilter
     ordering_fields = ('date', 'id')
@@ -99,7 +99,7 @@ class YouTubeVideoFilter(filters.FilterSet):
 
 
 class YouTubeVideoViewSet(viewsets.ModelViewSet):
-    queryset = YouTubeVideo.objects.public()
+    queryset = YouTubeVideo.objects.public().select_related('license').prefetch_related('tags')
     serializer_class = serializers.YouTubeVideoSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = YouTubeVideoFilter
