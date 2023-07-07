@@ -13,7 +13,7 @@ class SongInline(admin.StackedInline):
 
 
 class AlbumAdmin(admin.ModelAdmin):
-    list_display = ('artist', 'name', 'release_date')
+    list_display = ('name', 'artist', 'release_date')
     list_filter = ('artist',)
     inlines = [
         SongInline
