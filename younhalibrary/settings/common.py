@@ -33,7 +33,8 @@ SECRET_KEY = str(SECRETS["secret_key"])
 
 INSTALLED_APPS = [
     'medialib.apps.MedialibConfig',
-    'medialib_api',
+    'medialib.api',
+    'discography',
 
     'django.contrib.sites',
     'django.contrib.admin',
@@ -159,7 +160,7 @@ SITE_ID = 1
 # Django REST framework
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'medialib_api.pagination.SimplePagination',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 100,
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',

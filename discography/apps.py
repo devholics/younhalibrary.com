@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class MedialibApiConfig(AppConfig):
+class DiscographyConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'medialib_api'
+    name = 'discography'
