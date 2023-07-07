@@ -9,7 +9,7 @@ from django_filters import rest_framework as filters
 
 from medialib.models import Creator, Photo, YouTubeVideo, MediaSource, Tag, Video
 
-from . import serializers
+from . import pagination, serializers
 
 
 class CreatorViewSet(viewsets.ModelViewSet):
@@ -47,6 +47,7 @@ class PhotoViewSet(viewsets.ModelViewSet):
     ordering_fields = ('date', 'id')
     search_fields = ('title', 'description', 'tags__name', 'tags__description', 'creator__name',
                      'source__title', 'source__description')
+    pagination_class = pagination.SimplePagination
 
     def get_serializer_class(self):
         if self.action in ['list', 'retrieve']:
