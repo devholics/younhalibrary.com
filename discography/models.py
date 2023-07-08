@@ -10,7 +10,7 @@ class Musician(models.Model):
 
 class Album(models.Model):
     artist = models.ForeignKey('Musician', on_delete=models.CASCADE)
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=100)
     release_date = models.DateField()
 
     def __str__(self):
@@ -20,7 +20,7 @@ class Album(models.Model):
 class Song(models.Model):
     album = models.ForeignKey('Album', on_delete=models.CASCADE)
     track = models.IntegerField()
-    title = models.CharField(max_length=30)
+    title = models.CharField(max_length=100)
     lyrics = models.TextField()
     writers = models.ManyToManyField('Musician')
 
