@@ -28,6 +28,7 @@ class Command(BaseCommand):
         output = options["output"]
         with open(output, "wt") as file:
             for song in Song.objects.all():
+                file.write(f"==== {song.title} ====\n\n")
                 for segment in song.lyrics.replace("\r", "").split("\n\n"):
                     if min_length <= len(segment) <= max_length:
                         file.write(f"{segment}\n\n")
