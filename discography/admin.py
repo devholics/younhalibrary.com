@@ -25,6 +25,7 @@ class SongAdmin(admin.ModelAdmin):
     list_display = ('title', 'artist', 'album',)
     readonly_fields = ('artist',)
     fields = ('artist', 'album', 'track', 'title', 'lyrics', 'writers')
+    search_fields = ['title', 'lyrics']
     ordering = ('title',)
 
     @admin.display(description='Artist')
