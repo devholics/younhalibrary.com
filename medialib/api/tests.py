@@ -32,7 +32,6 @@ class TestGalleryAPI(APITestCase):
 
     def test_make_photo(self):
         response = self.client.post("/photos/", {
-            "type": "I",
             "thumbnail_url": "",
             "url": "https://cdn.pixabay.com/photo/2023/01/25/22/46/grey-reef-shark-7744765__480.jpg",
             "creator": 1,
@@ -41,7 +40,6 @@ class TestGalleryAPI(APITestCase):
             "tags": [],
             "date_exact": True,
             "license": "Pixabay",
-            "verified": True,
         }, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         response = self.client.get("/creators/1/gallery/")
@@ -51,7 +49,6 @@ class TestGalleryAPI(APITestCase):
     def test_bulk_create_photo(self):
         response = self.client.post("/photos/bulk_create/", [
             {
-                "type": "I",
                 "thumbnail_url": "",
                 "url": "https://cdn.pixabay.com/photo/2023/01/25/22/46/grey-reef-shark-7744765__480.jpg",
                 "creator": 1,
@@ -60,10 +57,8 @@ class TestGalleryAPI(APITestCase):
                 "tags": [],
                 "date_exact": True,
                 "license": "Pixabay",
-                "verified": True,
             },
             {
-                "type": "I",
                 "thumbnail_url": "",
                 "url": "https://cdn.pixabay.com/photo/2022/09/28/06/11/water-7484334__480.jpg",
                 "creator": 1,
@@ -72,7 +67,6 @@ class TestGalleryAPI(APITestCase):
                 "tags": [],
                 "date_exact": True,
                 "license": "Pixabay",
-                "verified": True,
             }
         ], format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)

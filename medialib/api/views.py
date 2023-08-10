@@ -56,6 +56,7 @@ class PhotoViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'])
     def bulk_create(self, request):
+        print(request.data)
         serializer = serializers.PhotoWritableSerializer(data=request.data, many=True, max_length=100)
         if serializer.is_valid():
             serializer.save()

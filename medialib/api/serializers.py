@@ -83,7 +83,7 @@ class PhotoWritableSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Photo
-        fields = ['id', 'url', 'thumbnail_url', 'width', 'height', 'title', 'description',
+        fields = ['url', 'thumbnail_url', 'width', 'height', 'title', 'description',
                   'creator', 'date', 'date_exact', 'tags', 'source',
                   'license']
 
@@ -120,7 +120,7 @@ class VideoWritableSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Video
-        fields = ['id', 'url', 'thumbnail_url', 'title', 'description',
+        fields = ['url', 'thumbnail_url', 'title', 'description',
                   'creator', 'date', 'date_exact', 'tags', 'source',
                   'license']
 
