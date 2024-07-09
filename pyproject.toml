@@ -1,5 +1,6 @@
 [tool.poetry]
 name = "younhalibrary"
+package-mode = false
 version = "0.1.0"
 description = "Younha Library of photos and videos"
 authors = ["Joonhyung Shin <joon46551@gmail.com>"]
@@ -9,11 +10,11 @@ packages = [{include = "younhalibrary"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-django = "^4.1.3"
-psycopg2 = "^2.9.5"
+django = "^4.2.13"
 gunicorn = "^20.1.0"
-djangorestframework = "^3.14.0"
+djangorestframework = "^3.15.2"
 django-filter = "^22.1"
+psycopg = {extras = ["c"], version = "^3.2.1"}
 
 
 [build-system]
