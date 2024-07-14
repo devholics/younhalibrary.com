@@ -12,10 +12,37 @@ DATABASES = {
     }
 }
 
+DEBUG = False
+
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+MEDIALIB_TAG_SEARCH_LIMIT = 5
+
+REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
+    'rest_framework.renderers.JSONRenderer',
+]
+REST_FRAMEWORK['DEFAULT_PERMISSION_CLASSES'] = [
+    'rest_framework.permissions.IsAuthenticated',
+]
+
 STATIC_ROOT = str(DATA_DIR.joinpath("static_root"))
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-ALLOWED_HOSTS = [".localhost", "127.0.0.1", "www.127.0.0.1"]
+ALLOWED_HOSTS = [
+    'www.younhalibrary.com',
+    'younhalibrary.com',
+    'api.younhalibrary.com',
+]
 
-DEBUG = True
