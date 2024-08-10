@@ -10,7 +10,7 @@ packages = [{include = "younhalibrary"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-django = "^4.2.13"
+django = "^4.2.15"
 gunicorn = "^20.1.0"
 djangorestframework = "^3.15.2"
 django-filter = "^22.1"
