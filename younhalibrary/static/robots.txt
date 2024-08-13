@@ -4,3 +4,7 @@ Allow: /about
 Allow: /calendar
 Disallow: /admin
 Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
